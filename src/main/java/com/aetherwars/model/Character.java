@@ -22,3 +22,4 @@ public class Character {
     return "Name: " + this.name + "\nDescription: " + this.description + "\nType: " + this.type;
   }
 }
+
