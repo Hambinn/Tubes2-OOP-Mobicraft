@@ -19,7 +19,7 @@ public abstract class Card {
     }
 
     /* Constructor User Defined */
-    public card(int id, String name, String description, String description, String typeCard, String imagePath, int mana){
+    public card(int id, String name, String description, String typeCard, String imagePath, int mana){
         this.id = id;
         this.name = name;
         this.description = description;
