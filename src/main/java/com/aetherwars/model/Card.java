@@ -9,7 +9,7 @@ public abstract class Card {
     protected int mana;
 
     /* Constructor Default */
-    public card(){
+    public Card(){
         this.id = 0;
         this.name = "";
         this.description = "";
@@ -19,7 +19,7 @@ public abstract class Card {
     }
 
     /* Constructor User Defined */
-    public card(int id, String name, String description, String typeCard, String imagePath, int mana){
+    public Card(int id, String name, String description, String typeCard, String imagePath, int mana){
         this.id = id;
         this.name = name;
         this.description = description;
