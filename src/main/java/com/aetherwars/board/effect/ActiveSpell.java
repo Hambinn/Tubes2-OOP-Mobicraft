@@ -1,4 +1,4 @@
-package com.aetherwars.board;
+package com.aetherwars.board.effect;
 
 public interface ActiveSpell {
     Spell getSpell();
@@ -8,8 +8,4 @@ public interface ActiveSpell {
     boolean isWornOut();
 
     void extendDuration(int extension);
-
-    int getAttackBuff();
-
-    int receiveAttack(int attack);
 }

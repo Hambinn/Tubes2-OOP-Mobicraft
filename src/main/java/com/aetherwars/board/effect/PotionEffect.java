@@ -1,6 +1,6 @@
 package com.aetherwars.board.effect;
 
-public class PotionEffect extends Effect {
+public class PotionEffect extends Effect implements Buff {
     private final int atk;
     private int hp;
 

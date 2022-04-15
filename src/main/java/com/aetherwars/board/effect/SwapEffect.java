@@ -1,17 +1,23 @@
 package com.aetherwars.board.effect;
 
-public class SwapEffect extends Effect {
+import com.aetherwars.board.ActiveCharacter;
+
+public class SwapEffect extends Effect implements Switcher<SwapSpell> {
     public SwapEffect(SwapSpell spell) {
         super(spell);
     }
 
-    @Override
-    public int getAttackBuff() {
-        return 0;
+    public void merge(SwapEffect extension) {
+        extendDuration(extension.getRemainingTime());
     }
 
     @Override
-    public int receiveAttack(int attack) {
-        return 0;
+    public void onStart(ActiveCharacter character) {
+        character.swapStatus();
+    }
+
+    @Override
+    public void onEnd(ActiveCharacter character) {
+        character.swapStatus();
     }
 }
