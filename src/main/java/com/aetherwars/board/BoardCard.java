@@ -44,7 +44,7 @@ public class BoardCard implements ActiveCharacter {
     }
 
     private boolean changeLevel(int newLevel) {
-        if (newLevel < minLevel || newLevel >= maxLevel) {
+        if (newLevel < minLevel || newLevel > maxLevel) {
             return false;
         }
 
