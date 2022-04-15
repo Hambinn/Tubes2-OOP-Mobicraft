@@ -3,19 +3,17 @@ package com.aetherwars.board;
 import java.util.*;
 
 public class Board {
-    private static List<String> slotNames;
+    private static final List<String> slotNames;
+
     static {
-        slotNames = new ArrayList<>(
-                Arrays.asList("A", "B", "C", "D", "E")
-        );
-        slotNames = Collections.unmodifiableList(slotNames);
+        slotNames = Collections.unmodifiableList(new ArrayList<>(Arrays.asList("A", "B", "C", "D", "E")));
     }
 
-    private Map<String, ActiveCharacter> slots;
+    private final Map<String, ActiveCharacter> slots;
 
     public Board() {
         this.slots = new HashMap<>(5);
-        for (String name: slotNames) {
+        for (String name : slotNames) {
             this.slots.put(name, null);
         }
     }
@@ -28,9 +26,11 @@ public class Board {
         if (!slotNames.contains(name)) {
             throw new Exception();
         }
+
         if (slots.get(name) != null) {
             throw new Exception();
         }
+
         slots.put(name, character);
     }
 }

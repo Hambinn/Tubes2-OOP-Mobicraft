@@ -2,27 +2,31 @@ package com.aetherwars.board;
 
 import com.aetherwars.model.Character;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BoardCard implements ActiveCharacter {
     private static final int minLevel = 1;
     private static final int maxLevel = 10;
 
-    private static Map<Integer, Integer> maxExp;
+    private static final Map<Integer, Integer> maxExp;
+
     static {
-        maxExp = new HashMap<>();
+        Map<Integer, Integer> map = new HashMap<>();
         for (int i = minLevel; i <= maxLevel; i++) {
-            maxExp.put(i, (2 * i) - 1);
+            map.put(i, (2 * i) - 1);
         }
-        maxExp = Collections.unmodifiableMap(maxExp);
+        maxExp = Collections.unmodifiableMap(map);
     }
 
-    private Character character;
+    private final Character character;
+    private final Effects effects;
     private int hp;
     private int atk;
-    int level;
-    int exp;
-    List<Effect> effects;
+    private int level;
+    private int exp;
 
     public BoardCard(Character character) {
         this.character = character;
@@ -33,10 +37,29 @@ public class BoardCard implements ActiveCharacter {
         this.effects = new ArrayList<>();
     }
 
+    private void setHp(int hp) {
+        this.hp = Math.max(hp, 0);
+
+        if (hp == 0) {
+            // notify...
+        }
+    }
+
+    private void setAtk(int atk) {
+        this.atk = Math.max(atk, 0);
+    }
+
+    @Override
     public Character getCharacter() {
         return character;
     }
 
+    @Override
+    public Effects getEffects() {
+        return effects;
+    }
+
+    @Override
     public void levelUp() throws Exception {
         if (!changeLevel(level + 1)) {
             throw new Exception();
@@ -56,11 +79,10 @@ public class BoardCard implements ActiveCharacter {
         return true;
     }
 
+    @Override
     public void addExp(int addition) {
         if (addition >= 0) {
-            int max = maxExp.get(level);
-            int space = max - exp;
-
+            int space = maxExp.get(level) - exp;
             while (addition >= space && changeLevel(level + 1)) {
                 addition -= space;
                 space = maxExp.get(level);
@@ -76,10 +98,10 @@ public class BoardCard implements ActiveCharacter {
         exp += addition;
     }
 
-    public boolean hasEffect(/* Class<Spell> spell */) {
-        for (Effect effect: effects) {
-            // if (effect instanceof spell) {
-        }
-        return false;
+    @Override
+    public void swapStatus() {
+        int tmp = hp;
+        setHp(atk);
+        setAtk(tmp);
     }
 }
