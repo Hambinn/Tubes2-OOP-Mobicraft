@@ -5,29 +5,28 @@ import com.aetherwars.board.effect.Buff;
 import com.aetherwars.board.effect.Switcher;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Effects {
+    private final ActiveCharacter character;
     private final List<Buff> buffs;
-    private final Map<Class<? extends Switcher<?>>, Switcher<?>> switchers;
+    private Switcher switcher;
 
-    public Effects() {
+    public Effects(ActiveCharacter character) {
+        this.character = character;
         this.buffs = new ArrayList<>();
-        this.switchers = new HashMap<>();
     }
 
     public void addBuff(Buff buff) {
         buffs.add(0, buff);
     }
 
-    public <S extends Spell> void addSwitcher(Switcher<?> newSwitcher) {
-        Switcher<S> effect = (Switcher<S>) switchers.get(newSwitcher.getClass());
-        if (effect == null) {
-            switchers.put(newSwitcher.getClass(), newSwitcher);
+    public void addSwitcher(Switcher newSwitcher) {
+        if (switcher == null) {
+            switcher = newSwitcher;
+            newSwitcher.onAttach(character);
         } else {
-            effect.merge(newSwitcher);
+            switcher.merge(newSwitcher);
         }
     }
 
@@ -36,10 +35,10 @@ public class Effects {
         return Math.max(total, 0);
     }
 
-    int receiveAttack(int attack) {
-        int remainder = attack;
-        for (Buff effect : buffs) {
-            remainder = effect.receiveAttack(attack);
+    int receiveAttack(int damage) {
+        int remainder = damage;
+        for (Buff buff : buffs) {
+            remainder = buff.receiveAttack(remainder);
         }
 
         buffs.removeIf(ActiveSpell::isWornOut);

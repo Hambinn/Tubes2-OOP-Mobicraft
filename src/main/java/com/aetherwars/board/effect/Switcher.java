@@ -1,11 +1,22 @@
 package com.aetherwars.board.effect;
 
 import com.aetherwars.board.ActiveCharacter;
+import com.aetherwars.spell.SwapSpell;
 
-public interface Switcher<S extends Spell> extends ActiveSpell {
-    void merge(Switcher<S> extension);
+public class Switcher extends Effect {
+    public Switcher(SwapSpell spell) {
+        super(spell);
+    }
 
-    void onStart(ActiveCharacter character);
+    public void merge(Switcher extension) {
+        extendDuration(extension.getRemainingTime());
+    }
 
-    void onEnd(ActiveCharacter character);
+    public void onAttach(ActiveCharacter character) {
+        spell.apply(character);
+    }
+
+    public void onWornOut(ActiveCharacter character) {
+        spell.apply(character);
+    }
 }

@@ -7,19 +7,15 @@ public interface ActiveCharacter {
 
     void addExp(int addition);
 
-    void resetExp();
-
-    void updateHp(int updateHpValue);
-
-    void updateAttack(int updateAttackValue);
-
-    void levelUp() throws Exception;
+    void levelUp();
 
     void swapStatus();
 
-    void changeCharacter(int targetId);
+    void changeCharacter(Character character);
 
     Effects getEffects();
 
     boolean isDead();
+
+    // void receiveAttack(int damage);
 }

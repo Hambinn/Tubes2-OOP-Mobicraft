@@ -20,20 +20,25 @@ public class BoardCard implements ActiveCharacter {
         maxExp = Collections.unmodifiableMap(map);
     }
 
-    private final Character character;
-    private final Effects effects;
+    private Character character;
+    private Effects effects;
     private int hp;
     private int atk;
     private int level;
     private int exp;
 
     public BoardCard(Character character) {
-        this.character = character;
-        this.hp = character.getHealth();
-        this.atk = character.getAttack();
-        this.level = 1;
-        this.exp = 0;
-        this.effects = new Effects();
+        changeCharacter(character);
+    }
+
+    @Override
+    public void changeCharacter(Character newCharacter) {
+        character = newCharacter;
+        hp = character.getHealth();
+        atk = character.getAttack();
+        level = 1;
+        exp = 0;
+        effects = new Effects(this);
     }
 
     private void setHp(int hp) {
@@ -63,10 +68,8 @@ public class BoardCard implements ActiveCharacter {
     }
 
     @Override
-    public void levelUp() throws Exception {
-        if (!changeLevel(level + 1)) {
-            throw new Exception();
-        }
+    public void levelUp() {
+        changeLevel(level + 1);
     }
 
     private boolean changeLevel(int newLevel) {

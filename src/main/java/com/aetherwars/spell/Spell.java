@@ -1,10 +1,13 @@
-package com.aetherwars.board.ActiveCharacter;
+package com.aetherwars.spell;
 
-abstract class Spell extends Card {
+import com.aetherwars.board.ActiveCharacter;
+import com.aetherwars.model.Card;
+
+public abstract class Spell extends Card {
     protected boolean isPermanent;
 
     public Spell(int id, String name, String description, String imagePath, int mana, boolean isPermanent) {
-        super(id, name, description, "Spell", imagePath, mana)
+        super(id, name, description, "Spell", imagePath, mana);
         this.isPermanent = isPermanent;
     }
 

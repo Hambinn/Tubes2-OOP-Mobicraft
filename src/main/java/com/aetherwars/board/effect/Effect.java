@@ -1,5 +1,7 @@
 package com.aetherwars.board.effect;
 
+import com.aetherwars.spell.Spell;
+
 abstract class Effect implements ActiveSpell {
     Spell spell;
     private int timeLeft;
