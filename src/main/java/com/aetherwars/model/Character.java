@@ -18,8 +18,8 @@ public class Character extends Card {
     this.healthUp = 0;
   }
 
-  public Character(int id, String name, String description, String typeCard, String imagePath, int mana, Type element, int attack, int health, int attackUp, int healthUp) {
-    super(id,name,description,typeCard,imagePath,mana);
+  public Character(int id, String name, String description,String imagePath, int mana, Type element, int attack, int health, int attackUp, int healthUp) {
+    super(id,name,description,"Character", imagePath,mana);
     this.type = element;
     this.attack = attack;
     this.health = health;
