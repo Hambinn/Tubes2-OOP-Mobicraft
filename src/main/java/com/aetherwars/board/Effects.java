@@ -1,35 +1,48 @@
 package com.aetherwars.board;
 
+import com.aetherwars.board.effect.ActiveSpell;
+import com.aetherwars.board.effect.Buff;
+import com.aetherwars.board.effect.Switcher;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Effects {
-    private final List<ActiveSpell> effects;
+    private final List<Buff> buffs;
+    private final Map<Class<? extends Switcher<?>>, Switcher<?>> switchers;
 
     public Effects() {
-        this.effects = new ArrayList<>();
+        this.buffs = new ArrayList<>();
+        this.switchers = new HashMap<>();
     }
 
-    public void push(ActiveSpell spell) {
-        effects.add(0, spell);
+    public void addBuff(Buff buff) {
+        buffs.add(0, buff);
     }
 
-    public boolean has(Class<Spell> spellType) {
-        return effects.stream().anyMatch(e -> spellType.isInstance(e.getSpell()));
+    public <S extends Spell> void addSwitcher(Switcher<?> newSwitcher) {
+        Switcher<S> effect = (Switcher<S>) switchers.get(newSwitcher.getClass());
+        if (effect == null) {
+            switchers.put(newSwitcher.getClass(), newSwitcher);
+        } else {
+            effect.merge(newSwitcher);
+        }
     }
 
-    public int getAttackBuff() {
-        int total = effects.stream().mapToInt(ActiveSpell::getAttackBuff).reduce(0, Integer::sum);
+    int getAttackBuff() {
+        int total = buffs.stream().mapToInt(Buff::getAttackBuff).reduce(0, Integer::sum);
         return Math.max(total, 0);
     }
 
-    public int receiveAttack(int attack) {
+    int receiveAttack(int attack) {
         int remainder = attack;
-        for (ActiveSpell effect : effects) {
+        for (Buff effect : buffs) {
             remainder = effect.receiveAttack(attack);
         }
 
-        effects.removeIf(ActiveSpell::isWornOut);
+        buffs.removeIf(ActiveSpell::isWornOut);
         return remainder;
     }
 }

@@ -2,7 +2,7 @@ package com.aetherwars.board;
 
 import com.aetherwars.model.Character;
 
-interface ActiveCharacter {
+public interface ActiveCharacter {
     Character getCharacter();
 
     void addExp(int addition);
@@ -20,4 +20,6 @@ interface ActiveCharacter {
     void changeCharacter(int targetId);
 
     Effects getEffects();
+
+    boolean isDead();
 }

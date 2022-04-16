@@ -2,7 +2,6 @@ package com.aetherwars.board;
 
 import com.aetherwars.model.Character;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +33,7 @@ public class BoardCard implements ActiveCharacter {
         this.atk = character.getAttack();
         this.level = 1;
         this.exp = 0;
-        this.effects = new ArrayList<>();
+        this.effects = new Effects();
     }
 
     private void setHp(int hp) {
@@ -47,6 +46,10 @@ public class BoardCard implements ActiveCharacter {
 
     private void setAtk(int atk) {
         this.atk = Math.max(atk, 0);
+    }
+
+    public int getHealth() {
+        return hp;
     }
 
     @Override
@@ -103,5 +106,10 @@ public class BoardCard implements ActiveCharacter {
         int tmp = hp;
         setHp(atk);
         setAtk(tmp);
+    }
+
+    @Override
+    public boolean isDead() {
+        return hp == 0;
     }
 }
