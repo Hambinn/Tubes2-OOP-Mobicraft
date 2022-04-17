@@ -127,4 +127,9 @@ public class BoardCard implements ActiveCharacter {
     public void receiveAttack(int damage) {
         setHp(hp - effects.receiveAttack(damage));
     }
+
+    @Override
+    public int getAttackValue() {
+        return Math.max(atk + effects.calcAttackBuff(), 0);
+    }
 }

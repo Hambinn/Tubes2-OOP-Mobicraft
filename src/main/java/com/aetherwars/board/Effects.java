@@ -36,9 +36,8 @@ public class Effects implements Subscriber<EffectWornOutEvent> {
         }
     }
 
-    int getAttackBuff() {
-        int total = buffs.stream().mapToInt(Buff::getAttackBuff).reduce(0, Integer::sum);
-        return Math.max(total, 0);
+    int calcAttackBuff() {
+        return buffs.stream().mapToInt(Buff::getAttackBuff).reduce(0, Integer::sum);
     }
 
     int receiveAttack(int damage) {

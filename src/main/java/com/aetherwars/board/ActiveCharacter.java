@@ -19,4 +19,6 @@ public interface ActiveCharacter {
     boolean isDead();
 
     void receiveAttack(int damage);
+
+    int getAttackValue();
 }
