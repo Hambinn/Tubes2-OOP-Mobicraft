@@ -12,11 +12,15 @@ public class Switcher extends Effect {
         extendDuration(extension.getRemainingTime());
     }
 
+    @Override
     public void onAttach(ActiveCharacter character) {
-        spell.apply(character);
+        super.onAttach(character);
+        character.swapStatus();
     }
 
+    @Override
     public void onWornOut(ActiveCharacter character) {
-        spell.apply(character);
+        super.onWornOut(character);
+        character.swapStatus();
     }
 }

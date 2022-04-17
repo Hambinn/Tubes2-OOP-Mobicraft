@@ -1,5 +1,6 @@
 package com.aetherwars.board.effect;
 
+import com.aetherwars.board.ActiveCharacter;
 import com.aetherwars.spell.PotionSpell;
 
 public class Buff extends Effect {

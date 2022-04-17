@@ -3,11 +3,13 @@ package com.aetherwars.board;
 import com.aetherwars.board.effect.ActiveSpell;
 import com.aetherwars.board.effect.Buff;
 import com.aetherwars.board.effect.Switcher;
+import com.aetherwars.events.EffectWornOutEvent;
+import com.aetherwars.pubsub.Subscriber;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Effects {
+public class Effects implements Subscriber<EffectWornOutEvent> {
     private final ActiveCharacter character;
     private final List<Buff> buffs;
     private Switcher switcher;
@@ -19,12 +21,14 @@ public class Effects {
 
     public void addBuff(Buff buff) {
         buffs.add(0, buff);
+        buff.onAttach(character);
     }
 
     public void addSwitcher(Switcher newSwitcher) {
         if (switcher == null) {
             switcher = newSwitcher;
             newSwitcher.onAttach(character);
+            newSwitcher.getChannel().subscribe(EffectWornOutEvent.class, this);
         } else {
             switcher.merge(newSwitcher);
         }
@@ -41,7 +45,21 @@ public class Effects {
             remainder = buff.receiveAttack(remainder);
         }
 
-        buffs.removeIf(ActiveSpell::isWornOut);
+        cleanWornOut();
         return remainder;
+    }
+
+    @Override
+    public boolean on(EffectWornOutEvent event) {
+        event.getEffect().onWornOut(character);
+        cleanWornOut();
+        return true;
+    }
+
+    private void cleanWornOut() {
+        buffs.removeIf(ActiveSpell::isWornOut);
+        if (switcher.isWornOut()) {
+            switcher = null;
+        }
     }
 }

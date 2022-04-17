@@ -11,4 +11,8 @@ public interface ActiveSpell {
     boolean isWornOut();
 
     void extendDuration(int extension);
+
+    void onAttach(ActiveCharacter character);
+
+    void onWornOut(ActiveCharacter character);
 }
