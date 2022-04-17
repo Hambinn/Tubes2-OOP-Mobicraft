@@ -5,26 +5,28 @@ import com.aetherwars.board.effect.Buff;
 import com.aetherwars.board.effect.Switcher;
 import com.aetherwars.events.EffectWornOutEvent;
 import com.aetherwars.pubsub.Subscriber;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Effects implements Subscriber<EffectWornOutEvent> {
-    private final ActiveCharacter character;
-    private final List<Buff> buffs;
-    private Switcher switcher;
+    private final @NotNull ActiveCharacter character;
+    private final @NotNull List<Buff> buffs;
+    private @Nullable Switcher switcher;
 
-    public Effects(ActiveCharacter character) {
+    public Effects(@NotNull ActiveCharacter character) {
         this.character = character;
         this.buffs = new ArrayList<>();
     }
 
-    public void addBuff(Buff buff) {
+    public void addBuff(@NotNull Buff buff) {
         buffs.add(0, buff);
         buff.onAttach(character);
     }
 
-    public void addSwitcher(Switcher newSwitcher) {
+    public void addSwitcher(@NotNull Switcher newSwitcher) {
         if (switcher == null) {
             switcher = newSwitcher;
             newSwitcher.onAttach(character);
@@ -50,7 +52,7 @@ public class Effects implements Subscriber<EffectWornOutEvent> {
     }
 
     @Override
-    public boolean on(EffectWornOutEvent event) {
+    public boolean on(@NotNull EffectWornOutEvent event) {
         event.getEffect().onWornOut(character);
         cleanWornOut();
         return true;
@@ -58,8 +60,13 @@ public class Effects implements Subscriber<EffectWornOutEvent> {
 
     private void cleanWornOut() {
         buffs.removeIf(ActiveSpell::isWornOut);
-        if (switcher.isWornOut()) {
+        if (switcher != null && switcher.isWornOut()) {
             switcher = null;
         }
+    }
+
+    public void clear() {
+        buffs.clear();
+        switcher = null;
     }
 }

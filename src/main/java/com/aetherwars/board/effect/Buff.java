@@ -2,12 +2,13 @@ package com.aetherwars.board.effect;
 
 import com.aetherwars.board.ActiveCharacter;
 import com.aetherwars.spell.PotionSpell;
+import org.jetbrains.annotations.NotNull;
 
 public class Buff extends Effect {
     private final int atk;
     private int hp;
 
-    public Buff(PotionSpell spell) {
+    public Buff(@NotNull PotionSpell spell) {
         super(spell);
         this.atk = spell.getUpdateAttackValue();
         this.hp = spell.getUpdateHpValue();

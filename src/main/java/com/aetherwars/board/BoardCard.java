@@ -1,6 +1,7 @@
 package com.aetherwars.board;
 
 import com.aetherwars.model.Character;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,7 +11,7 @@ public class BoardCard implements ActiveCharacter {
     private static final int minLevel = 1;
     private static final int maxLevel = 10;
 
-    private static final Map<Integer, Integer> maxExp;
+    private static final @NotNull Map<Integer, Integer> maxExp;
 
     static {
         Map<Integer, Integer> map = new HashMap<>();
@@ -20,25 +21,31 @@ public class BoardCard implements ActiveCharacter {
         maxExp = Collections.unmodifiableMap(map);
     }
 
-    private Character character;
-    private Effects effects;
+    private @NotNull Character character;
+    private final @NotNull Effects effects;
     private int hp;
     private int atk;
     private int level;
     private int exp;
 
-    public BoardCard(Character character) {
-        changeCharacter(character);
+    public BoardCard(@NotNull Character character) {
+        this.character = character;
+        this.effects = new Effects(this);
+        reset();
     }
 
     @Override
-    public void changeCharacter(Character newCharacter) {
+    public final void changeCharacter(@NotNull Character newCharacter) {
         character = newCharacter;
+        reset();
+    }
+
+    private void reset() {
         hp = character.getHealth();
         atk = character.getAttack();
         level = 1;
         exp = 0;
-        effects = new Effects(this);
+        effects.clear();
     }
 
     private void setHp(int hp) {
@@ -58,12 +65,12 @@ public class BoardCard implements ActiveCharacter {
     }
 
     @Override
-    public Character getCharacter() {
+    public @NotNull Character getCharacter() {
         return character;
     }
 
     @Override
-    public Effects getEffects() {
+    public @NotNull Effects getEffects() {
         return effects;
     }
 

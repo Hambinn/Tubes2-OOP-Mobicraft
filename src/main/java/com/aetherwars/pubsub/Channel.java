@@ -6,19 +6,14 @@ import java.lang.ref.WeakReference;
 import java.util.*;
 
 public class Channel {
-    private final Map<Class<? extends Event>, List<WeakReference<Subscriber<?>>>> subscribers;
+    private final @NotNull Map<Class<? extends Event>, List<WeakReference<Subscriber<?>>>> subscribers;
 
     public Channel() {
         subscribers = new HashMap<>();
     }
 
     public <E extends Event> void subscribe(@NotNull Class<E> topic, @NotNull Subscriber<E> subscriber) {
-        List<WeakReference<Subscriber<?>>> topicSubs = subscribers.get(topic);
-        if (topicSubs == null) {
-            subscribers.put(topic, new ArrayList<>());
-        }
-
-        assert topicSubs != null;
+        List<WeakReference<Subscriber<?>>> topicSubs = subscribers.computeIfAbsent(topic, k -> new ArrayList<>());
         topicSubs.add(new WeakReference<>(subscriber));
     }
 

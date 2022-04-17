@@ -8,19 +8,20 @@ import com.aetherwars.pubsub.GlobalChannel;
 import com.aetherwars.pubsub.Publisher;
 import com.aetherwars.pubsub.Subscriber;
 import com.aetherwars.spell.Spell;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class Effect implements ActiveSpell, Subscriber<ClockTickEvent>, Publisher {
-    protected final Spell spell;
+    protected final @NotNull Spell spell;
+    protected final @NotNull Channel channel;
     protected int timeLeft;
-    protected final Channel channel;
 
-    public Effect(Spell spell) {
+    public Effect(@NotNull Spell spell) {
         this.spell = spell;
         this.channel = new Channel();
     }
 
     @Override
-    public Spell getSpell() {
+    public @NotNull Spell getSpell() {
         return spell;
     }
 
@@ -40,16 +41,16 @@ public abstract class Effect implements ActiveSpell, Subscriber<ClockTickEvent>,
     }
 
     @Override
-    public void onAttach(ActiveCharacter character) {
+    public void onAttach(@NotNull ActiveCharacter character) {
         GlobalChannel.getInstance().subscribe(ClockTickEvent.class, this);
     }
 
     @Override
-    public void onWornOut(ActiveCharacter character) {
+    public void onWornOut(@NotNull ActiveCharacter character) {
     }
 
     @Override
-    public boolean on(ClockTickEvent event) {
+    public boolean on(@NotNull ClockTickEvent event) {
         if (timeLeft == 1) {
             timeLeft = 0;
             channel.publish(new EffectWornOutEvent(this));
@@ -61,7 +62,7 @@ public abstract class Effect implements ActiveSpell, Subscriber<ClockTickEvent>,
     }
 
     @Override
-    public Channel getChannel() {
+    public @NotNull Channel getChannel() {
         return channel;
     }
 }

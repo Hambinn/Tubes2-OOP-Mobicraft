@@ -1,5 +1,7 @@
 package com.aetherwars.pubsub;
 
+import org.jetbrains.annotations.NotNull;
+
 public class GlobalChannel extends Channel {
     private static GlobalChannel instance;
 
@@ -7,7 +9,7 @@ public class GlobalChannel extends Channel {
         super();
     }
 
-    public static GlobalChannel getInstance() {
+    public static @NotNull GlobalChannel getInstance() {
         if (instance == null) {
             instance = new GlobalChannel();
         }

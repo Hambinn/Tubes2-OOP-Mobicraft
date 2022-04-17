@@ -1,15 +1,17 @@
 package com.aetherwars.board;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.*;
 
 public class Board {
-    private static final List<String> slotNames;
+    private static final @NotNull List<String> slotNames;
 
     static {
         slotNames = Collections.unmodifiableList(Arrays.asList("A", "B", "C", "D", "E"));
     }
 
-    private final Map<String, ActiveCharacter> slots;
+    private final @NotNull Map<String, ActiveCharacter> slots;
 
     public Board() {
         this.slots = new HashMap<>(5);

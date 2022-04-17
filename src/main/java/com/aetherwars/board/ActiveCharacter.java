@@ -1,9 +1,10 @@
 package com.aetherwars.board;
 
 import com.aetherwars.model.Character;
+import org.jetbrains.annotations.NotNull;
 
 public interface ActiveCharacter {
-    Character getCharacter();
+    @NotNull Character getCharacter();
 
     void addExp(int addition);
 
@@ -11,9 +12,9 @@ public interface ActiveCharacter {
 
     void swapStatus();
 
-    void changeCharacter(Character character);
+    void changeCharacter(@NotNull Character character);
 
-    Effects getEffects();
+    @NotNull Effects getEffects();
 
     boolean isDead();
 

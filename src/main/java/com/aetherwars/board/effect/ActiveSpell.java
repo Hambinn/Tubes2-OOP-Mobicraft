@@ -2,9 +2,10 @@ package com.aetherwars.board.effect;
 
 import com.aetherwars.board.ActiveCharacter;
 import com.aetherwars.spell.Spell;
+import org.jetbrains.annotations.NotNull;
 
 public interface ActiveSpell {
-    Spell getSpell();
+    @NotNull Spell getSpell();
 
     int getRemainingTime();
 
@@ -12,7 +13,7 @@ public interface ActiveSpell {
 
     void extendDuration(int extension);
 
-    void onAttach(ActiveCharacter character);
+    void onAttach(@NotNull ActiveCharacter character);
 
-    void onWornOut(ActiveCharacter character);
+    void onWornOut(@NotNull ActiveCharacter character);
 }

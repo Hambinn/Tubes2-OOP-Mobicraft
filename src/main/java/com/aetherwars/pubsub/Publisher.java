@@ -1,5 +1,7 @@
 package com.aetherwars.pubsub;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface Publisher {
-    Channel getChannel();
+    @NotNull Channel getChannel();
 }
