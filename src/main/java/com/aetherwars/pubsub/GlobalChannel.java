@@ -1,8 +1,5 @@
 package com.aetherwars.pubsub;
 
-import java.lang.ref.WeakReference;
-import java.util.*;
-
 public class GlobalChannel extends Channel {
     private static GlobalChannel instance;
 
