@@ -115,4 +115,9 @@ public class BoardCard implements ActiveCharacter {
     public boolean isDead() {
         return hp == 0;
     }
+
+    @Override
+    public void receiveAttack(int damage) {
+        setHp(hp - effects.receiveAttack(damage));
+    }
 }

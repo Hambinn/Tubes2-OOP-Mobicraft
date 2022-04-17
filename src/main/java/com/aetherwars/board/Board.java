@@ -6,7 +6,7 @@ public class Board {
     private static final List<String> slotNames;
 
     static {
-        slotNames = Collections.unmodifiableList(new ArrayList<>(Arrays.asList("A", "B", "C", "D", "E")));
+        slotNames = Collections.unmodifiableList(Arrays.asList("A", "B", "C", "D", "E"));
     }
 
     private final Map<String, ActiveCharacter> slots;

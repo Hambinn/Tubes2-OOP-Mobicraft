@@ -22,7 +22,14 @@ public class Buff extends Effect {
     }
 
     public int receiveAttack(int damage) {
-        int damaged = Math.min(damage, hp);
+        int damaged;
+
+        if (hp >= 0) {
+            damaged = Math.min(damage, hp);
+        } else {
+            damaged = Math.max(damage, hp);
+        }
+
         hp -= damaged;
         return damage - damaged;
     }
