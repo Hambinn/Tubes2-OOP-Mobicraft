@@ -7,12 +7,12 @@ import java.net.URISyntaxException;
 import com.aetherwars.model.Card;
 import com.aetherwars.model.Character;
 import com.aetherwars.model.Type;
-import com.aetherwars.spell.Spell;
+// import com.aetherwars.spell.Spell;
 import com.aetherwars.spell.MorphSpell;
 import com.aetherwars.spell.PotionSpell;
 import com.aetherwars.spell.SwapSpell;
 
-public class CardColl {
+public class CardCollection {
     private List<Card> characterCollection;
     private List<Card> morphSpellCollection;
     private List<Card> ptnSpellCollection;
@@ -22,15 +22,15 @@ public class CardColl {
     private static final String PTN_CSV_FILE_PATH = "/com/aetherwars/card/data/ptn.csv";
     private static final String SWAP_CSV_FILE_PATH = "/com/aetherwars/card/data/swap.csv";
 
-    public CardColl() {
+    public CardCollection() {
         try {
-            loadCardColl();
+            loadCardCollection();
         } catch (Exception e) {
             //gatau ini throw apa
         }
     }
 
-    public void loadCardColl() throws IOException, URISyntaxException {
+    public void loadCardCollection() throws IOException, URISyntaxException {
         this.characterCollection = new ArrayList<Card>();
         this.morphSpellCollection = new ArrayList<Card>();
         this.ptnSpellCollection = new ArrayList<Card>();
@@ -78,13 +78,3 @@ public class CardColl {
     
     }
 }
-// public void loadCards() throws IOException, URISyntaxException {
-//     File characterCSVFile = new File(getClass().getResource(CHARACTER_CSV_FILE_PATH).toURI());
-//     CSVReader characterReader = new CSVReader(characterCSVFile, "\t");
-//     characterReader.setSkipHeader(true);
-//     List<String[]> characterRows = characterReader.read();
-//     for (String[] row : characterRows) {
-//       Character c = new Character(row[1], row[3], Type.valueOf(row[2]));
-//       System.out.println(c);
-//     }
-//   }
