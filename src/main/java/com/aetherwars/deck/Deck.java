@@ -20,6 +20,18 @@ public class Deck {
         this.jumlahKartu = 0;
     }
 
+    public Deck(List<Card> charCards, List<Card> morphCards, List<Card> spellCards, List<Card> ptnCards){
+        this.kapasitasDeck = 60;
+        this.deck = new Stack<Card>();
+        this.jumlahKartu = 0;
+
+        addSomeCard(charCards);
+        addSomeCard(morphCards);
+        addSomeCard(spellCards);
+        addSomeCard(ptnCards);
+        shuffleDeck();
+    }
+
     public int getJumlahKartu() {
         return jumlahKartu;
     }
