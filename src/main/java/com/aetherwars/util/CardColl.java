@@ -1,0 +1,72 @@
+package com.aetherwars.util;
+
+import java.io.File;
+import java.util.*;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import com.aetherwars.model.Card;
+import com.aetherwars.model.Character;
+import com.aetherwars.model.Type;
+import com.aetherwars.spell.Spell;
+import com.aetherwars.spell.MorphSpell;
+
+public class CardColl {
+    private List<Card> characterCollection;
+    private List<Card> morphSpellCollection;
+    private List<Card> ptnSpellCollection;
+    private List<Card> swapSpellCollection;
+    private static final String CHARACTER_CSV_FILE_PATH = "/com/aetherwars/card/data/character.csv";
+    private static final String MORPHS_CSV_FILE_PATH = "/com/aetherwars/card/data/morphs.csv";
+    private static final String PTN_CSV_FILE_PATH = "/com/aetherwars/card/data/ptn.csv";
+    private static final String SWAP_CSV_FILE_PATH = "/com/aetherwars/card/data/swap.csv";
+
+    public CardColl() {
+        try {
+            loadCardColl();
+        } catch (Exception e) {
+            //gatau ini throw apa
+        }
+    }
+
+    public void loadCardColl() throws IOException, URISyntaxException {
+        this.characterCollection = new ArrayList<Card>();
+        this.morphSpellCollection = new ArrayList<Card>();
+        this.ptnSpellCollection = new ArrayList<Card>();
+        this.swapSpellCollection = new ArrayList<Card>();
+
+        File characterCSVFile = new File(getClass().getResource(CHARACTER_CSV_FILE_PATH).toURI());
+        CSVReader characterReader = new CSVReader(characterCSVFile, "\t");
+        characterReader.setSkipHeader(true);
+        List<String[]> characterRows = characterReader.read();
+        for (String[] row : characterRows) {
+            //Character(int id, String name, String description,String imagePath, int mana, Type element, int attack, int health, int attackUp, int healthUp)
+            Character c = new Character(Integer.parseInt(row[0]), row[1], row[3], row[4], Integer.parseInt(row[7]), Type.valueOf(row[2]), Integer.parseInt(row[5]), Integer.parseInt(row[6]), Integer.parseInt(row[8]), Integer.parseInt(row[9]));
+            this.characterCollection.add(c);
+        }
+
+        File morphsCSVFile = new File(getClass().getResource(MORPHS_CSV_FILE_PATH).toURI());
+        CSVReader morphsReader = new CSVReader(morphsCSVFile, "\t");
+        morphsReader.setSkipHeader(true);
+        List<String[]> morphRows = morphsReader.read();
+        for (String[] row : morphRows) {
+            //MorphSpell(int id, String name, String description, String imagePath, int targetId, int mana)
+            MorphSpell c = new MorphSpell(Integer.parseInt(row[0]), row[1], row[2], row[3], Integer.parseInt(row[4]), Integer.parseInt(row[5]));
+            this.morphSpellCollection.add(c);
+        }
+
+    
+    }
+
+
+
+}
+// public void loadCards() throws IOException, URISyntaxException {
+//     File characterCSVFile = new File(getClass().getResource(CHARACTER_CSV_FILE_PATH).toURI());
+//     CSVReader characterReader = new CSVReader(characterCSVFile, "\t");
+//     characterReader.setSkipHeader(true);
+//     List<String[]> characterRows = characterReader.read();
+//     for (String[] row : characterRows) {
+//       Character c = new Character(row[1], row[3], Type.valueOf(row[2]));
+//       System.out.println(c);
+//     }
+//   }
