@@ -9,6 +9,8 @@ import com.aetherwars.model.Character;
 import com.aetherwars.model.Type;
 import com.aetherwars.spell.Spell;
 import com.aetherwars.spell.MorphSpell;
+import com.aetherwars.spell.PotionSpell;
+import com.aetherwars.spell.SwapSpell;
 
 public class CardColl {
     private List<Card> characterCollection;
@@ -53,12 +55,28 @@ public class CardColl {
             MorphSpell c = new MorphSpell(Integer.parseInt(row[0]), row[1], row[2], row[3], Integer.parseInt(row[4]), Integer.parseInt(row[5]));
             this.morphSpellCollection.add(c);
         }
+        
+        File ptnCSVFile = new File(getClass().getResource(PTN_CSV_FILE_PATH).toURI());
+        CSVReader ptnReader = new CSVReader(ptnCSVFile, "\t");
+        ptnReader.setSkipHeader(true);
+        List<String[]> ptnRows = ptnReader.read();
+        for(String[] row : ptnRows){
+            //PotionSpell(int id, String name, String description, String imagePath, int updateAttackValue, int updateHpValue, int mana, int duration)
+            PotionSpell c = new PotionSpell(Integer.parseInt(row[0]), row[1], row[2], row[3], Integer.parseInt(row[4]), Integer.parseInt(row[5]), Integer.parseInt(row[6]), Integer.parseInt(row[7]));
+            this.ptnSpellCollection.add(c);
+        }
 
+        File swapCSVFile = new File(getClass().getResource(SWAP_CSV_FILE_PATH).toURI());
+        CSVReader swapReader = new CSVReader(swapCSVFile, "\t");
+        swapReader.setSkipHeader(true);
+        List<String[]> swapRows = swapReader.read();
+        for(String[] row : swapRows){
+            //SwapSpell(int id, String name, String description, String imagePath, int duration, int mana)
+            SwapSpell c = new SwapSpell(Integer.parseInt(row[0]), row[1], row[2], row[3], Integer.parseInt(row[4]), Integer.parseInt(row[5]));
+            this.swapSpellCollection.add(c);
+        }
     
     }
-
-
-
 }
 // public void loadCards() throws IOException, URISyntaxException {
 //     File characterCSVFile = new File(getClass().getResource(CHARACTER_CSV_FILE_PATH).toURI());
