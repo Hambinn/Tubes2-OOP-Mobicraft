@@ -52,8 +52,8 @@ public class CardCollection {
         List<String[]> morphRows = morphsReader.read();
         for (String[] row : morphRows) {
             //MorphSpell(int id, String name, String description, String imagePath, int targetId, int mana)
-            MorphSpell c = new MorphSpell(Integer.parseInt(row[0]), row[1], row[2], row[3], Integer.parseInt(row[4]), Integer.parseInt(row[5]));
-            this.morphSpellCollection.add(c);
+            MorphSpell m = new MorphSpell(Integer.parseInt(row[0]), row[1], row[2], row[3], Integer.parseInt(row[4]), Integer.parseInt(row[5]));
+            this.morphSpellCollection.add(m);
         }
         
         File ptnCSVFile = new File(getClass().getResource(PTN_CSV_FILE_PATH).toURI());
@@ -62,8 +62,8 @@ public class CardCollection {
         List<String[]> ptnRows = ptnReader.read();
         for(String[] row : ptnRows){
             //PotionSpell(int id, String name, String description, String imagePath, int updateAttackValue, int updateHpValue, int mana, int duration)
-            PotionSpell c = new PotionSpell(Integer.parseInt(row[0]), row[1], row[2], row[3], Integer.parseInt(row[4]), Integer.parseInt(row[5]), Integer.parseInt(row[6]), Integer.parseInt(row[7]));
-            this.ptnSpellCollection.add(c);
+            PotionSpell p = new PotionSpell(Integer.parseInt(row[0]), row[1], row[2], row[3], Integer.parseInt(row[4]), Integer.parseInt(row[5]), Integer.parseInt(row[6]), Integer.parseInt(row[7]));
+            this.ptnSpellCollection.add(p);
         }
 
         File swapCSVFile = new File(getClass().getResource(SWAP_CSV_FILE_PATH).toURI());
@@ -72,8 +72,8 @@ public class CardCollection {
         List<String[]> swapRows = swapReader.read();
         for(String[] row : swapRows){
             //SwapSpell(int id, String name, String description, String imagePath, int duration, int mana)
-            SwapSpell c = new SwapSpell(Integer.parseInt(row[0]), row[1], row[2], row[3], Integer.parseInt(row[4]), Integer.parseInt(row[5]));
-            this.swapSpellCollection.add(c);
+            SwapSpell s = new SwapSpell(Integer.parseInt(row[0]), row[1], row[2], row[3], Integer.parseInt(row[4]), Integer.parseInt(row[5]));
+            this.swapSpellCollection.add(s);
         }
     }
 

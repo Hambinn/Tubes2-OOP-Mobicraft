@@ -11,6 +11,7 @@ import java.awt.Color;
 import javax.swing.border.LineBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
+import com.aetherwars.player.*;
 
 public class MainGUI extends JFrame {
 
@@ -19,23 +20,10 @@ public class MainGUI extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainGUI frame = new MainGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	/**
 	 * Create the frame.
 	 */
-	public MainGUI() {
+	public MainGUI(Player player1, Player player2) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1100, 600);
 		contentPane = new JPanel();
@@ -136,7 +124,7 @@ public class MainGUI extends JFrame {
 		charDesc.setBounds(837, 414, 146, 139);
 		contentPane.add(charDesc);
 		
-		JPanel deck = new DeckShuffle(36);
+		JPanel deck = new DeckShuffle(player1.getSisaDeck());
 		deck.setBounds(1011, 414, 65, 60);
 		contentPane.add(deck);
 		
@@ -164,11 +152,11 @@ public class MainGUI extends JFrame {
 		boardB5.setBounds(619, 148, 103, 125);
 		contentPane.add(boardB5);
 		
-		JPanel healthBarA = new HealthBar(77, "A");
+		JPanel healthBarA = new HealthBar(player1.getHealth(), "A");
 		healthBarA.setBounds(10, 10, 480, 20);
 		contentPane.add(healthBarA);
 		
-		JPanel healthBarB = new HealthBar(33, "B");
+		JPanel healthBarB = new HealthBar(player2.getHealth(), "B");
 		healthBarB.setBackground(Color.CYAN);
 		healthBarB.setBounds(596, 10, 480, 20);
 		contentPane.add(healthBarB);
@@ -186,13 +174,13 @@ public class MainGUI extends JFrame {
 		round.add(turnNumber);
 		contentPane.add(round);
 		
-		JLabel playerAName = new JLabel("Player A");
+		JLabel playerAName = new JLabel(player1.getName(), SwingConstants.LEFT);
 		playerAName.setForeground(Color.CYAN);
 		playerAName.setFont(new Font("OCR A Extended", Font.PLAIN, 14));
 		playerAName.setBounds(20, 33, 73, 37);
 		contentPane.add(playerAName);
 		
-		JLabel playerBName = new JLabel("Player B");
+		JLabel playerBName = new JLabel(player2.getName(), SwingConstants.RIGHT);
 		playerBName.setForeground(Color.CYAN);
 		playerBName.setFont(new Font("OCR A Extended", Font.PLAIN, 14));
 		playerBName.setBounds(992, 33, 73, 37);

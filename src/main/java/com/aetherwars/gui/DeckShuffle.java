@@ -13,7 +13,7 @@ public class DeckShuffle extends JPanel {
 	 */
 	public DeckShuffle(int sisaDeck) {
 		setLayout(null);
-		String totalDeck = sisaDeck + "/50";
+		String totalDeck = sisaDeck + "/60";
 		JLabel deck1 = new JLabel("DECK", SwingConstants.CENTER);
 		deck1.setBounds(2,5,65,30);
 		deck1.setFont(new Font("Cascadia Code", 1, 14));

@@ -9,7 +9,7 @@ public class Deck {
     private int kapasitasDeck;
 
     public Deck() {
-        this.kapasitasDeck = 40;
+        this.kapasitasDeck = 60;
         this.deck = new Stack<Card>();
         this.jumlahKartu = 0;
     }

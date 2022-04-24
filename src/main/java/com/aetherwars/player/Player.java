@@ -62,22 +62,13 @@ public class Player {
     }
 
     public void drawCard(int choice){
-        if(this.playerHand.handSize() < 5){
-            this.playerHand.addCard(this.topThree.get(choice-1));
-            this.topThree.remove(choice-1);
-            for(int i =0; i<2;i++){
-                this.deck.addCard(this.topThree.get(i));
-            }
-            this.topThree.clear();
-        }else{
-            this.playerHand.addCard(this.topThree.get(choice-1));
-            this.topThree.remove(choice-1);
-            for(int i =0; i<2;i++){
-                this.deck.addCard(this.topThree.get(i));
-            }
-            this.topThree.clear();
-            removeCard();
+        this.playerHand.addCard(this.topThree.get(choice-1));
+        this.topThree.remove(choice-1);
+        for(int i =0; i<2;i++){
+            this.deck.addCard(this.topThree.get(i));
         }
+        this.topThree.clear();
+        this.deck.shuffleDeck();
     }   
 
     public void removeCard(){
@@ -103,6 +94,9 @@ public class Player {
         this.health -= damage;
     }
 
+    public int getSisaDeck(){
+        return this.deck.getJumlahKartu();
+    }
     // public void summonCard(int cardChoice, int position){
     //     if(this.playerHand.getCard(cardChoice).getTypeCard().equals("Character")){
     //         this.board.addCharacter(this.playerHand.getCard(choice));
