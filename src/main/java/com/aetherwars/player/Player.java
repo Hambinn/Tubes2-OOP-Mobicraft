@@ -57,6 +57,10 @@ public class Player {
         }
     }
 
+    public List<Card> getTopThree(){
+        return this.topThree;
+    }
+
     public void drawCard(int choice){
         if(this.playerHand.handSize() < 5){
             this.playerHand.addCard(this.topThree.get(choice-1));
@@ -95,6 +99,9 @@ public class Player {
         this.playerHand.discardCard(choice-1);
     }
 
+    public void damaged(int damage){
+        this.health -= damage;
+    }
 
     // public void summonCard(int cardChoice, int position){
     //     if(this.playerHand.getCard(cardChoice).getTypeCard().equals("Character")){
