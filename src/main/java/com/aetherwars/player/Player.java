@@ -51,6 +51,14 @@ public class Player {
         return mana;
     }
 
+    public List<Card> getPlayerHand(){
+        return this.playerHand.getHand();
+    }
+
+    public Card getCardByIndex(int index) {
+        return this.playerHand.getCard(index);
+    }
+
     public void fillTopThree(){
         for(int i = 0; i < 3; i++) {
             this.topThree.add(this.deck.getCard());

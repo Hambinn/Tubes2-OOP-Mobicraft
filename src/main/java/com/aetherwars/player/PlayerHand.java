@@ -27,4 +27,7 @@ public class PlayerHand {
         return this.hand.get(choice-1);
     }
 
+    public List<Card> getHand(){
+        return this.hand;
+    }
 }
