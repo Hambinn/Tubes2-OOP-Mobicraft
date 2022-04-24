@@ -1,9 +1,10 @@
-package gui;
+package com.aetherwars.gui;
 
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -26,7 +27,7 @@ public class Hand extends JPanel {
 		try {
 			this.isFilled = isFilled;
 			if (isFilled) {
-				image = ImageIO.read(this.getClass().getResource(filename));
+				image = ImageIO.read(new FileInputStream(filename));
 				width = image.getWidth();
 				height = image.getHeight();
 				while ((width > 100) || (height > 75)) {

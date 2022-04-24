@@ -1,4 +1,4 @@
-package gui;
+package com.aetherwars.gui;
 
 import java.awt.Dimension;
 import java.awt.Font;

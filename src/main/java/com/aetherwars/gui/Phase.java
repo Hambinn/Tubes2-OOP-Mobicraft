@@ -1,5 +1,4 @@
-package gui;
-
+package com.aetherwars.gui;
 import java.awt.Font;
 
 import javax.swing.JLabel;

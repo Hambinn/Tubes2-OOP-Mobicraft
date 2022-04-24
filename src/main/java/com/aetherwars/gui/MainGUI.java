@@ -1,4 +1,4 @@
-package gui;
+package com.aetherwars.gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -12,7 +12,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
 
-public class Main extends JFrame {
+public class MainGUI extends JFrame {
 
 	private JPanel contentPane;
 
@@ -23,7 +23,7 @@ public class Main extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Main frame = new Main();
+					MainGUI frame = new MainGUI();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -35,7 +35,7 @@ public class Main extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Main() {
+	public MainGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1100, 600);
 		contentPane = new JPanel();
@@ -44,17 +44,17 @@ public class Main extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel avatarA = new CharIcon("charicon1.png");
+		JPanel avatarA = new CharIcon("src/main/java/com/aetherwars/gui/charicon1.png");
 		avatarA.setBackground(Color.WHITE);
 		avatarA.setBounds(9, 155, 120, 120);
 		contentPane.add(avatarA);
 		
-		JPanel avatarB = new CharIcon("charicon2.png");
+		JPanel avatarB = new CharIcon("src/main/java/com/aetherwars/gui/charicon2.png");
 		avatarB.setBackground(Color.WHITE);
 		avatarB.setBounds(956, 155, 120, 120);
 		contentPane.add(avatarB);
 		
-		JPanel boardA1 = new Board("Piglin Brute.png", true, "A");
+		JPanel boardA1 = new Board("src/main/java/com/aetherwars/gui/Piglin Brute.png", true, "A");
 		boardA1.setBounds(139, 81, 103, 125);
 		contentPane.add(boardA1);
 		
@@ -104,15 +104,15 @@ public class Main extends JFrame {
 		nextRound.setBounds(956, 384, 73, 20);
 		contentPane.add(nextRound);
 		
-		JPanel hands1 = new Hand(true, "Potion of Bargaining.png");
+		JPanel hands1 = new Hand(true, "src/main/java/com/aetherwars/gui/Potion of Bargaining.png");
 		hands1.setBounds(14, 408, 103, 145);
 		contentPane.add(hands1);
 		
-		JPanel hands2 = new Hand(true, "Skeleton.png");
+		JPanel hands2 = new Hand(true, "src/main/java/com/aetherwars/gui/Skeleton.png");
 		hands2.setBounds(119, 408, 103, 145);
 		contentPane.add(hands2);
 		
-		JPanel hands3 = new Hand(true, "Piglin Brute.png");
+		JPanel hands3 = new Hand(true, "src/main/java/com/aetherwars/gui/Piglin Brute.png");
 		hands3.setBounds(224, 408, 103, 145);
 		contentPane.add(hands3);
 		
@@ -124,7 +124,7 @@ public class Main extends JFrame {
 		hands5.setBounds(434, 408, 103, 145);
 		contentPane.add(hands5);
 		
-		JPanel cardDescPic = new CardDescPhoto("Piglin Brute.png");
+		JPanel cardDescPic = new CardDescPhoto("src/main/java/com/aetherwars/gui/Piglin Brute.png");
 		cardDescPic.setBounds(569, 408, 111, 145);
 		contentPane.add(cardDescPic);
 		
@@ -156,7 +156,7 @@ public class Main extends JFrame {
 		boardB4.setBounds(730, 216, 103, 125);
 		contentPane.add(boardB4);
 		
-		JPanel boardB3 = new Board("Skeleton.png", true, "C");
+		JPanel boardB3 = new Board("src/main/java/com/aetherwars/gui/Skeleton.png", true, "C");
 		boardB3.setBounds(843, 216, 103, 125);
 		contentPane.add(boardB3);
 		

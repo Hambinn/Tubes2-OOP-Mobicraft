@@ -1,9 +1,9 @@
-package gui;
-
+package com.aetherwars.gui;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -30,11 +30,11 @@ public class Board extends JPanel {
 		this.isFilled = isFilled;
 		try {
 			if (isFilled) {
-				imageHeart = ImageIO.read(this.getClass().getResource("heart.png"));
-				imageSword = ImageIO.read(this.getClass().getResource("sword.png"));
+				imageHeart = ImageIO.read(new FileInputStream("src/main/java/com/aetherwars/gui/heart.png"));
+				imageSword = ImageIO.read(new FileInputStream("src/main/java/com/aetherwars/gui/sword.png"));
 				scaledImageHeart = imageHeart.getScaledInstance(15,15,Image.SCALE_SMOOTH);
 				scaledImageSword = imageSword.getScaledInstance(15,15,Image.SCALE_SMOOTH);
-				image = ImageIO.read(this.getClass().getResource(filename));
+				image = ImageIO.read(new FileInputStream(filename));
 				width = image.getWidth();
 				height = image.getHeight();
 				while ((width > 75) || (height > 80)) {

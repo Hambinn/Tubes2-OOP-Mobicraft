@@ -1,10 +1,9 @@
-package gui;
+package com.aetherwars.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
 
 public class HealthBar extends JPanel {
 

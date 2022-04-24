@@ -1,8 +1,9 @@
-package gui;
+package com.aetherwars.gui;
 
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -18,7 +19,7 @@ public class CardDescPhoto extends JPanel {
 	 */
 	public CardDescPhoto(String filename) {
 		try {
-			image = ImageIO.read(this.getClass().getResource(filename));
+			image = ImageIO.read(new FileInputStream(filename));
 			width = image.getWidth();
 			height = image.getHeight();
 			while ((width > 111) || (height > 145)) {
