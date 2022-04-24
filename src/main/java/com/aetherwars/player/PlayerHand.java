@@ -27,7 +27,4 @@ public class PlayerHand {
         return this.hand.get(choice-1);
     }
 
-    
-
-
 }

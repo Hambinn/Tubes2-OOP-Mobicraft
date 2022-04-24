@@ -30,7 +30,7 @@ public class Player {
         this.deck = new Deck(charCards, morphCards, spellCards, ptnCards);
         this.deck.shuffleDeck();
 
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < 3; i++) {
             this.playerHand.addCard(this.deck.getCard());
         }
 
@@ -90,6 +90,11 @@ public class Player {
             this.mana = 10;
         }
     }
+
+    public void discardCard(int choice){
+        this.playerHand.discardCard(choice-1);
+    }
+
 
     // public void summonCard(int cardChoice, int position){
     //     if(this.playerHand.getCard(cardChoice).getTypeCard().equals("Character")){
