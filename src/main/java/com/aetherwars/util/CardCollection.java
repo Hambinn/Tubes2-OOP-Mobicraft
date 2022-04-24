@@ -75,6 +75,21 @@ public class CardCollection {
             SwapSpell c = new SwapSpell(Integer.parseInt(row[0]), row[1], row[2], row[3], Integer.parseInt(row[4]), Integer.parseInt(row[5]));
             this.swapSpellCollection.add(c);
         }
-    
+    }
+
+    public List<Card> getCharacterCollection() {
+        return this.characterCollection;
+    }
+
+    public List<Card> getMorphSpellCollection() {
+        return this.morphSpellCollection;
+    }
+
+    public List<Card> getPtnSpellCollection() {
+        return this.ptnSpellCollection;
+    }
+
+    public List<Card> getSwapSpellCollection() {
+        return this.swapSpellCollection;
     }
 }
