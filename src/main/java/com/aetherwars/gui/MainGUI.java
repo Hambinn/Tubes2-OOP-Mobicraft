@@ -11,8 +11,12 @@ import java.awt.Color;
 import javax.swing.border.LineBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
-import com.aetherwars.player.*;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.aetherwars.player.*;
+import com.aetherwars.model.*;
+import com.aetherwars.spell.*;
 public class MainGUI extends JFrame {
 
 	private JPanel contentPane;
@@ -92,26 +96,133 @@ public class MainGUI extends JFrame {
 		nextRound.setBounds(956, 384, 73, 20);
 		contentPane.add(nextRound);
 		
-		JPanel hands1 = new Hand(true, "src/main/java/com/aetherwars/gui/Potion of Bargaining.png");
-		hands1.setBounds(14, 408, 103, 145);
-		contentPane.add(hands1);
-		
-		JPanel hands2 = new Hand(true, "src/main/java/com/aetherwars/gui/Skeleton.png");
-		hands2.setBounds(119, 408, 103, 145);
-		contentPane.add(hands2);
-		
-		JPanel hands3 = new Hand(true, "src/main/java/com/aetherwars/gui/Piglin Brute.png");
-		hands3.setBounds(224, 408, 103, 145);
-		contentPane.add(hands3);
-		
-		JPanel hands4 = new Hand(false, "");
-		hands4.setBounds(329, 408, 103, 145);
-		contentPane.add(hands4);
-		
-		JPanel hands5 = new Hand(false,"");
-		hands5.setBounds(434, 408, 103, 145);
-		contentPane.add(hands5);
-		
+		List<Card> cardHand = player1.getPlayerHand();
+		if (cardHand.size() == 0) {
+			JPanel hands1 = new Hand(false, null);
+			hands1.setBounds(14, 408, 103, 145);
+			contentPane.add(hands1);
+			
+			JPanel hands2 = new Hand(false, null);
+			hands2.setBounds(119, 408, 103, 145);
+			contentPane.add(hands2);
+			
+			JPanel hands3 = new Hand(false, null);
+			hands3.setBounds(224, 408, 103, 145);
+			contentPane.add(hands3);
+			
+			JPanel hands4 = new Hand(false, null);
+			hands4.setBounds(329, 408, 103, 145);
+			contentPane.add(hands4);
+			
+			JPanel hands5 = new Hand(false, null);
+			hands5.setBounds(434, 408, 103, 145);
+			contentPane.add(hands5);	
+		}
+		else if (cardHand.size() == 1) {
+			JPanel hands1 = new Hand(true, cardHand.get(0));
+			hands1.setBounds(14, 408, 103, 145);
+			contentPane.add(hands1);
+			
+			JPanel hands2 = new Hand(false, null);
+			hands2.setBounds(119, 408, 103, 145);
+			contentPane.add(hands2);
+			
+			JPanel hands3 = new Hand(false, null);
+			hands3.setBounds(224, 408, 103, 145);
+			contentPane.add(hands3);
+			
+			JPanel hands4 = new Hand(false, null);
+			hands4.setBounds(329, 408, 103, 145);
+			contentPane.add(hands4);
+			
+			JPanel hands5 = new Hand(false, null);
+			hands5.setBounds(434, 408, 103, 145);
+			contentPane.add(hands5);
+		}
+		else if (cardHand.size() == 2) {
+			JPanel hands1 = new Hand(true, cardHand.get(0));
+			hands1.setBounds(14, 408, 103, 145);
+			contentPane.add(hands1);
+			
+			JPanel hands2 = new Hand(true, cardHand.get(1));
+			hands2.setBounds(119, 408, 103, 145);
+			contentPane.add(hands2);
+			
+			JPanel hands3 = new Hand(false, null);
+			hands3.setBounds(224, 408, 103, 145);
+			contentPane.add(hands3);
+			
+			JPanel hands4 = new Hand(false, null);
+			hands4.setBounds(329, 408, 103, 145);
+			contentPane.add(hands4);
+			
+			JPanel hands5 = new Hand(false, null);
+			hands5.setBounds(434, 408, 103, 145);
+			contentPane.add(hands5);
+		}
+		else if (cardHand.size() == 3) {
+			JPanel hands1 = new Hand(true, cardHand.get(0));
+			hands1.setBounds(14, 408, 103, 145);
+			contentPane.add(hands1);
+			
+			JPanel hands2 = new Hand(true, cardHand.get(1));
+			hands2.setBounds(119, 408, 103, 145);
+			contentPane.add(hands2);
+			
+			JPanel hands3 = new Hand(true, cardHand.get(2));
+			hands3.setBounds(224, 408, 103, 145);
+			contentPane.add(hands3);
+			
+			JPanel hands4 = new Hand(false, null);
+			hands4.setBounds(329, 408, 103, 145);
+			contentPane.add(hands4);
+			
+			JPanel hands5 = new Hand(false, null);
+			hands5.setBounds(434, 408, 103, 145);
+			contentPane.add(hands5);
+		}
+		else if (cardHand.size() == 4) {
+			JPanel hands1 = new Hand(true, cardHand.get(0));
+			hands1.setBounds(14, 408, 103, 145);
+			contentPane.add(hands1);
+			
+			JPanel hands2 = new Hand(true, cardHand.get(1));
+			hands2.setBounds(119, 408, 103, 145);
+			contentPane.add(hands2);
+			
+			JPanel hands3 = new Hand(true, cardHand.get(2));
+			hands3.setBounds(224, 408, 103, 145);
+			contentPane.add(hands3);
+			
+			JPanel hands4 = new Hand(true, cardHand.get(3));
+			hands4.setBounds(329, 408, 103, 145);
+			contentPane.add(hands4);
+			
+			JPanel hands5 = new Hand(false, null);
+			hands5.setBounds(434, 408, 103, 145);
+			contentPane.add(hands5);
+		}
+		else if (cardHand.size() == 5) {
+			JPanel hands1 = new Hand(true, cardHand.get(0));
+			hands1.setBounds(14, 408, 103, 145);
+			contentPane.add(hands1);
+			
+			JPanel hands2 = new Hand(true, cardHand.get(1));
+			hands2.setBounds(119, 408, 103, 145);
+			contentPane.add(hands2);
+			
+			JPanel hands3 = new Hand(true, cardHand.get(2));
+			hands3.setBounds(224, 408, 103, 145);
+			contentPane.add(hands3);
+			
+			JPanel hands4 = new Hand(true, cardHand.get(3));
+			hands4.setBounds(329, 408, 103, 145);
+			contentPane.add(hands4);
+			
+			JPanel hands5 = new Hand(true, cardHand.get(4));
+			hands5.setBounds(434, 408, 103, 145);
+			contentPane.add(hands5);
+		}		
 		JPanel cardDescPic = new CardDescPhoto("src/main/java/com/aetherwars/gui/Piglin Brute.png");
 		cardDescPic.setBounds(569, 408, 111, 145);
 		contentPane.add(cardDescPic);

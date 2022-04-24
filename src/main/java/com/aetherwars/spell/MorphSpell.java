@@ -6,7 +6,7 @@ import com.aetherwars.model.Character;
 public class MorphSpell extends Spell {
     protected int targetId;
     public MorphSpell(int id, String name, String description, String imagePath, int targetId, int mana) {
-        super(id, name, description, imagePath, mana, true);
+        super(id, name, description, imagePath, mana, true, "Morph");
         this.targetId = targetId;
     }
 

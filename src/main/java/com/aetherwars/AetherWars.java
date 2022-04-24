@@ -21,10 +21,6 @@ public class AetherWars {
     List<Card> charCards = cardCollection.getCharacterCollection();
     List<Card> potionsCards = cardCollection.getPtnSpellCollection();
     List<Card> swapsCards = cardCollection.getSwapSpellCollection();
-    System.out.println(charCards.size());
-    System.out.println(morphsCards.size());
-    System.out.println(potionsCards.size());
-    System.out.println(swapsCards.size());
     Player player1 = new Player("Steve", charCards, morphsCards, potionsCards, swapsCards);
     Player player2 = new Player("John", charCards, morphsCards, potionsCards, swapsCards);
     try {

@@ -5,7 +5,7 @@ import com.aetherwars.board.ActiveCharacter;
 public class LevelSpell extends Spell {
 
     public LevelSpell(int id, String name, String description, String imagePath, int mana) {
-        super(id, name, description, imagePath, mana, true);
+        super(id, name, description, imagePath, mana, true, "Level");
     }
 
     public void apply(ActiveCharacter character) {

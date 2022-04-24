@@ -32,11 +32,11 @@ public class Character extends Card {
   public Type getType(){
     return this.type;
   }
-
+  @Override
   public int getAttack(){
     return this.attack;
   }
-
+  @Override
   public int getHealth(){
     return this.health;
   }

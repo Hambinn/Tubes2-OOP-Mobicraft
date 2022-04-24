@@ -6,7 +6,7 @@ import com.aetherwars.board.effect.Switcher;
 public class SwapSpell extends SpellTemp {
 
     public SwapSpell(int id, String name, String description, String imagePath, int duration, int mana) {
-        super(id, name, description, imagePath, mana, duration);
+        super(id, name, description, imagePath, mana, duration, "Swap");
     }
 
     public void apply(ActiveCharacter character) {

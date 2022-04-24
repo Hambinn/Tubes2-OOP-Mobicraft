@@ -11,6 +11,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import com.aetherwars.model.*;
+import com.aetherwars.spell.*;
 
 public class Hand extends JPanel {
 	private BufferedImage image;
@@ -22,12 +24,12 @@ public class Hand extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public Hand(boolean isFilled, String filename) {
+	public Hand(boolean isFilled, Card card) {
 		setLayout(null);
 		try {
 			this.isFilled = isFilled;
 			if (isFilled) {
-				image = ImageIO.read(new FileInputStream(filename));
+				image = ImageIO.read(new FileInputStream("src/main/resources/com/aetherwars/" + card.getImagePath()));
 				width = image.getWidth();
 				height = image.getHeight();
 				while ((width > 100) || (height > 75)) {
@@ -35,11 +37,30 @@ public class Hand extends JPanel {
 					height = (int) (height*0.9);
 				}
 				scaledImage = image.getScaledInstance(width,height,Image.SCALE_SMOOTH);
-				JLabel mana = new JLabel("MANA 3", SwingConstants.CENTER);
+				String isiMana = "MANA " + card.getMana(); 
+				JLabel mana = new JLabel(isiMana, SwingConstants.CENTER);
 				mana.setBounds(2,90,100,20);
 				mana.setFont(new Font("Cascadia Code", 0, 12));
 				add(mana);
-				JLabel stat = new JLabel("ATK+4/HP+1", SwingConstants.CENTER);
+				String desc = "";
+				if (card.getTypeCard() == "Character"){
+					desc += "ATK " + card.getAttack() + "/DEF " + card.getHealth();
+				}
+				else if (card.getTypeCard() == "Spell"){
+					if (card.getSpellType() == "Swap") {
+						desc += "ATK <-> HP";
+					}
+					else if (card.getSpellType() == "Level") {
+						desc += "LEVEL UP";
+					}
+					else if (card.getSpellType() == "Morph") {
+						desc += "MORPH";
+					}
+					else if (card.getSpellType() == "Potion") {
+						desc += "POTION";
+					}
+				}
+				JLabel stat = new JLabel(desc, SwingConstants.CENTER);
 				stat.setBounds(2,110,100,20);
 				stat.setFont(new Font("Cascadia Code", 0, 12));
 				add(stat);

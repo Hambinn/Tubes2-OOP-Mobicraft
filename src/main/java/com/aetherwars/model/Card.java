@@ -52,4 +52,16 @@ public abstract class Card {
     public int getMana(){
         return this.mana;
     }
+
+    public int getAttack() {
+        return 0;
+    }
+
+    public int getHealth() {
+        return 0;
+    }
+
+    public String getSpellType(){
+        return "";
+    }
 }

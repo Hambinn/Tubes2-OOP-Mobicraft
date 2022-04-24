@@ -8,7 +8,7 @@ public class PotionSpell extends SpellTemp {
     protected int updateHpValue;
 
     public PotionSpell(int id, String name, String description, String imagePath, int updateAttackValue, int updateHpValue, int mana, int duration) {
-        super(id, name, description, imagePath, mana, duration);
+        super(id, name, description, imagePath, mana, duration, "Potion");
         this.updateAttackValue = updateAttackValue;
         this.updateHpValue = updateHpValue;
     }
