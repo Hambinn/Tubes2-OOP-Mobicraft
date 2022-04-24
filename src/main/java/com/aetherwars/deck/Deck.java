@@ -20,15 +20,36 @@ public class Deck {
         this.jumlahKartu = 0;
     }
 
-    public Deck(List<Card> charCards, List<Card> morphCards, List<Card> spellCards, List<Card> ptnCards){
+    public Deck(List<Card> charCards, List<Card> morphCards, List<Card> swapCards, List<Card> ptnCards){
         this.kapasitasDeck = 60;
         this.deck = new Stack<Card>();
         this.jumlahKartu = 0;
 
         addSomeCard(charCards);
         addSomeCard(morphCards);
-        addSomeCard(spellCards);
+        addSomeCard(swapCards);
         addSomeCard(ptnCards);
+
+        int index1 = (int)(Math.random() * charCards.size());
+        int index2 = (int)(Math.random() * charCards.size());
+        addCard(charCards.get(index1));
+        addCard(charCards.get(index2));
+
+        index1 = (int)(Math.random() * morphCards.size());
+        index2 = (int)(Math.random() * morphCards.size());
+        addCard(morphCards.get(index1));
+        addCard(morphCards.get(index2));
+
+        index1 = (int)(Math.random() * swapCards.size());
+        index2 = (int)(Math.random() * swapCards.size());
+        addCard(swapCards.get(index1));
+        addCard(swapCards.get(index2));
+
+        index1 = (int)(Math.random() * ptnCards.size());
+        index2 = (int)(Math.random() * ptnCards.size());
+        addCard(ptnCards.get(index1));
+        addCard(ptnCards.get(index2));
+
         shuffleDeck();
     }
 

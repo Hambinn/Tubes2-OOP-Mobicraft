@@ -18,9 +18,9 @@ public class CardCollection {
     private List<Card> ptnSpellCollection;
     private List<Card> swapSpellCollection;
     private static final String CHARACTER_CSV_FILE_PATH = "/com/aetherwars/card/data/character.csv";
-    private static final String MORPHS_CSV_FILE_PATH = "/com/aetherwars/card/data/morphs.csv";
-    private static final String PTN_CSV_FILE_PATH = "/com/aetherwars/card/data/ptn.csv";
-    private static final String SWAP_CSV_FILE_PATH = "/com/aetherwars/card/data/swap.csv";
+    private static final String MORPHS_CSV_FILE_PATH = "/com/aetherwars/card/data/spell_morph.csv";
+    private static final String PTN_CSV_FILE_PATH = "/com/aetherwars/card/data/spell_ptn.csv";
+    private static final String SWAP_CSV_FILE_PATH = "/com/aetherwars/card/data/spell_swap.csv";
 
     public CardCollection() {
         try {
