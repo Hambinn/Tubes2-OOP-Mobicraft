@@ -10,7 +10,7 @@ public class PlayerHand {
         this.hand = new ArrayList<Card>();
     }
 
-    public void drawCard(Card card) {
+    public void addCard(Card card) {
         this.hand.add(card);
     }
 
@@ -22,6 +22,12 @@ public class PlayerHand {
     public int handSize() {
         return this.hand.size();
     }
+
+    public Card getCard(int choice){
+        return this.hand.get(choice-1);
+    }
+
+    
 
 
 }
