@@ -40,8 +40,10 @@ public class AetherWars {
           List<Card> charCards = cardCollection.getCharacterCollection();
           List<Card> potionsCards = cardCollection.getPtnSpellCollection();
           List<Card> swapsCards = cardCollection.getSwapSpellCollection();
-          Player player1 = new Player("Steve", charCards, morphsCards, potionsCards, swapsCards);
-          Player player2 = new Player("John", charCards, morphsCards, potionsCards, swapsCards);    
+          List<Card> levelCards = cardCollection.getLevelSpellCollection();
+
+          Player player1 = new Player("Steve", charCards, morphsCards, potionsCards, swapsCards, levelCards);
+          Player player2 = new Player("John", charCards, morphsCards, potionsCards, swapsCards, levelCards);    
           MainGUI frame = new MainGUI(player1, player2);         
           frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
           frame.setLocationRelativeTo(null);

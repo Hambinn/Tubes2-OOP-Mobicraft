@@ -11,12 +11,14 @@ import com.aetherwars.model.Type;
 import com.aetherwars.spell.MorphSpell;
 import com.aetherwars.spell.PotionSpell;
 import com.aetherwars.spell.SwapSpell;
+import com.aetherwars.spell.LevelSpell;
 
 public class CardCollection {
     private List<Card> characterCollection;
     private List<Card> morphSpellCollection;
     private List<Card> ptnSpellCollection;
     private List<Card> swapSpellCollection;
+    private List<Card> levelSpellCollection;
     private static final String CHARACTER_CSV_FILE_PATH = "/com/aetherwars/card/data/character.csv";
     private static final String MORPHS_CSV_FILE_PATH = "/com/aetherwars/card/data/spell_morph.csv";
     private static final String PTN_CSV_FILE_PATH = "/com/aetherwars/card/data/spell_ptn.csv";
@@ -35,6 +37,7 @@ public class CardCollection {
         this.morphSpellCollection = new ArrayList<Card>();
         this.ptnSpellCollection = new ArrayList<Card>();
         this.swapSpellCollection = new ArrayList<Card>();
+        this.levelSpellCollection = new ArrayList<Card>();
 
         File characterCSVFile = new File(getClass().getResource(CHARACTER_CSV_FILE_PATH).toURI());
         CSVReader characterReader = new CSVReader(characterCSVFile, "\t");
@@ -75,6 +78,17 @@ public class CardCollection {
             SwapSpell s = new SwapSpell(Integer.parseInt(row[0]), row[1], row[2], row[3], Integer.parseInt(row[4]), Integer.parseInt(row[5]));
             this.swapSpellCollection.add(s);
         }
+
+        int i;
+        for (i=0; i < 2; i++) {
+            LevelSpell l = new LevelSpell(i+1, "Level ", "Level Up Desc", "card/image/spell/level/Level Up.png", "LevelUp");
+            this.levelSpellCollection.add(l);
+        }
+
+        for (i=2; i < 4; i++) {
+            LevelSpell l = new LevelSpell(i+1, "Level ", "Level Down Desc", "card/image/spell/level/Level Down.png", "LevelDown");
+            this.levelSpellCollection.add(l);
+        }
     }
 
     public List<Card> getCharacterCollection() {
@@ -91,5 +105,9 @@ public class CardCollection {
 
     public List<Card> getSwapSpellCollection() {
         return this.swapSpellCollection;
+    }
+
+    public List<Card> getLevelSpellCollection() {
+        return this.levelSpellCollection;
     }
 }

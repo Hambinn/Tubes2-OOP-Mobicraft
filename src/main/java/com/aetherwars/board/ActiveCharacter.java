@@ -10,11 +10,15 @@ public interface ActiveCharacter {
 
     void levelUp();
 
+    void levelDown();
+
     void swapStatus();
 
     void changeCharacter(@NotNull Character character);
 
     @NotNull Effects getEffects();
+
+    @NotNull int getLevel();
 
     boolean isDead();
 
