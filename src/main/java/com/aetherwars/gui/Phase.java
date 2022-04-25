@@ -12,18 +12,12 @@ public class Phase extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public Phase(String phaseName, int width, int height, String curr_phase) {
+	public Phase(String phaseName, int width, int height) {
 		setLayout(null);
-		if (curr_phase.equals(phaseName)) {
-			setBackground(Color.GREEN);
-		} else {
-			setBackground(Color.ORANGE);
-		}
 		JLabel phase = new JLabel(phaseName, SwingConstants.CENTER);
 		phase.setVerticalAlignment(SwingConstants.TOP);
 		phase.setBounds(0,2,width,height);
 		phase.setFont(new Font("Cascadia Code", 1, 14));
 		add(phase);
 	}
-
 }

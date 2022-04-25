@@ -27,7 +27,10 @@ public class MainGUI extends JFrame {
 	private String next_phase;
 	private String curr_phase;
 	private JPanel contentPane;
-
+	private JPanel drawPhase;
+	private JPanel planPhase;
+	private JPanel attackPhase;
+	private JPanel endPhase;
 	/**
 	 * Launch the application.
 	 */
@@ -36,6 +39,7 @@ public class MainGUI extends JFrame {
 	 */
 	public MainGUI(Player player1, Player player2) {
 		curr_phase = "DRAW";
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1100, 600);
 		contentPane = new JPanel();
@@ -74,22 +78,26 @@ public class MainGUI extends JFrame {
 		boardA5.setBounds(365, 150, 103, 125);
 		contentPane.add(boardA5);
 		
-		JPanel drawPhase = new Phase("DRAW", 223, 20, curr_phase);
+		drawPhase = new Phase("DRAW", 223, 20);
+		drawPhase.setBackground(Color.GREEN);
 		drawPhase.setBorder(new LineBorder(new Color(0, 0, 0)));
 		drawPhase.setBounds(57, 384, 223, 20);
 		contentPane.add(drawPhase);
 		
-		JPanel planPhase = new Phase("PLAN", 223, 20, curr_phase);
+		planPhase = new Phase("PLAN", 223, 20);
+		planPhase.setBackground(Color.ORANGE);
 		planPhase.setBorder(new LineBorder(new Color(0, 0, 0)));
 		planPhase.setBounds(279, 384, 223, 20);
 		contentPane.add(planPhase);
 		
-		JPanel attackPhase = new Phase("ATTACK", 223, 20, curr_phase);
+		attackPhase = new Phase("ATTACK", 223, 20);
+		attackPhase.setBackground(Color.ORANGE);
 		attackPhase.setBorder(new LineBorder(new Color(0, 0, 0)));
 		attackPhase.setBounds(501, 384, 223, 20);
 		contentPane.add(attackPhase);
 		
-		JPanel endPhase = new Phase("END", 223, 20, curr_phase);
+		endPhase = new Phase("END", 223, 20);
+		endPhase.setBackground(Color.ORANGE);
 		endPhase.setBorder(new LineBorder(new Color(0, 0, 0)));
 		endPhase.setBounds(723, 384, 223, 20);
 		contentPane.add(endPhase);
@@ -104,29 +112,27 @@ public class MainGUI extends JFrame {
 		nextRound.add(phase);
 		System.out.println(curr_phase);
         nextRound.addMouseListener(new MouseAdapter() {
-			private Color background;
-
             @Override
             public void mousePressed(MouseEvent e) {
-				background = getBackground();
-				setBackground(Color.WHITE);
                 if (curr_phase == "DRAW") {
                     next_phase = "PLAN";
-                } else if (curr_phase == "PLAN") {
+					drawPhase.setBackground(Color.ORANGE);
+					planPhase.setBackground(Color.GREEN);
+				} else if (curr_phase == "PLAN") {
                     next_phase = "ATTACK";
+					planPhase.setBackground(Color.ORANGE);
+					attackPhase.setBackground(Color.GREEN);
                 } else if (curr_phase == "ATTACK") {
                     next_phase = "END";
+					attackPhase.setBackground(Color.ORANGE);
+					endPhase.setBackground(Color.GREEN);
                 } else if (curr_phase == "END") {
                     next_phase = "DRAW";
+					endPhase.setBackground(Color.ORANGE);
+					drawPhase.setBackground(Color.GREEN);
                 }
 				curr_phase = next_phase;
 				System.out.println(curr_phase);
-				System.out.println(next_phase);
-				contentPane.repaint();
-			}
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				setBackground(background);
 			}
           });
 
@@ -334,6 +340,6 @@ public class MainGUI extends JFrame {
 		playerBName.setFont(new Font("OCR A Extended", Font.PLAIN, 14));
 		playerBName.setBounds(992, 33, 73, 37);
 		contentPane.add(playerBName);
-		repaint();
+		contentPane.repaint();
 	}
 }
