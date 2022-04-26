@@ -21,6 +21,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MainGUI extends JFrame {
+	private int indexCardClicked;
 	private int curr_round;
 	private String cardFileName;
 	private int choosenDrawCard;
@@ -45,6 +46,7 @@ public class MainGUI extends JFrame {
 	private JPanel hands3;
 	private JPanel hands4;
 	private JPanel hands5;
+	private Card cardClicked;
 	private List<Card> cardHand;
 
 	/**
@@ -64,23 +66,23 @@ public class MainGUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel boardA1 = new Board("src/main/java/com/aetherwars/gui/Piglin Brute.png", true, "A");
+		JPanel boardA1 = new Board(null, false, "A");
 		boardA1.setBounds(139, 81, 103, 125);
 		contentPane.add(boardA1);
 		
-		JPanel boardA3 = new Board("", false, "C");
+		JPanel boardA3 = new Board(null, false, "C");
 		boardA3.setBounds(139, 216, 103, 125);
 		contentPane.add(boardA3);
 		
-		JPanel boardA2 = new Board("", false, "B");
+		JPanel boardA2 = new Board(null, false, "B");
 		boardA2.setBounds(252, 81, 103, 125);
 		contentPane.add(boardA2);
 		
-		JPanel boardA4 = new Board("", false, "D");
+		JPanel boardA4 = new Board(null, false, "D");
 		boardA4.setBounds(252, 216, 103, 125);
 		contentPane.add(boardA4);
 		
-		JPanel boardA5 = new Board("", false, "E");
+		JPanel boardA5 = new Board(null, false, "E");
 		boardA5.setBounds(365, 150, 103, 125);
 		contentPane.add(boardA5);
 		
@@ -168,23 +170,23 @@ public class MainGUI extends JFrame {
 		// mana.setBounds(1011, 479, 65, 60);
 		// contentPane.add(mana,0);
 				
-		JPanel boardB1 = new Board("", false, "A");
+		JPanel boardB1 = new Board(null, false, "A");
 		boardB1.setBounds(843, 81, 103, 125);
 		contentPane.add(boardB1);
 		
-		JPanel boardB2 = new Board("", false, "B");
+		JPanel boardB2 = new Board(null, false, "B");
 		boardB2.setBounds(730, 81, 103, 125);
 		contentPane.add(boardB2);
 		
-		JPanel boardB4 = new Board("", false, "D");
+		JPanel boardB4 = new Board(null, false, "D");
 		boardB4.setBounds(730, 216, 103, 125);
 		contentPane.add(boardB4);
 		
-		JPanel boardB3 = new Board("src/main/java/com/aetherwars/gui/Skeleton.png", true, "C");
+		JPanel boardB3 = new Board(null, false, "C");
 		boardB3.setBounds(843, 216, 103, 125);
 		contentPane.add(boardB3);
 		
-		JPanel boardB5 = new Board("", false, "E");
+		JPanel boardB5 = new Board(null, false, "E");
 		boardB5.setBounds(619, 148, 103, 125);
 		contentPane.add(boardB5);
 		
@@ -197,6 +199,100 @@ public class MainGUI extends JFrame {
 		healthBarB.setBounds(596, 10, 480, 20);
 		contentPane.add(healthBarB);
 
+		boardA1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+				JPanel boardA1 = new Board(cardClicked, true, "A");
+				boardA1.setBounds(139, 81, 103, 125);
+				contentPane.add(boardA1,0);
+
+				cardHand.remove(indexCardClicked);
+				handBackground = new JPanel();
+				handBackground.setBounds(12,405,550,200);
+				handBackground.setBackground(Color.DARK_GRAY);
+				contentPane.add(handBackground,0);
+				setHands(player_1);
+
+				contentPane.revalidate();
+				contentPane.repaint();
+			}
+        });
+
+		boardA2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+				JPanel boardA2 = new Board(cardClicked, true, "A");
+				boardA2.setBounds(252, 81, 103, 125);
+				contentPane.add(boardA2,0);
+
+				cardHand.remove(indexCardClicked);
+				handBackground = new JPanel();
+				handBackground.setBounds(12,405,550,200);
+				handBackground.setBackground(Color.DARK_GRAY);
+				contentPane.add(handBackground,0);
+				setHands(player_1);
+				contentPane.revalidate();
+				contentPane.repaint();
+			}
+        });
+
+		boardA3.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+				JPanel boardA3 = new Board(cardClicked, true, "A");
+				boardA3.setBounds(139, 216, 103, 125);
+
+				cardHand.remove(indexCardClicked);
+				handBackground = new JPanel();
+				handBackground.setBounds(12,405,550,200);
+				handBackground.setBackground(Color.DARK_GRAY);
+				contentPane.add(handBackground,0);
+				setHands(player_1);
+				contentPane.add(boardA3,0);
+				contentPane.revalidate();
+				contentPane.repaint();
+			}
+        });
+
+		boardA4.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+				JPanel boardA4 = new Board(cardClicked, true, "A");
+				boardA4.setBounds(252, 216, 103, 125);
+
+				cardHand.remove(indexCardClicked);
+				handBackground = new JPanel();
+				handBackground.setBounds(12,405,550,200);
+				handBackground.setBackground(Color.DARK_GRAY);
+				contentPane.add(handBackground,0);
+				setHands(player_1);
+
+				contentPane.add(boardA4,0);
+				contentPane.revalidate();
+				contentPane.repaint();
+			}
+        });
+
+		boardA5.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+				JPanel boardA5 = new Board(cardClicked, true, "A");
+				boardA5.setBounds(365, 150, 103, 125);
+
+				cardHand.remove(indexCardClicked);
+				handBackground = new JPanel();
+				handBackground.setBounds(12,405,550,200);
+				handBackground.setBackground(Color.DARK_GRAY);
+				contentPane.add(handBackground,0);
+				setHands(player_1);
+				
+				contentPane.add(boardA5,0);
+				contentPane.revalidate();
+				contentPane.repaint();
+			}
+        });
+
+		
 		
 		JLabel playerAName = new JLabel(player1.getName(), SwingConstants.LEFT);
 		playerAName.setForeground(Color.CYAN);
@@ -385,6 +481,9 @@ public class MainGUI extends JFrame {
 				}
 			}
           });
+
+
+		
 		contentPane.revalidate();
 		contentPane.repaint();
 	}
@@ -588,6 +687,8 @@ public class MainGUI extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
 				cardFileName = "src/main/resources/com/aetherwars/" + cardHand.get(0).getImagePath();
+				indexCardClicked = 0;
+				cardClicked = cardHand.get(0);
 				setBorderHand(0);
 				JPanel cardDescPic = new CardDescPhoto(cardFileName);
 				cardDescPic.setBounds(569, 408, 111, 145);
@@ -610,6 +711,8 @@ public class MainGUI extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
 				cardFileName = "src/main/resources/com/aetherwars/" + cardHand.get(1).getImagePath();
+				indexCardClicked = 1;
+				cardClicked = cardHand.get(1);
 				setBorderHand(1);
 				JPanel cardDescPic = new CardDescPhoto(cardFileName);
 				cardDescPic.setBounds(569, 408, 111, 145);
@@ -631,7 +734,9 @@ public class MainGUI extends JFrame {
 		hands3.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-				cardFileName = "src/main/resources/com/aetherwars/" + cardHand.get(2).getImagePath();	
+				cardFileName = "src/main/resources/com/aetherwars/" + cardHand.get(2).getImagePath();
+				indexCardClicked = 2;
+				cardClicked = cardHand.get(2);	
 				setBorderHand(2);
 				JPanel cardDescPic = new CardDescPhoto(cardFileName);
 				cardDescPic.setBounds(569, 408, 111, 145);
@@ -654,6 +759,8 @@ public class MainGUI extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
 				cardFileName = "src/main/resources/com/aetherwars/" + cardHand.get(3).getImagePath();
+				indexCardClicked = 3;
+				cardClicked = cardHand.get(3);
 				setBorderHand(3);	
 				JPanel cardDescPic = new CardDescPhoto(cardFileName);
 				cardDescPic.setBounds(569, 408, 111, 145);
@@ -676,6 +783,8 @@ public class MainGUI extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
 				cardFileName = "src/main/resources/com/aetherwars/" + cardHand.get(4).getImagePath();
+				indexCardClicked = 4;
+				cardClicked = cardHand.get(4);
 				setBorderHand(4);	
 				JPanel cardDescPic = new CardDescPhoto(cardFileName);
 				cardDescPic.setBounds(569, 408, 111, 145);
@@ -693,7 +802,7 @@ public class MainGUI extends JFrame {
     			contentPane.repaint();
 			}
         });
-		
+	
 		
 		JPanel mana = new Mana(player);
 		mana.setBounds(1011, 479, 65, 60);
@@ -701,23 +810,23 @@ public class MainGUI extends JFrame {
 
 		System.out.println(player.getMana());
 				
-		JPanel boardB1 = new Board("", false, "A");
+		JPanel boardB1 = new Board(null, false, "A");
 		boardB1.setBounds(843, 81, 103, 125);
 		contentPane.add(boardB1);
 		
-		JPanel boardB2 = new Board("", false, "B");
+		JPanel boardB2 = new Board(null, false, "B");
 		boardB2.setBounds(730, 81, 103, 125);
 		contentPane.add(boardB2);
 		
-		JPanel boardB4 = new Board("", false, "D");
+		JPanel boardB4 = new Board(null, false, "D");
 		boardB4.setBounds(730, 216, 103, 125);
 		contentPane.add(boardB4);
 		
-		JPanel boardB3 = new Board("src/main/java/com/aetherwars/gui/Skeleton.png", true, "C");
+		JPanel boardB3 = new Board(null, false, "C");
 		boardB3.setBounds(843, 216, 103, 125);
 		contentPane.add(boardB3);
 		
-		JPanel boardB5 = new Board("", false, "E");
+		JPanel boardB5 = new Board(null, false, "E");
 		boardB5.setBounds(619, 148, 103, 125);
 		contentPane.add(boardB5);
 		

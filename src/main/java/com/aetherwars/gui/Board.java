@@ -11,6 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import com.aetherwars.model.Card;
+
 public class Board extends JPanel {
 	private BufferedImage image;
 	private Image scaledImage;
@@ -25,7 +27,7 @@ public class Board extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public Board(String filename, boolean isFilled, String deckPos) {
+	public Board(Card card, boolean isFilled, String deckPos) {
 		setLayout(null);
 		this.isFilled = isFilled;
 		try {
@@ -34,7 +36,7 @@ public class Board extends JPanel {
 				imageSword = ImageIO.read(new FileInputStream("src/main/java/com/aetherwars/gui/sword.png"));
 				scaledImageHeart = imageHeart.getScaledInstance(15,15,Image.SCALE_SMOOTH);
 				scaledImageSword = imageSword.getScaledInstance(15,15,Image.SCALE_SMOOTH);
-				image = ImageIO.read(new FileInputStream(filename));
+				image = ImageIO.read(new FileInputStream("src/main/resources/com/aetherwars/" + card.getImagePath()));
 				width = image.getWidth();
 				height = image.getHeight();
 				while ((width > 75) || (height > 80)) {
@@ -42,11 +44,11 @@ public class Board extends JPanel {
 					height = (int) (height*0.9);
 				}
 				scaledImage = image.getScaledInstance(width,height,Image.SCALE_SMOOTH);
-				JLabel atk = new JLabel("1", SwingConstants.CENTER);
+				JLabel atk = new JLabel(Integer.toString(card.getAttack()), SwingConstants.CENTER);
 				atk.setBounds(2,20,15,15);
 				atk.setFont(new Font("Cascadia Code", 0, 10));
 				add(atk);
-				JLabel hp = new JLabel("10", SwingConstants.CENTER);
+				JLabel hp = new JLabel(Integer.toString(card.getHealth()), SwingConstants.CENTER);
 				hp.setBounds(86,20,15,15);
 				hp.setFont(new Font("Cascadia Code", 0, 10));
 				add(hp);
