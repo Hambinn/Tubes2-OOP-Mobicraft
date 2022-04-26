@@ -38,10 +38,6 @@ public class Hand extends JPanel {
 				}
 				scaledImage = image.getScaledInstance(width,height,Image.SCALE_SMOOTH);
 				String isiMana = "MANA " + card.getMana(); 
-				JLabel mana = new JLabel(isiMana, SwingConstants.CENTER);
-				mana.setBounds(2,90,100,20);
-				mana.setFont(new Font("Cascadia Code", 0, 12));
-				add(mana);
 				String desc = "";
 				if (card.getTypeCard() == "Character"){
 					desc += "ATK " + card.getAttack() + "/DEF " + card.getHealth();
@@ -52,6 +48,7 @@ public class Hand extends JPanel {
 					}
 					else if (card.getSpellType() == "Level") {
 						desc += "LEVEL UP";
+						isiMana = "MANA ?";
 					}
 					else if (card.getSpellType() == "Morph") {
 						desc += "MORPH";
@@ -60,6 +57,11 @@ public class Hand extends JPanel {
 						desc += "POTION";
 					}
 				}
+				JLabel mana = new JLabel(isiMana, SwingConstants.CENTER);
+				mana.setBounds(2,90,100,20);
+				mana.setFont(new Font("Cascadia Code", 0, 12));
+				add(mana);
+
 				JLabel stat = new JLabel(desc, SwingConstants.CENTER);
 				stat.setBounds(2,110,100,20);
 				stat.setFont(new Font("Cascadia Code", 0, 12));

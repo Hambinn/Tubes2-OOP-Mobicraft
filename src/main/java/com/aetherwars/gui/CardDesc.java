@@ -71,6 +71,12 @@ public class CardDesc extends JPanel {
 				type.setFont(new Font("Cascadia Code", 0, 10));
 				add(type);
 			}
+			else if (card.getSpellType() == "Level"){
+				JLabel type = new JLabel("Type : " + card.getTypeCard() + " " + card.getSpellType(), SwingConstants.LEFT);
+				type.setBounds(5,37,142,15);
+				type.setFont(new Font("Cascadia Code", 0, 10));
+				add(type);
+			}
 		}
 		else {
 			String text = card.getDescription();
