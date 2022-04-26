@@ -80,5 +80,4 @@ public class Hand extends JPanel {
             g.drawImage(scaledImage, (103-width)/2, 10, this);    		
     	}
 	}
-
 }
