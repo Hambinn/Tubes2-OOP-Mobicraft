@@ -23,8 +23,8 @@ public class Player {
     public Player(String name, List<Card> charCards, List<Card> morphCards, List<Card> swapCards, List<Card> ptnCards, List<Card> levelCards) {
         this.name = name;
         this.health = 80;
+        this.round = 1;
         this.mana = this.round;
-        this.round = 0;
         this.playerHand = new PlayerHand();
 
         this.deck = new Deck(charCards, morphCards, swapCards, ptnCards, levelCards);
@@ -82,6 +82,7 @@ public class Player {
         this.topThree.clear();
         this.deck.shuffleDeck();
     }
+    
     
     
 

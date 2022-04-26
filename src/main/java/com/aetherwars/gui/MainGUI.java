@@ -143,6 +143,8 @@ public class MainGUI extends JFrame {
 					} else {
 						curr_turn = "PlayerA";
 						curr_round++;
+						player_1.nextRound();
+						player_2.nextRound();
 					}
 					if (curr_turn == "PlayerA"){
 						initialHand(player_1);
@@ -162,9 +164,9 @@ public class MainGUI extends JFrame {
 		nextRound.setBounds(956, 384, 73, 20);
 		contentPane.add(nextRound);
 
-		JPanel mana = new Mana();
-		mana.setBounds(1011, 479, 65, 60);
-		contentPane.add(mana);
+		// JPanel mana = new Mana(player);
+		// mana.setBounds(1011, 479, 65, 60);
+		// contentPane.add(mana,0);
 				
 		JPanel boardB1 = new Board("", false, "A");
 		boardB1.setBounds(843, 81, 103, 125);
@@ -275,12 +277,6 @@ public class MainGUI extends JFrame {
 				drawCard3.setVisible(false);
 				shadowPanel.setVisible(false);
 				player.drawCard(choosenDrawCard);
-				// player.fillTopThree();
-				// drawCard = player.getTopThree();
-				// cardHand = player.getPlayerHand();
-				// drawCard1 = new Hand(true, drawCard.get(0));
-				// drawCard2 = new Hand(true, drawCard.get(1));
-				// drawCard3 = new Hand(true, drawCard.get(2));
 				setHands(player);
 
 				JPanel deck = new DeckShuffle(player.getSisaDeck());
@@ -310,12 +306,6 @@ public class MainGUI extends JFrame {
 				drawCard3.setVisible(false);
 				shadowPanel.setVisible(false);
 				player.drawCard(choosenDrawCard);
-				// player.fillTopThree();
-				// drawCard = player.getTopThree();
-				// cardHand = player.getPlayerHand();
-				// drawCard1 = new Hand(true, drawCard.get(0));
-				// drawCard2 = new Hand(true, drawCard.get(1));
-				// drawCard3 = new Hand(true, drawCard.get(2));
 				setHands(player);
 
 				JPanel deck = new DeckShuffle(player.getSisaDeck());
@@ -342,12 +332,6 @@ public class MainGUI extends JFrame {
 				drawCard3.setVisible(false);
 				shadowPanel.setVisible(false);
 				player.drawCard(choosenDrawCard);
-				// player.fillTopThree();
-				// drawCard = player.getTopThree();
-				// cardHand = player.getPlayerHand();			
-				// drawCard1 = new Hand(true, drawCard.get(0));
-				// drawCard2 = new Hand(true, drawCard.get(1));
-				// drawCard3 = new Hand(true, drawCard.get(2));
 				setHands(player);
 
 				JPanel deck = new DeckShuffle(player.getSisaDeck());
@@ -385,6 +369,8 @@ public class MainGUI extends JFrame {
 		JPanel hands5 = new Hand(false, null);
 		hands5.setBounds(434, 408, 103, 145);
 		contentPane.add(hands5);
+
+
 
 		deck.addMouseListener(new MouseAdapter() {
             @Override
@@ -709,9 +695,11 @@ public class MainGUI extends JFrame {
         });
 		
 		
-		JPanel mana = new Mana();
+		JPanel mana = new Mana(player);
 		mana.setBounds(1011, 479, 65, 60);
-		contentPane.add(mana);
+		contentPane.add(mana,0);
+
+		System.out.println(player.getMana());
 				
 		JPanel boardB1 = new Board("", false, "A");
 		boardB1.setBounds(843, 81, 103, 125);
