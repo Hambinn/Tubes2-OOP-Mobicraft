@@ -368,6 +368,40 @@ public class MainGUI extends JFrame {
 		contentPane.repaint();
 	}
 
+	public void setBorderHand(int index){
+		if (index == 0){
+			hands1.setBorder(new LineBorder(Color.BLUE));
+			hands2.setBorder(null);
+			hands3.setBorder(null);
+			hands4.setBorder(null);
+			hands5.setBorder(null);
+		} else if (index == 1){
+			hands1.setBorder(null);
+			hands2.setBorder(new LineBorder(Color.BLUE));
+			hands3.setBorder(null);
+			hands4.setBorder(null);
+			hands5.setBorder(null);
+		}else if (index == 2){
+			hands1.setBorder(null);
+			hands2.setBorder(null);
+			hands3.setBorder(new LineBorder(Color.BLUE));
+			hands4.setBorder(null);
+			hands5.setBorder(null);
+		}else if (index == 3){
+			hands1.setBorder(null);
+			hands2.setBorder(null);
+			hands3.setBorder(null);
+			hands4.setBorder(new LineBorder(Color.BLUE));
+			hands5.setBorder(null);
+		}else if (index == 4){
+			hands1.setBorder(null);
+			hands2.setBorder(null);
+			hands3.setBorder(null);
+			hands4.setBorder(null);
+			hands5.setBorder(new LineBorder(Color.BLUE));
+		}
+	}
+
 	public void setHands() {
 		if (cardHand.size() == 0) {
 			hands1 = new Hand(false, null);
@@ -513,7 +547,7 @@ public class MainGUI extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
 				cardFileName = "src/main/resources/com/aetherwars/" + cardHand.get(0).getImagePath();
-				// hands2.setBorder(new LineBorder(Color.BLUE));
+				setBorderHand(0);
 				JPanel cardDescPic = new CardDescPhoto(cardFileName);
 				cardDescPic.setBounds(569, 408, 111, 145);
 				contentPane.add(cardDescPic,0);	
@@ -535,6 +569,7 @@ public class MainGUI extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
 				cardFileName = "src/main/resources/com/aetherwars/" + cardHand.get(1).getImagePath();
+				setBorderHand(1);
 				JPanel cardDescPic = new CardDescPhoto(cardFileName);
 				cardDescPic.setBounds(569, 408, 111, 145);
 				contentPane.add(cardDescPic,0);	
@@ -556,6 +591,51 @@ public class MainGUI extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
 				cardFileName = "src/main/resources/com/aetherwars/" + cardHand.get(2).getImagePath();	
+				setBorderHand(2);
+				JPanel cardDescPic = new CardDescPhoto(cardFileName);
+				cardDescPic.setBounds(569, 408, 111, 145);
+				contentPane.add(cardDescPic,0);	
+				
+				JPanel charName = new CardDesc("CardInfo", cardHand.get(2));
+				charName.setBounds(690, 414, 146, 139);
+				contentPane.add(charName,0);
+						
+				JPanel charDesc = new CardDesc("CardDesc", cardHand.get(2));
+				charDesc.setBounds(837, 414, 146, 139);
+				contentPane.add(charDesc,0);
+
+				contentPane.revalidate();
+    			contentPane.repaint();
+			}
+        });
+
+		hands4.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+				cardFileName = "src/main/resources/com/aetherwars/" + cardHand.get(3).getImagePath();
+				setBorderHand(3);	
+				JPanel cardDescPic = new CardDescPhoto(cardFileName);
+				cardDescPic.setBounds(569, 408, 111, 145);
+				contentPane.add(cardDescPic,0);	
+				
+				JPanel charName = new CardDesc("CardInfo", cardHand.get(2));
+				charName.setBounds(690, 414, 146, 139);
+				contentPane.add(charName,0);
+						
+				JPanel charDesc = new CardDesc("CardDesc", cardHand.get(2));
+				charDesc.setBounds(837, 414, 146, 139);
+				contentPane.add(charDesc,0);
+
+				contentPane.revalidate();
+    			contentPane.repaint();
+			}
+        });
+
+		hands5.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+				cardFileName = "src/main/resources/com/aetherwars/" + cardHand.get(4).getImagePath();
+				setBorderHand(4);	
 				JPanel cardDescPic = new CardDescPhoto(cardFileName);
 				cardDescPic.setBounds(569, 408, 111, 145);
 				contentPane.add(cardDescPic,0);	
