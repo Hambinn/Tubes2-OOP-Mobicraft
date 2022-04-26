@@ -84,6 +84,7 @@ public class Player {
     }
     
     
+    
 
     public void removeCard(){
         int choice = 1; // ini harusnya input user buat kartu yg mau dibuang, cuman gatau cara dapet inputnya gmn?
