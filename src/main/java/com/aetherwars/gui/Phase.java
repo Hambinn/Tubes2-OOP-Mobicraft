@@ -1,9 +1,11 @@
 package com.aetherwars.gui;
 import java.awt.Font;
+import java.awt.Color;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
 
 public class Phase extends JPanel {
 
@@ -18,5 +20,4 @@ public class Phase extends JPanel {
 		phase.setFont(new Font("Cascadia Code", 1, 14));
 		add(phase);
 	}
-
 }

@@ -61,6 +61,10 @@ public abstract class Card {
         return 0;
     }
 
+    public Type getType(){
+        return Type.OVERWORLD;
+    }
+
     public String getSpellType(){
         return "";
     }

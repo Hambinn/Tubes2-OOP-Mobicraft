@@ -12,26 +12,44 @@ import com.aetherwars.player.Player;
 import com.aetherwars.board.*;
 import com.aetherwars.spell.*;
 import com.aetherwars.deck.*;
+import javax.swing.JFrame;
 
 public class AetherWars {
 
-  public static void start() {
-    CardCollection cardCollection = new CardCollection();
-    List<Card> morphsCards = cardCollection.getMorphSpellCollection();
-    List<Card> charCards = cardCollection.getCharacterCollection();
-    List<Card> potionsCards = cardCollection.getPtnSpellCollection();
-    List<Card> swapsCards = cardCollection.getSwapSpellCollection();
-    Player player1 = new Player("Steve", charCards, morphsCards, potionsCards, swapsCards);
-    Player player2 = new Player("John", charCards, morphsCards, potionsCards, swapsCards);
-    try {
-      MainGUI frame = new MainGUI(player1, player2);
-      frame.setVisible(true);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
+  // public static void start() {
+  //   CardCollection cardCollection = new CardCollection();
+  //   List<Card> morphsCards = cardCollection.getMorphSpellCollection();
+  //   List<Card> charCards = cardCollection.getCharacterCollection();
+  //   List<Card> potionsCards = cardCollection.getPtnSpellCollection();
+  //   List<Card> swapsCards = cardCollection.getSwapSpellCollection();
+  //   Player player1 = new Player("Steve", charCards, morphsCards, potionsCards, swapsCards);
+  //   Player player2 = new Player("John", charCards, morphsCards, potionsCards, swapsCards);
+  //   try {
+  //     MainGUI frame = new MainGUI(player1, player2);
+  //     frame.setVisible(true);
+  //   } catch (Exception e) {
+  //     e.printStackTrace();
+  //   }
+  // }
 	public static void main(String[] args) {
-    start();
+    java.awt.EventQueue.invokeLater(new Runnable() {
+      @Override
+      public void run() {
+          CardCollection cardCollection = new CardCollection();
+          List<Card> morphsCards = cardCollection.getMorphSpellCollection();
+          List<Card> charCards = cardCollection.getCharacterCollection();
+          List<Card> potionsCards = cardCollection.getPtnSpellCollection();
+          List<Card> swapsCards = cardCollection.getSwapSpellCollection();
+          List<Card> levelCards = cardCollection.getLevelSpellCollection();
+
+          Player player1 = new Player("Steve", charCards, morphsCards, potionsCards, swapsCards, levelCards);
+          Player player2 = new Player("John", charCards, morphsCards, potionsCards, swapsCards, levelCards);    
+          MainGUI frame = new MainGUI(player1, player2);         
+          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+          frame.setLocationRelativeTo(null);
+          frame.setVisible(true);
+      }
+  });
   }
 }
 // public class AetherWars extends Application {

@@ -75,8 +75,18 @@ public class BoardCard implements ActiveCharacter {
     }
 
     @Override
+    public @NotNull int getLevel() {
+        return level;
+    }
+
+    @Override
     public void levelUp() {
         changeLevel(level + 1);
+    }
+
+    @Override
+    public void levelDown() {
+        changeLevel(level - 1);
     }
 
     private boolean changeLevel(int newLevel) {

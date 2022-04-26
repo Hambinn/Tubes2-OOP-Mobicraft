@@ -20,7 +20,7 @@ public class Deck {
         this.jumlahKartu = 0;
     }
 
-    public Deck(List<Card> charCards, List<Card> morphCards, List<Card> swapCards, List<Card> ptnCards){
+    public Deck(List<Card> charCards, List<Card> morphCards, List<Card> swapCards, List<Card> ptnCards, List<Card> levelCards){
         this.kapasitasDeck = 60;
         this.deck = new Stack<Card>();
         this.jumlahKartu = 0;
@@ -29,26 +29,19 @@ public class Deck {
         addSomeCard(morphCards);
         addSomeCard(swapCards);
         addSomeCard(ptnCards);
+        addSomeCard(levelCards);
 
         int index1 = (int)(Math.random() * charCards.size());
-        int index2 = (int)(Math.random() * charCards.size());
         addCard(charCards.get(index1));
-        addCard(charCards.get(index2));
 
         index1 = (int)(Math.random() * morphCards.size());
-        index2 = (int)(Math.random() * morphCards.size());
         addCard(morphCards.get(index1));
-        addCard(morphCards.get(index2));
 
         index1 = (int)(Math.random() * swapCards.size());
-        index2 = (int)(Math.random() * swapCards.size());
         addCard(swapCards.get(index1));
-        addCard(swapCards.get(index2));
 
         index1 = (int)(Math.random() * ptnCards.size());
-        index2 = (int)(Math.random() * ptnCards.size());
         addCard(ptnCards.get(index1));
-        addCard(ptnCards.get(index2));
 
         shuffleDeck();
     }
@@ -76,6 +69,11 @@ public class Deck {
         return card;
     }
 
+    public Card getCardIndex(int index){
+        Card card = this.deck.get(index);
+        return card;
+    }
+
     public List<Card> getSomeCard(int amount) {
         List<Card> listCard = new ArrayList<Card>();
 
@@ -95,7 +93,7 @@ public class Deck {
     public void printDeck(){
         System.out.println("Deck : ");
         for (int i = 0; i < this.jumlahKartu; i++) {
-            System.out.println(this.deck.get(i));
+            System.out.println(this.deck.get(i).getName());
         }
     }
 
