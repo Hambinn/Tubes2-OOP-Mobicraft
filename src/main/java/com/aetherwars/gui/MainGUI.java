@@ -21,6 +21,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MainGUI extends JFrame {
+	private int indexCardClicked;
 	private int curr_round;
 	private String cardFileName;
 	private int choosenDrawCard;
@@ -205,7 +206,7 @@ public class MainGUI extends JFrame {
 				boardA1.setBounds(139, 81, 103, 125);
 				contentPane.add(boardA1,0);
 
-				cardHand.remove(0);
+				cardHand.remove(indexCardClicked);
 				handBackground = new JPanel();
 				handBackground.setBounds(12,405,550,200);
 				handBackground.setBackground(Color.DARK_GRAY);
@@ -223,6 +224,13 @@ public class MainGUI extends JFrame {
 				JPanel boardA2 = new Board(cardClicked, true, "A");
 				boardA2.setBounds(252, 81, 103, 125);
 				contentPane.add(boardA2,0);
+
+				cardHand.remove(indexCardClicked);
+				handBackground = new JPanel();
+				handBackground.setBounds(12,405,550,200);
+				handBackground.setBackground(Color.DARK_GRAY);
+				contentPane.add(handBackground,0);
+				setHands(player_1);
 				contentPane.revalidate();
 				contentPane.repaint();
 			}
@@ -233,6 +241,13 @@ public class MainGUI extends JFrame {
             public void mousePressed(MouseEvent e) {
 				JPanel boardA3 = new Board(cardClicked, true, "A");
 				boardA3.setBounds(139, 216, 103, 125);
+
+				cardHand.remove(indexCardClicked);
+				handBackground = new JPanel();
+				handBackground.setBounds(12,405,550,200);
+				handBackground.setBackground(Color.DARK_GRAY);
+				contentPane.add(handBackground,0);
+				setHands(player_1);
 				contentPane.add(boardA3,0);
 				contentPane.revalidate();
 				contentPane.repaint();
@@ -244,6 +259,14 @@ public class MainGUI extends JFrame {
             public void mousePressed(MouseEvent e) {
 				JPanel boardA4 = new Board(cardClicked, true, "A");
 				boardA4.setBounds(252, 216, 103, 125);
+
+				cardHand.remove(indexCardClicked);
+				handBackground = new JPanel();
+				handBackground.setBounds(12,405,550,200);
+				handBackground.setBackground(Color.DARK_GRAY);
+				contentPane.add(handBackground,0);
+				setHands(player_1);
+
 				contentPane.add(boardA4,0);
 				contentPane.revalidate();
 				contentPane.repaint();
@@ -255,6 +278,14 @@ public class MainGUI extends JFrame {
             public void mousePressed(MouseEvent e) {
 				JPanel boardA5 = new Board(cardClicked, true, "A");
 				boardA5.setBounds(365, 150, 103, 125);
+
+				cardHand.remove(indexCardClicked);
+				handBackground = new JPanel();
+				handBackground.setBounds(12,405,550,200);
+				handBackground.setBackground(Color.DARK_GRAY);
+				contentPane.add(handBackground,0);
+				setHands(player_1);
+				
 				contentPane.add(boardA5,0);
 				contentPane.revalidate();
 				contentPane.repaint();
@@ -656,6 +687,7 @@ public class MainGUI extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
 				cardFileName = "src/main/resources/com/aetherwars/" + cardHand.get(0).getImagePath();
+				indexCardClicked = 0;
 				cardClicked = cardHand.get(0);
 				setBorderHand(0);
 				JPanel cardDescPic = new CardDescPhoto(cardFileName);
@@ -679,6 +711,7 @@ public class MainGUI extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
 				cardFileName = "src/main/resources/com/aetherwars/" + cardHand.get(1).getImagePath();
+				indexCardClicked = 1;
 				cardClicked = cardHand.get(1);
 				setBorderHand(1);
 				JPanel cardDescPic = new CardDescPhoto(cardFileName);
@@ -702,6 +735,7 @@ public class MainGUI extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
 				cardFileName = "src/main/resources/com/aetherwars/" + cardHand.get(2).getImagePath();
+				indexCardClicked = 2;
 				cardClicked = cardHand.get(2);	
 				setBorderHand(2);
 				JPanel cardDescPic = new CardDescPhoto(cardFileName);
@@ -725,6 +759,7 @@ public class MainGUI extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
 				cardFileName = "src/main/resources/com/aetherwars/" + cardHand.get(3).getImagePath();
+				indexCardClicked = 3;
 				cardClicked = cardHand.get(3);
 				setBorderHand(3);	
 				JPanel cardDescPic = new CardDescPhoto(cardFileName);
@@ -748,6 +783,7 @@ public class MainGUI extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
 				cardFileName = "src/main/resources/com/aetherwars/" + cardHand.get(4).getImagePath();
+				indexCardClicked = 4;
 				cardClicked = cardHand.get(4);
 				setBorderHand(4);	
 				JPanel cardDescPic = new CardDescPhoto(cardFileName);
