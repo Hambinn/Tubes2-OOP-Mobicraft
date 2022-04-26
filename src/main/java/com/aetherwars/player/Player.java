@@ -77,11 +77,12 @@ public class Player {
         }
         this.topThree.clear();
         this.deck.shuffleDeck();
-    }   
+    }
+    
+    
 
     public void removeCard(){
         int choice = 1; // ini harusnya input user buat kartu yg mau dibuang, cuman gatau cara dapet inputnya gmn?
-        this.deck.addCard(this.playerHand.discardCard(choice-1));
         this.playerHand.discardCard(choice-1);
     }
 
