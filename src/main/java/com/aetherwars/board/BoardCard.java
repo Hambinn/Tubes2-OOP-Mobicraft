@@ -21,8 +21,8 @@ public class BoardCard implements ActiveCharacter {
         maxExp = Collections.unmodifiableMap(map);
     }
 
-    private @NotNull Character character;
     private final @NotNull Effects effects;
+    private @NotNull Character character;
     private int hp;
     private int atk;
     private int level;
@@ -75,7 +75,7 @@ public class BoardCard implements ActiveCharacter {
     }
 
     @Override
-    public @NotNull int getLevel() {
+    public int getLevel() {
         return level;
     }
 
@@ -126,6 +126,7 @@ public class BoardCard implements ActiveCharacter {
         int tmp = hp;
         setHp(atk);
         setAtk(tmp);
+        effects.swapBuffs();
     }
 
     @Override

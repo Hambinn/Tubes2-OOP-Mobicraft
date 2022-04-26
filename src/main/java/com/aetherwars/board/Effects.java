@@ -36,6 +36,12 @@ public class Effects implements Subscriber<EffectWornOutEvent> {
         }
     }
 
+    public void swapBuffs() {
+        for (Buff buff : buffs) {
+            buff.swapBuff();
+        }
+    }
+
     int calcAttackBuff() {
         return buffs.stream().mapToInt(Buff::getAttackBuff).reduce(0, Integer::sum);
     }
