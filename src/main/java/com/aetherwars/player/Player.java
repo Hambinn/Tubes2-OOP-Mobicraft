@@ -102,6 +102,10 @@ public class Player {
         this.health -= damage;
     }
 
+    public Deck getDeck(){
+        return this.deck;
+    }
+
     public int getSisaDeck(){
         return this.deck.getJumlahKartu();
     }

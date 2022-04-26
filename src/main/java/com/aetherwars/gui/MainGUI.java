@@ -39,6 +39,7 @@ public class MainGUI extends JFrame {
 	private List<Card> drawCard;
 	private Player player1;
 	private Player player2;
+	private JPanel handBackground;
 	private JPanel hands1;
 	private JPanel hands2;
 	private JPanel hands3;
@@ -52,9 +53,6 @@ public class MainGUI extends JFrame {
 	public MainGUI(Player player_1, Player player_2) {
 		this.player1 = player_1;
 		this.player2 = player_2;
-		cardHand = player1.getPlayerHand();
-		player1.fillTopThree();
-		drawCard = player1.getTopThree();
 		curr_phase = "DRAW";
 		curr_round = 1;
 		curr_turn = "PlayerA";
@@ -65,123 +63,6 @@ public class MainGUI extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
-		drawCard1 = new Hand(true, drawCard.get(0));
-		drawCard1.setBounds(373, 209, 103, 145);
-		drawCard1.setVisible(false);
-		drawCard1.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-				choosenDrawCard = 1;
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				drawCard1.setVisible(false);
-				drawCard2.setVisible(false);
-				drawCard3.setVisible(false);
-				shadowPanel.setVisible(false);
-				if (curr_turn.equals("PlayerA")) {
-					player1.drawCard(choosenDrawCard);
-					player1.fillTopThree();
-					drawCard = player1.getTopThree();
-					cardHand = player1.getPlayerHand();
-				} else {
-					player2.drawCard(choosenDrawCard);
-					player2.fillTopThree();
-					drawCard = player2.getTopThree();
-					cardHand = player2.getPlayerHand();
-				}
-				drawCard1 = new Hand(true, drawCard.get(0));
-				drawCard2 = new Hand(true, drawCard.get(1));
-				drawCard3 = new Hand(true, drawCard.get(2));
-				setHands();
-			}
-          });
-		contentPane.add(drawCard1);
-
-		drawCard2 = new Hand(true, drawCard.get(1));
-		drawCard2.setBounds(491, 209, 103, 145);
-		drawCard2.setVisible(false);
-		drawCard2.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-				choosenDrawCard = 2;
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				drawCard1.setVisible(false);
-				drawCard2.setVisible(false);
-				drawCard3.setVisible(false);
-				shadowPanel.setVisible(false);
-				if (curr_turn.equals("PlayerA")) {
-					player1.drawCard(choosenDrawCard);
-					player1.fillTopThree();
-					drawCard = player1.getTopThree();
-				} else {
-					player2.drawCard(choosenDrawCard);
-					player2.fillTopThree();
-					drawCard = player2.getTopThree();
-				}
-				drawCard1 = new Hand(true, drawCard.get(0));
-				drawCard2 = new Hand(true, drawCard.get(1));
-				drawCard3 = new Hand(true, drawCard.get(2));
-				setHands();
-			}
-          });
-		contentPane.add(drawCard2);
-
-		drawCard3 = new Hand(true, drawCard.get(2));
-		drawCard3.setBounds(609, 209, 103, 145);
-		drawCard3.setVisible(false);
-		drawCard3.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-				choosenDrawCard = 3;
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				drawCard1.setVisible(false);
-				drawCard2.setVisible(false);
-				drawCard3.setVisible(false);
-				shadowPanel.setVisible(false);
-				if (curr_turn.equals("PlayerA")) {
-					player1.drawCard(choosenDrawCard);
-					player1.fillTopThree();
-					drawCard = player1.getTopThree();
-				} else {
-					player2.drawCard(choosenDrawCard);
-					player2.fillTopThree();
-					drawCard = player2.getTopThree();
-				}				
-				drawCard1 = new Hand(true, drawCard.get(0));
-				drawCard2 = new Hand(true, drawCard.get(1));
-				drawCard3 = new Hand(true, drawCard.get(2));
-				setHands();
-			}
-          });
-		contentPane.add(drawCard3);
-		
-		shadowPanel = new JPanel();
-		shadowPanel.setBounds(0, 0, 1086, 563);
-		shadowPanel.setBackground(new Color(36, 36, 36, 230));
-		shadowPanel.setVisible(false);
-		contentPane.add(shadowPanel);
-		
-		JPanel avatarA = new CharIcon("src/main/java/com/aetherwars/gui/charicon1.png");
-		avatarA.setBackground(Color.WHITE);
-		avatarA.setBounds(9, 155, 120, 120);
-		contentPane.add(avatarA);
-		
-		JPanel avatarB = new CharIcon("src/main/java/com/aetherwars/gui/charicon2.png");
-		avatarB.setBackground(Color.WHITE);
-		avatarB.setBounds(956, 155, 120, 120);
-		contentPane.add(avatarB);
 		
 		JPanel boardA1 = new Board("src/main/java/com/aetherwars/gui/Piglin Brute.png", true, "A");
 		boardA1.setBounds(139, 81, 103, 125);
@@ -236,6 +117,8 @@ public class MainGUI extends JFrame {
 		phase.setFont(new Font("Cascadia Code", 1, 14));
 		nextRound.add(phase);
 		System.out.println(curr_phase);
+		playerTurnSign(0);
+		initialHand(player_1);
         nextRound.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -261,53 +144,24 @@ public class MainGUI extends JFrame {
 						curr_turn = "PlayerA";
 						curr_round++;
 					}
+					if (curr_turn == "PlayerA"){
+						initialHand(player_1);
+						playerTurnSign(0);
+					} else {
+						initialHand(player_2);
+						playerTurnSign(1);
+					}
                 }
 				curr_phase = next_phase;
+				setRound();
+				contentPane.revalidate();
+				contentPane.repaint();
 			}
           });
 		nextRound.setBorder(new LineBorder(new Color(0, 0, 0)));
 		nextRound.setBounds(956, 384, 73, 20);
 		contentPane.add(nextRound);
 
-		JPanel hands1 = new Hand(false, null);
-		hands1.setBounds(14, 408, 103, 145);
-		contentPane.add(hands1);
-		
-		JPanel hands2 = new Hand(false, null);
-		hands2.setBounds(119, 408, 103, 145);
-		contentPane.add(hands2);
-		
-		JPanel hands3 = new Hand(false, null);
-		hands3.setBounds(224, 408, 103, 145);
-		contentPane.add(hands3);
-		
-		JPanel hands4 = new Hand(false, null);
-		hands4.setBounds(329, 408, 103, 145);
-		contentPane.add(hands4);
-		
-		JPanel hands5 = new Hand(false, null);
-		hands5.setBounds(434, 408, 103, 145);
-		contentPane.add(hands5);
-
-		List<Card> cardHand = player1.getPlayerHand();
-		JPanel deck = new DeckShuffle(player1.getSisaDeck());
-		deck.setBounds(1011, 414, 65, 60);
-		contentPane.add(deck);
-		deck.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-				if (curr_phase == "DRAW"){
-					//show pop up
-					System.out.println("Deck clicked");
-					shadowPanel.setVisible(true);
-					drawCard1.setVisible(true);
-					drawCard2.setVisible(true);
-					drawCard3.setVisible(true);
-				}
-			}
-          });
-
-		setHands();
 		JPanel mana = new Mana();
 		mana.setBounds(1011, 479, 65, 60);
 		contentPane.add(mana);
@@ -340,19 +194,7 @@ public class MainGUI extends JFrame {
 		healthBarB.setBackground(Color.CYAN);
 		healthBarB.setBounds(596, 10, 480, 20);
 		contentPane.add(healthBarB);
-		
-		JPanel round = new JPanel();
-		round.setBounds(506, 10, 73, 60);
-		round.setLayout(null);
-		JLabel turn = new JLabel("Turn", SwingConstants.CENTER);
-		turn.setBounds(0,2,73,25);
-		turn.setFont(new Font("Cascadia Code", 0, 16));
-		JLabel turnNumber = new JLabel("1", SwingConstants.CENTER);
-		turnNumber.setBounds(0,25,73,25);
-		turnNumber.setFont(new Font("Cascadia Code", 0, 16));
-		round.add(turn);
-		round.add(turnNumber);
-		contentPane.add(round);
+
 		
 		JLabel playerAName = new JLabel(player1.getName(), SwingConstants.LEFT);
 		playerAName.setForeground(Color.CYAN);
@@ -368,166 +210,379 @@ public class MainGUI extends JFrame {
 		contentPane.repaint();
 	}
 
+	public void playerTurnSign(int index){
+		JPanel avatarA = new CharIcon("src/main/java/com/aetherwars/gui/charicon1.png");
+		avatarA.setBackground(Color.WHITE);
+		avatarA.setBounds(9, 155, 120, 120);
+		
+		JPanel avatarB = new CharIcon("src/main/java/com/aetherwars/gui/charicon2.png");
+		avatarB.setBackground(Color.WHITE);
+		avatarB.setBounds(956, 155, 120, 120);
+		
+		if (index == 0){
+			avatarA.setBorder(new LineBorder(Color.GREEN));
+			avatarB.setBorder(null);
+		} else {
+			avatarA.setBorder(null);
+			avatarB.setBorder(new LineBorder(Color.GREEN));
+		}
+		contentPane.add(avatarA,0);
+		contentPane.add(avatarB,0);
+		contentPane.revalidate();
+		contentPane.repaint();
+	}
+
+	public void initialHand(Player player){
+		System.out.println(player.getName());
+
+		
+		JPanel deck = new DeckShuffle(player.getSisaDeck());
+		deck.setBounds(1011, 414, 65, 60);
+		contentPane.add(deck,0);
+
+		cardHand = player.getPlayerHand();
+		player.fillTopThree();
+		drawCard = player.getTopThree();
+		System.out.println(cardHand.get(0).getName());
+
+		handBackground = new JPanel();
+		handBackground.setBounds(12,405,550,200);
+		handBackground.setBackground(Color.DARK_GRAY);
+		contentPane.add(handBackground,0);
+
+		setHands(player);
+
+		shadowPanel = new JPanel();
+		shadowPanel.setBounds(0, 0, 1086, 563);
+		shadowPanel.setBackground(new Color(36, 36, 36, 230));
+		shadowPanel.setVisible(false);
+		contentPane.add(shadowPanel,0);
+
+		drawCard1 = new Hand(true, drawCard.get(0));
+		drawCard1.setBounds(373, 209, 103, 145);
+		drawCard1.setVisible(false);
+		drawCard1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+				choosenDrawCard = 1;
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				drawCard1.setVisible(false);
+				drawCard2.setVisible(false);
+				drawCard3.setVisible(false);
+				shadowPanel.setVisible(false);
+				player.drawCard(choosenDrawCard);
+				// player.fillTopThree();
+				// drawCard = player.getTopThree();
+				// cardHand = player.getPlayerHand();
+				// drawCard1 = new Hand(true, drawCard.get(0));
+				// drawCard2 = new Hand(true, drawCard.get(1));
+				// drawCard3 = new Hand(true, drawCard.get(2));
+				setHands(player);
+
+				JPanel deck = new DeckShuffle(player.getSisaDeck());
+				deck.setBounds(1011, 414, 65, 60);
+				contentPane.add(deck,0);
+
+				System.out.println("\nSetelah Draw");
+				// player.getDeck().printDeck();
+			}
+          });
+		contentPane.add(drawCard1,0);
+
+		drawCard2 = new Hand(true, drawCard.get(1));
+		drawCard2.setBounds(491, 209, 103, 145);
+		drawCard2.setVisible(false);
+		drawCard2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+				choosenDrawCard = 2;
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				drawCard1.setVisible(false);
+				drawCard2.setVisible(false);
+				drawCard3.setVisible(false);
+				shadowPanel.setVisible(false);
+				player.drawCard(choosenDrawCard);
+				// player.fillTopThree();
+				// drawCard = player.getTopThree();
+				// cardHand = player.getPlayerHand();
+				// drawCard1 = new Hand(true, drawCard.get(0));
+				// drawCard2 = new Hand(true, drawCard.get(1));
+				// drawCard3 = new Hand(true, drawCard.get(2));
+				setHands(player);
+
+				JPanel deck = new DeckShuffle(player.getSisaDeck());
+				deck.setBounds(1011, 414, 65, 60);
+				contentPane.add(deck,0);
+			}
+          });
+		contentPane.add(drawCard2,0);
+
+		drawCard3 = new Hand(true, drawCard.get(2));
+		drawCard3.setBounds(609, 209, 103, 145);
+		drawCard3.setVisible(false);
+		drawCard3.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+				choosenDrawCard = 3;
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				drawCard1.setVisible(false);
+				drawCard2.setVisible(false);
+				drawCard3.setVisible(false);
+				shadowPanel.setVisible(false);
+				player.drawCard(choosenDrawCard);
+				// player.fillTopThree();
+				// drawCard = player.getTopThree();
+				// cardHand = player.getPlayerHand();			
+				// drawCard1 = new Hand(true, drawCard.get(0));
+				// drawCard2 = new Hand(true, drawCard.get(1));
+				// drawCard3 = new Hand(true, drawCard.get(2));
+				setHands(player);
+
+				JPanel deck = new DeckShuffle(player.getSisaDeck());
+				deck.setBounds(1011, 414, 65, 60);
+				contentPane.add(deck,0);
+				
+			}
+          });
+		contentPane.add(drawCard3,0);
+
+		// player.getDeck().printDeck();
+
+		System.out.println(player.getTopThree().get(0).getName());
+		System.out.println(player.getTopThree().get(1).getName());
+		System.out.println(player.getTopThree().get(2).getName());
+
+
+
+		JPanel hands1 = new Hand(false, null);
+		hands1.setBounds(14, 408, 103, 145);
+		contentPane.add(hands1);
+		
+		JPanel hands2 = new Hand(false, null);
+		hands2.setBounds(119, 408, 103, 145);
+		contentPane.add(hands2);
+		
+		JPanel hands3 = new Hand(false, null);
+		hands3.setBounds(224, 408, 103, 145);
+		contentPane.add(hands3);
+		
+		JPanel hands4 = new Hand(false, null);
+		hands4.setBounds(329, 408, 103, 145);
+		contentPane.add(hands4);
+		
+		JPanel hands5 = new Hand(false, null);
+		hands5.setBounds(434, 408, 103, 145);
+		contentPane.add(hands5);
+
+		deck.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+				if (curr_phase == "DRAW"){
+					//show pop up
+					System.out.println("Deck clicked");
+					shadowPanel.setVisible(true);
+					drawCard1.setVisible(true);
+					drawCard2.setVisible(true);
+					drawCard3.setVisible(true);
+				}
+			}
+          });
+		contentPane.revalidate();
+		contentPane.repaint();
+	}
+
+	public void setRound(){
+		JPanel round = new JPanel();
+		round.setBounds(500, 10, 85, 75);
+		round.setLayout(null);
+		JLabel turn = new JLabel("Turn", SwingConstants.CENTER);
+		turn.setBounds(0,2,85,25);
+		turn.setFont(new Font("Cascadia Code", 0, 16));
+		JLabel turnNumber = new JLabel(Integer.toString(curr_round), SwingConstants.CENTER);
+		turnNumber.setBounds(0,25,85,25);
+		turnNumber.setFont(new Font("Cascadia Code", 0, 16));
+		JLabel turnPlayer = new JLabel(curr_turn, SwingConstants.CENTER);
+		turnPlayer.setBounds(0,45,85,25);
+		turnPlayer.setFont(new Font("Cascadia Code", 0, 16));
+		round.add(turn);
+		round.add(turnNumber);
+		round.add(turnPlayer);
+		contentPane.add(round,0);
+	}
+
 	public void setBorderHand(int index){
 		if (index == 0){
-			hands1.setBorder(new LineBorder(Color.BLUE));
+			hands1.setBorder(new LineBorder(Color.GREEN));
 			hands2.setBorder(null);
 			hands3.setBorder(null);
 			hands4.setBorder(null);
 			hands5.setBorder(null);
 		} else if (index == 1){
 			hands1.setBorder(null);
-			hands2.setBorder(new LineBorder(Color.BLUE));
+			hands2.setBorder(new LineBorder(Color.GREEN));
 			hands3.setBorder(null);
 			hands4.setBorder(null);
 			hands5.setBorder(null);
 		}else if (index == 2){
 			hands1.setBorder(null);
 			hands2.setBorder(null);
-			hands3.setBorder(new LineBorder(Color.BLUE));
+			hands3.setBorder(new LineBorder(Color.GREEN));
 			hands4.setBorder(null);
 			hands5.setBorder(null);
 		}else if (index == 3){
 			hands1.setBorder(null);
 			hands2.setBorder(null);
 			hands3.setBorder(null);
-			hands4.setBorder(new LineBorder(Color.BLUE));
+			hands4.setBorder(new LineBorder(Color.GREEN));
 			hands5.setBorder(null);
 		}else if (index == 4){
 			hands1.setBorder(null);
 			hands2.setBorder(null);
 			hands3.setBorder(null);
 			hands4.setBorder(null);
-			hands5.setBorder(new LineBorder(Color.BLUE));
+			hands5.setBorder(new LineBorder(Color.GREEN));
 		}
 	}
 
-	public void setHands() {
+	public void setHands(Player player) {
+		cardHand = player.getPlayerHand();
 		if (cardHand.size() == 0) {
 			hands1 = new Hand(false, null);
 			hands1.setBounds(14, 408, 103, 145);
-			contentPane.add(hands1);
+			contentPane.add(hands1,0);
 			
 			hands2 = new Hand(false, null);
 			hands2.setBounds(119, 408, 103, 145);
-			contentPane.add(hands2);
+			contentPane.add(hands2,0);
 			
 			hands3 = new Hand(false, null);
 			hands3.setBounds(224, 408, 103, 145);
-			contentPane.add(hands3);
+			contentPane.add(hands3,0);
 			
 			hands4 = new Hand(false, null);
 			hands4.setBounds(329, 408, 103, 145);
-			contentPane.add(hands4);
+			contentPane.add(hands4,0);
 			
 			hands5 = new Hand(false, null);
 			hands5.setBounds(434, 408, 103, 145);
-			contentPane.add(hands5);	
+			contentPane.add(hands5,0);	
 		}
 		else if (cardHand.size() == 1) {
 			hands1 = new Hand(true, cardHand.get(0));
 			hands1.setBounds(14, 408, 103, 145);
-			contentPane.add(hands1);
+			contentPane.add(hands1,0);
 			
 			hands2 = new Hand(false, null);
 			hands2.setBounds(119, 408, 103, 145);
-			contentPane.add(hands2);
+			contentPane.add(hands2,0);
 			
 			hands3 = new Hand(false, null);
 			hands3.setBounds(224, 408, 103, 145);
-			contentPane.add(hands3);
+			contentPane.add(hands3,0);
 			
 			hands4 = new Hand(false, null);
 			hands4.setBounds(329, 408, 103, 145);
-			contentPane.add(hands4);
+			contentPane.add(hands4,0);
 			
 			hands5 = new Hand(false, null);
 			hands5.setBounds(434, 408, 103, 145);
-			contentPane.add(hands5);
+			contentPane.add(hands5,0);
 		}
 		else if (cardHand.size() == 2) {
 			hands1 = new Hand(true, cardHand.get(0));
 			hands1.setBounds(14, 408, 103, 145);
-			contentPane.add(hands1);
+			contentPane.add(hands1,0);
 			
 			hands2 = new Hand(true, cardHand.get(1));
 			hands2.setBounds(119, 408, 103, 145);
-			contentPane.add(hands2);
+			contentPane.add(hands2,0);
 			
 			hands3 = new Hand(false, null);
 			hands3.setBounds(224, 408, 103, 145);
-			contentPane.add(hands3);
+			contentPane.add(hands3,0);
 			
 			hands4 = new Hand(false, null);
 			hands4.setBounds(329, 408, 103, 145);
-			contentPane.add(hands4);
+			contentPane.add(hands4,0);
 			
 			hands5 = new Hand(false, null);
 			hands5.setBounds(434, 408, 103, 145);
-			contentPane.add(hands5);
+			contentPane.add(hands5,0);
 		}
 		else if (cardHand.size() == 3) {
 			hands1 = new Hand(true, cardHand.get(0));
 			hands1.setBounds(14, 408, 103, 145);
-			contentPane.add(hands1);
+			contentPane.add(hands1,0);
 			
 			hands2 = new Hand(true, cardHand.get(1));
 			hands2.setBounds(119, 408, 103, 145);
-			contentPane.add(hands2);
+			contentPane.add(hands2,0);
 			
 			hands3 = new Hand(true, cardHand.get(2));
 			hands3.setBounds(224, 408, 103, 145);
-			contentPane.add(hands3);
+			contentPane.add(hands3,0);
 			
 			hands4 = new Hand(false, null);
 			hands4.setBounds(329, 408, 103, 145);
-			contentPane.add(hands4);
+			contentPane.add(hands4,0);
 			
 			hands5 = new Hand(false, null);
 			hands5.setBounds(434, 408, 103, 145);
-			contentPane.add(hands5);
+			contentPane.add(hands5,0);
 		}
 		else if (cardHand.size() == 4) {
 			hands1 = new Hand(true, cardHand.get(0));
 			hands1.setBounds(14, 408, 103, 145);
-			contentPane.add(hands1);
+			contentPane.add(hands1,0);
 			
 			hands2 = new Hand(true, cardHand.get(1));
 			hands2.setBounds(119, 408, 103, 145);
-			contentPane.add(hands2);
+			contentPane.add(hands2,0);
 			
 			hands3 = new Hand(true, cardHand.get(2));
 			hands3.setBounds(224, 408, 103, 145);
-			contentPane.add(hands3);
+			contentPane.add(hands3,0);
 			
 			hands4 = new Hand(true, cardHand.get(3));
 			hands4.setBounds(329, 408, 103, 145);
-			contentPane.add(hands4);
+			contentPane.add(hands4,0);
 			
 			hands5 = new Hand(false, null);
 			hands5.setBounds(434, 408, 103, 145);
-			contentPane.add(hands5);
+			contentPane.add(hands5,0);
 		}
 		else if (cardHand.size() == 5) {
 			hands1 = new Hand(true, cardHand.get(0));
 			hands1.setBounds(14, 408, 103, 145);
-			contentPane.add(hands1);
+			contentPane.add(hands1,0);
 			
 			hands2 = new Hand(true, cardHand.get(1));
 			hands2.setBounds(119, 408, 103, 145);
-			contentPane.add(hands2);
+			contentPane.add(hands2,0);
 			
 			hands3 = new Hand(true, cardHand.get(2));
 			hands3.setBounds(224, 408, 103, 145);
-			contentPane.add(hands3);
+			contentPane.add(hands3,0);
 			
 			hands4 = new Hand(true, cardHand.get(3));
 			hands4.setBounds(329, 408, 103, 145);
-			contentPane.add(hands4);
+			contentPane.add(hands4,0);
 			
 			hands5 = new Hand(true, cardHand.get(4));
 			hands5.setBounds(434, 408, 103, 145);
-			contentPane.add(hands5);
+			contentPane.add(hands5,0);
 		}		
 		cardFileName = "src/main/resources/com/aetherwars/" + cardHand.get(0).getImagePath();
 
@@ -618,11 +673,11 @@ public class MainGUI extends JFrame {
 				cardDescPic.setBounds(569, 408, 111, 145);
 				contentPane.add(cardDescPic,0);	
 				
-				JPanel charName = new CardDesc("CardInfo", cardHand.get(2));
+				JPanel charName = new CardDesc("CardInfo", cardHand.get(3));
 				charName.setBounds(690, 414, 146, 139);
 				contentPane.add(charName,0);
 						
-				JPanel charDesc = new CardDesc("CardDesc", cardHand.get(2));
+				JPanel charDesc = new CardDesc("CardDesc", cardHand.get(3));
 				charDesc.setBounds(837, 414, 146, 139);
 				contentPane.add(charDesc,0);
 
@@ -640,11 +695,11 @@ public class MainGUI extends JFrame {
 				cardDescPic.setBounds(569, 408, 111, 145);
 				contentPane.add(cardDescPic,0);	
 				
-				JPanel charName = new CardDesc("CardInfo", cardHand.get(2));
+				JPanel charName = new CardDesc("CardInfo", cardHand.get(4));
 				charName.setBounds(690, 414, 146, 139);
 				contentPane.add(charName,0);
 						
-				JPanel charDesc = new CardDesc("CardDesc", cardHand.get(2));
+				JPanel charDesc = new CardDesc("CardDesc", cardHand.get(4));
 				charDesc.setBounds(837, 414, 146, 139);
 				contentPane.add(charDesc,0);
 
@@ -653,9 +708,6 @@ public class MainGUI extends JFrame {
 			}
         });
 		
-		JPanel deck = new DeckShuffle(player1.getSisaDeck());
-		deck.setBounds(1011, 414, 65, 60);
-		contentPane.add(deck);
 		
 		JPanel mana = new Mana();
 		mana.setBounds(1011, 479, 65, 60);
@@ -689,19 +741,21 @@ public class MainGUI extends JFrame {
 		healthBarB.setBackground(Color.CYAN);
 		healthBarB.setBounds(596, 10, 480, 20);
 		contentPane.add(healthBarB);
+
+		setRound();
 		
-		JPanel round = new JPanel();
-		round.setBounds(506, 10, 73, 60);
-		round.setLayout(null);
-		JLabel turn = new JLabel("Turn", SwingConstants.CENTER);
-		turn.setBounds(0,2,73,25);
-		turn.setFont(new Font("Cascadia Code", 0, 16));
-		JLabel turnNumber = new JLabel("1", SwingConstants.CENTER);
-		turnNumber.setBounds(0,25,73,25);
-		turnNumber.setFont(new Font("Cascadia Code", 0, 16));
-		round.add(turn);
-		round.add(turnNumber);
-		contentPane.add(round);
+		// JPanel round = new JPanel();
+		// round.setBounds(506, 10, 73, 60);
+		// round.setLayout(null);
+		// JLabel turn = new JLabel("Turn", SwingConstants.CENTER);
+		// turn.setBounds(0,2,73,25);
+		// turn.setFont(new Font("Cascadia Code", 0, 16));
+		// JLabel turnNumber = new JLabel("1", SwingConstants.CENTER);
+		// turnNumber.setBounds(0,25,73,25);
+		// turnNumber.setFont(new Font("Cascadia Code", 0, 16));
+		// round.add(turn);
+		// round.add(turnNumber);
+		// contentPane.add(round);
 		
 		JLabel playerAName = new JLabel(player1.getName(), SwingConstants.LEFT);
 		playerAName.setForeground(Color.CYAN);
@@ -714,6 +768,7 @@ public class MainGUI extends JFrame {
 		playerBName.setFont(new Font("OCR A Extended", Font.PLAIN, 14));
 		playerBName.setBounds(992, 33, 73, 37);
 		contentPane.add(playerBName);
+		contentPane.revalidate();
 		contentPane.repaint();
 	}
 }

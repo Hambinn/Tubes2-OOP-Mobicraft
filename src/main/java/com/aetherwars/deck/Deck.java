@@ -69,6 +69,11 @@ public class Deck {
         return card;
     }
 
+    public Card getCardIndex(int index){
+        Card card = this.deck.get(index);
+        return card;
+    }
+
     public List<Card> getSomeCard(int amount) {
         List<Card> listCard = new ArrayList<Card>();
 
@@ -88,7 +93,7 @@ public class Deck {
     public void printDeck(){
         System.out.println("Deck : ");
         for (int i = 0; i < this.jumlahKartu; i++) {
-            System.out.println(this.deck.get(i));
+            System.out.println(this.deck.get(i).getName());
         }
     }
 
