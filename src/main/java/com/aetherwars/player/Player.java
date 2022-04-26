@@ -59,6 +59,10 @@ public class Player {
         return this.playerHand.getCard(index);
     }
 
+    public Board getBoard() {
+        return this.board;
+    }
+
     public void fillTopThree(){
         for(int i = 0; i < 3; i++) {
             this.topThree.add(this.deck.getCard());
@@ -109,6 +113,10 @@ public class Player {
 
     public int getSisaDeck(){
         return this.deck.getJumlahKartu();
+    }
+
+    public void setMana(int usedMana){
+        this.mana += usedMana;
     }
     // public void summonCard(int cardChoice, int position){
     //     if(this.playerHand.getCard(cardChoice).getTypeCard().equals("Character")){
