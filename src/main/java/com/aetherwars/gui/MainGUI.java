@@ -1,7 +1,5 @@
 package com.aetherwars.gui;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -23,6 +21,7 @@ import java.awt.event.MouseEvent;
 
 public class MainGUI extends JFrame {
 	private int curr_round;
+	private String cardFileName;
 	private String curr_turn;
 	private String next_phase;
 	private String curr_phase;
@@ -38,6 +37,7 @@ public class MainGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public MainGUI(Player player1, Player player2) {
+
 		curr_phase = "DRAW";
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -140,144 +140,230 @@ public class MainGUI extends JFrame {
 		nextRound.setBounds(956, 384, 73, 20);
 		contentPane.add(nextRound);
 
+		JPanel hands1 = new Hand(false, null);
+		hands1.setBounds(14, 408, 103, 145);
+		contentPane.add(hands1);
+		
+		JPanel hands2 = new Hand(false, null);
+		hands2.setBounds(119, 408, 103, 145);
+		contentPane.add(hands2);
+		
+		JPanel hands3 = new Hand(false, null);
+		hands3.setBounds(224, 408, 103, 145);
+		contentPane.add(hands3);
+		
+		JPanel hands4 = new Hand(false, null);
+		hands4.setBounds(329, 408, 103, 145);
+		contentPane.add(hands4);
+		
+		JPanel hands5 = new Hand(false, null);
+		hands5.setBounds(434, 408, 103, 145);
+		contentPane.add(hands5);
+
 		List<Card> cardHand = player1.getPlayerHand();
 		if (cardHand.size() == 0) {
-			JPanel hands1 = new Hand(false, null);
+			hands1 = new Hand(false, null);
 			hands1.setBounds(14, 408, 103, 145);
 			contentPane.add(hands1);
 			
-			JPanel hands2 = new Hand(false, null);
+			hands2 = new Hand(false, null);
 			hands2.setBounds(119, 408, 103, 145);
 			contentPane.add(hands2);
 			
-			JPanel hands3 = new Hand(false, null);
+			hands3 = new Hand(false, null);
 			hands3.setBounds(224, 408, 103, 145);
 			contentPane.add(hands3);
 			
-			JPanel hands4 = new Hand(false, null);
+			hands4 = new Hand(false, null);
 			hands4.setBounds(329, 408, 103, 145);
 			contentPane.add(hands4);
 			
-			JPanel hands5 = new Hand(false, null);
+			hands5 = new Hand(false, null);
 			hands5.setBounds(434, 408, 103, 145);
 			contentPane.add(hands5);	
 		}
 		else if (cardHand.size() == 1) {
-			JPanel hands1 = new Hand(true, cardHand.get(0));
+			hands1 = new Hand(true, cardHand.get(0));
 			hands1.setBounds(14, 408, 103, 145);
 			contentPane.add(hands1);
 			
-			JPanel hands2 = new Hand(false, null);
+			hands2 = new Hand(false, null);
 			hands2.setBounds(119, 408, 103, 145);
 			contentPane.add(hands2);
 			
-			JPanel hands3 = new Hand(false, null);
+			hands3 = new Hand(false, null);
 			hands3.setBounds(224, 408, 103, 145);
 			contentPane.add(hands3);
 			
-			JPanel hands4 = new Hand(false, null);
+			hands4 = new Hand(false, null);
 			hands4.setBounds(329, 408, 103, 145);
 			contentPane.add(hands4);
 			
-			JPanel hands5 = new Hand(false, null);
+			hands5 = new Hand(false, null);
 			hands5.setBounds(434, 408, 103, 145);
 			contentPane.add(hands5);
 		}
 		else if (cardHand.size() == 2) {
-			JPanel hands1 = new Hand(true, cardHand.get(0));
+			hands1 = new Hand(true, cardHand.get(0));
 			hands1.setBounds(14, 408, 103, 145);
 			contentPane.add(hands1);
 			
-			JPanel hands2 = new Hand(true, cardHand.get(1));
+			hands2 = new Hand(true, cardHand.get(1));
 			hands2.setBounds(119, 408, 103, 145);
 			contentPane.add(hands2);
 			
-			JPanel hands3 = new Hand(false, null);
+			hands3 = new Hand(false, null);
 			hands3.setBounds(224, 408, 103, 145);
 			contentPane.add(hands3);
 			
-			JPanel hands4 = new Hand(false, null);
+			hands4 = new Hand(false, null);
 			hands4.setBounds(329, 408, 103, 145);
 			contentPane.add(hands4);
 			
-			JPanel hands5 = new Hand(false, null);
+			hands5 = new Hand(false, null);
 			hands5.setBounds(434, 408, 103, 145);
 			contentPane.add(hands5);
 		}
 		else if (cardHand.size() == 3) {
-			JPanel hands1 = new Hand(true, cardHand.get(0));
+			hands1 = new Hand(true, cardHand.get(0));
 			hands1.setBounds(14, 408, 103, 145);
 			contentPane.add(hands1);
 			
-			JPanel hands2 = new Hand(true, cardHand.get(1));
+			hands2 = new Hand(true, cardHand.get(1));
 			hands2.setBounds(119, 408, 103, 145);
 			contentPane.add(hands2);
 			
-			JPanel hands3 = new Hand(true, cardHand.get(2));
+			hands3 = new Hand(true, cardHand.get(2));
 			hands3.setBounds(224, 408, 103, 145);
 			contentPane.add(hands3);
 			
-			JPanel hands4 = new Hand(false, null);
+			hands4 = new Hand(false, null);
 			hands4.setBounds(329, 408, 103, 145);
 			contentPane.add(hands4);
 			
-			JPanel hands5 = new Hand(false, null);
+			hands5 = new Hand(false, null);
 			hands5.setBounds(434, 408, 103, 145);
 			contentPane.add(hands5);
 		}
 		else if (cardHand.size() == 4) {
-			JPanel hands1 = new Hand(true, cardHand.get(0));
+			hands1 = new Hand(true, cardHand.get(0));
 			hands1.setBounds(14, 408, 103, 145);
 			contentPane.add(hands1);
 			
-			JPanel hands2 = new Hand(true, cardHand.get(1));
+			hands2 = new Hand(true, cardHand.get(1));
 			hands2.setBounds(119, 408, 103, 145);
 			contentPane.add(hands2);
 			
-			JPanel hands3 = new Hand(true, cardHand.get(2));
+			hands3 = new Hand(true, cardHand.get(2));
 			hands3.setBounds(224, 408, 103, 145);
 			contentPane.add(hands3);
 			
-			JPanel hands4 = new Hand(true, cardHand.get(3));
+			hands4 = new Hand(true, cardHand.get(3));
 			hands4.setBounds(329, 408, 103, 145);
 			contentPane.add(hands4);
 			
-			JPanel hands5 = new Hand(false, null);
+			hands5 = new Hand(false, null);
 			hands5.setBounds(434, 408, 103, 145);
 			contentPane.add(hands5);
 		}
 		else if (cardHand.size() == 5) {
-			JPanel hands1 = new Hand(true, cardHand.get(0));
+			hands1 = new Hand(true, cardHand.get(0));
 			hands1.setBounds(14, 408, 103, 145);
 			contentPane.add(hands1);
 			
-			JPanel hands2 = new Hand(true, cardHand.get(1));
+			hands2 = new Hand(true, cardHand.get(1));
 			hands2.setBounds(119, 408, 103, 145);
 			contentPane.add(hands2);
 			
-			JPanel hands3 = new Hand(true, cardHand.get(2));
+			hands3 = new Hand(true, cardHand.get(2));
 			hands3.setBounds(224, 408, 103, 145);
 			contentPane.add(hands3);
 			
-			JPanel hands4 = new Hand(true, cardHand.get(3));
+			hands4 = new Hand(true, cardHand.get(3));
 			hands4.setBounds(329, 408, 103, 145);
 			contentPane.add(hands4);
 			
-			JPanel hands5 = new Hand(true, cardHand.get(4));
+			hands5 = new Hand(true, cardHand.get(4));
 			hands5.setBounds(434, 408, 103, 145);
 			contentPane.add(hands5);
 		}		
-		JPanel cardDescPic = new CardDescPhoto("src/main/java/com/aetherwars/gui/Piglin Brute.png");
+		cardFileName = "src/main/resources/com/aetherwars/" + cardHand.get(0).getImagePath();
+
+		JPanel cardDescPic = new CardDescPhoto(cardFileName);
 		cardDescPic.setBounds(569, 408, 111, 145);
-		contentPane.add(cardDescPic);
-		
-		JPanel charName = new CardDesc("CardInfo");
+		contentPane.add(cardDescPic);		
+
+		JPanel charName = new CardDesc("CardInfo", cardHand.get(0));
 		charName.setBounds(690, 414, 146, 139);
 		contentPane.add(charName);
-		
-		JPanel charDesc = new CardDesc("CardDesc");
+
+		JPanel charDesc = new CardDesc("CardDesc", cardHand.get(0));
 		charDesc.setBounds(837, 414, 146, 139);
 		contentPane.add(charDesc);
+
+		hands1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+				cardFileName = "src/main/resources/com/aetherwars/" + cardHand.get(0).getImagePath();
+				// hands2.setBorder(new LineBorder(Color.BLUE));
+				JPanel cardDescPic = new CardDescPhoto(cardFileName);
+				cardDescPic.setBounds(569, 408, 111, 145);
+				contentPane.add(cardDescPic,0);	
+				
+				JPanel charName = new CardDesc("CardInfo", cardHand.get(0));
+				charName.setBounds(690, 414, 146, 139);
+				contentPane.add(charName,0);
+						
+				JPanel charDesc = new CardDesc("CardDesc", cardHand.get(0));
+				charDesc.setBounds(837, 414, 146, 139);
+				contentPane.add(charDesc,0);
+
+				contentPane.revalidate();
+    			contentPane.repaint();
+			}
+        });
+
+		hands2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+				cardFileName = "src/main/resources/com/aetherwars/" + cardHand.get(1).getImagePath();
+				JPanel cardDescPic = new CardDescPhoto(cardFileName);
+				cardDescPic.setBounds(569, 408, 111, 145);
+				contentPane.add(cardDescPic,0);	
+
+				JPanel charName = new CardDesc("CardInfo", cardHand.get(1));
+				charName.setBounds(690, 414, 146, 139);
+				contentPane.add(charName,0);
+						
+				JPanel charDesc = new CardDesc("CardDesc", cardHand.get(1));
+				charDesc.setBounds(837, 414, 146, 139);
+				contentPane.add(charDesc,0);
+					
+				contentPane.revalidate();
+    			contentPane.repaint();
+			}
+        });
+
+		hands3.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+				cardFileName = "src/main/resources/com/aetherwars/" + cardHand.get(2).getImagePath();	
+				JPanel cardDescPic = new CardDescPhoto(cardFileName);
+				cardDescPic.setBounds(569, 408, 111, 145);
+				contentPane.add(cardDescPic,0);	
+				
+				JPanel charName = new CardDesc("CardInfo", cardHand.get(2));
+				charName.setBounds(690, 414, 146, 139);
+				contentPane.add(charName,0);
+						
+				JPanel charDesc = new CardDesc("CardDesc", cardHand.get(2));
+				charDesc.setBounds(837, 414, 146, 139);
+				contentPane.add(charDesc,0);
+
+				contentPane.revalidate();
+    			contentPane.repaint();
+			}
+        });
 		
 		JPanel deck = new DeckShuffle(player1.getSisaDeck());
 		deck.setBounds(1011, 414, 65, 60);
