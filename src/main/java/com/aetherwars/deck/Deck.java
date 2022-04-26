@@ -32,29 +32,16 @@ public class Deck {
         addSomeCard(levelCards);
 
         int index1 = (int)(Math.random() * charCards.size());
-        int index2 = (int)(Math.random() * charCards.size());
         addCard(charCards.get(index1));
-        addCard(charCards.get(index2));
 
         index1 = (int)(Math.random() * morphCards.size());
-        index2 = (int)(Math.random() * morphCards.size());
         addCard(morphCards.get(index1));
-        addCard(morphCards.get(index2));
 
         index1 = (int)(Math.random() * swapCards.size());
-        index2 = (int)(Math.random() * swapCards.size());
         addCard(swapCards.get(index1));
-        addCard(swapCards.get(index2));
 
         index1 = (int)(Math.random() * ptnCards.size());
-        index2 = (int)(Math.random() * ptnCards.size());
         addCard(ptnCards.get(index1));
-        addCard(ptnCards.get(index2));
-
-        index1 = (int)(Math.random() * levelCards.size());
-        index2 = (int)(Math.random() * levelCards.size());
-        addCard(levelCards.get(index1));
-        addCard(levelCards.get(index2));
 
         shuffleDeck();
     }

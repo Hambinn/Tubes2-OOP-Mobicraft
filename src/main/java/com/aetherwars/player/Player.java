@@ -20,14 +20,14 @@ public class Player {
     private List<Card> topThree;
     
 
-    public Player(String name, List<Card> charCards, List<Card> morphCards, List<Card> spellCards, List<Card> ptnCards, List<Card> levelCards) {
+    public Player(String name, List<Card> charCards, List<Card> morphCards, List<Card> swapCards, List<Card> ptnCards, List<Card> levelCards) {
         this.name = name;
         this.health = 80;
         this.mana = this.round;
         this.round = 0;
         this.playerHand = new PlayerHand();
 
-        this.deck = new Deck(charCards, morphCards, spellCards, ptnCards, levelCards);
+        this.deck = new Deck(charCards, morphCards, swapCards, ptnCards, levelCards);
         this.deck.shuffleDeck();
 
         for(int i = 0; i < 3; i++) {
