@@ -34,7 +34,7 @@ public class MainGUI extends JFrame {
 	private JPanel drawCard1, drawCard2, drawCard3;
 	private List<Card> drawCard;
 	private Player player1, player2;
-	private JPanel handBackground;
+	private JPanel handBackground, drawBackground;
 	private JPanel hands1, hands2, hands3, hands4, hands5;
 	private JPanel boardA1, boardA2, boardA3, boardA4, boardA5;
 	private JPanel boardB1, boardB2, boardB3, boardB4, boardB5;
@@ -218,84 +218,12 @@ public class MainGUI extends JFrame {
 		drawCard = player.getTopThree();
 		System.out.println(cardHand.get(0).getName());
 
-		// handBackground = new JPanel();
-		// handBackground.setBounds(12,405,550,200);
-		// handBackground.setBackground(Color.DARK_GRAY);
-		// contentPane.add(handBackground,0);
+		handBackground = new JPanel();
+		handBackground.setBounds(12,405,550,160);
+		handBackground.setBackground(Color.DARK_GRAY);
+		contentPane.add(handBackground,0);
 		setHands(player);
 		setDrawCard();
-		drawCard1.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-				choosenDrawCard = 1;
-				try {
-					Thread.sleep(300);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				drawCard1.setVisible(false);
-				drawCard2.setVisible(false);
-				drawCard3.setVisible(false);
-				setDrawCard();
-				player.drawCard(choosenDrawCard);
-				setHands(player);
-				drawPos.setBackground(Color.ORANGE);
-				JPanel deck = new DeckShuffle(player.getSisaDeck());
-				deck.setBounds(1011, 414, 65, 60);
-				contentPane.add(deck,0);
-
-				System.out.println("\nSetelah Draw");
-				// player.getDeck().printDeck();
-			}
-          });
-		contentPane.add(drawCard1,0);
-		drawCard2.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-				choosenDrawCard = 2;
-				try {
-					Thread.sleep(300);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				drawCard1.setVisible(false);
-				drawCard2.setVisible(false);
-				drawCard3.setVisible(false);
-				setDrawCard();
-				player.drawCard(choosenDrawCard);
-				setHands(player);
-				drawPos.setBackground(Color.ORANGE);
-
-				JPanel deck = new DeckShuffle(player.getSisaDeck());
-				deck.setBounds(1011, 414, 65, 60);
-				contentPane.add(deck,0);
-			}
-          });
-		contentPane.add(drawCard2,0);
-		drawCard3.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-				choosenDrawCard = 3;
-				try {
-					Thread.sleep(300);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				drawCard1.setVisible(false);
-				drawCard2.setVisible(false);
-				drawCard3.setVisible(false);
-				setDrawCard();
-				player.drawCard(choosenDrawCard);
-				setHands(player);
-				drawPos.setBackground(Color.ORANGE);
-
-				JPanel deck = new DeckShuffle(player.getSisaDeck());
-				deck.setBounds(1011, 414, 65, 60);
-				contentPane.add(deck,0);
-				
-			}
-          });
-		contentPane.add(drawCard3,0);
 
 		// player.getDeck().printDeck();
 
@@ -331,6 +259,10 @@ public class MainGUI extends JFrame {
 					System.out.println("Deck clicked");
 					drawPos.setBackground(Color.GREEN);
 					showDrawCard();
+					// drawBackground = new JPanel();
+					// drawBackground.setBounds(370, 600, 350, 160);
+					// drawBackground.setBackground(Color.DARK_GRAY);
+					// contentPane.add(drawBackground,0);
 				}
 			}
           });
@@ -410,10 +342,10 @@ public class MainGUI extends JFrame {
 						contentPane.add(boardA1,0);
 		
 						cardHand.remove(indexCardClicked);
-						// handBackground = new JPanel();
-						// handBackground.setBounds(12,405,550,200);
-						// handBackground.setBackground(Color.DARK_GRAY);
-						// contentPane.add(handBackground,0);
+						handBackground = new JPanel();
+						handBackground.setBounds(12,405,550,160);
+						handBackground.setBackground(Color.DARK_GRAY);
+						contentPane.add(handBackground,0);
 						setHands(player);
 						indexCardClicked = -1;
 		
@@ -439,10 +371,10 @@ public class MainGUI extends JFrame {
 						contentPane.add(boardA2,0);
 		
 						cardHand.remove(indexCardClicked);
-						// handBackground = new JPanel();
-						// handBackground.setBounds(12,405,550,200);
-						// handBackground.setBackground(Color.DARK_GRAY);
-						// contentPane.add(handBackground,0);
+						handBackground = new JPanel();
+						handBackground.setBounds(12,405,550,160);
+						handBackground.setBackground(Color.DARK_GRAY);
+						contentPane.add(handBackground,0);
 						setHands(player);
 						indexCardClicked = -1;
 		
@@ -466,10 +398,10 @@ public class MainGUI extends JFrame {
 						boardA3.setBounds(139, 216, 103, 125);
 		
 						cardHand.remove(indexCardClicked);
-						// handBackground = new JPanel();
-						// handBackground.setBounds(12,405,550,200);
-						// handBackground.setBackground(Color.DARK_GRAY);
-						// contentPane.add(handBackground,0);
+						handBackground = new JPanel();
+						handBackground.setBounds(12,405,550,160);
+						handBackground.setBackground(Color.DARK_GRAY);
+						contentPane.add(handBackground,0);
 						setHands(player);
 						indexCardClicked = -1;
 		
@@ -494,10 +426,10 @@ public class MainGUI extends JFrame {
 						boardA4.setBounds(252, 216, 103, 125);
 		
 						cardHand.remove(indexCardClicked);
-						// handBackground = new JPanel();
-						// handBackground.setBounds(12,405,550,200);
-						// handBackground.setBackground(Color.DARK_GRAY);
-						// contentPane.add(handBackground,0);
+						handBackground = new JPanel();
+						handBackground.setBounds(12,405,550,160);
+						handBackground.setBackground(Color.DARK_GRAY);
+						contentPane.add(handBackground,0);
 						setHands(player);
 						indexCardClicked = -1;
 		
@@ -522,10 +454,10 @@ public class MainGUI extends JFrame {
 						boardA5.setBounds(365, 150, 103, 125);
 		
 						cardHand.remove(indexCardClicked);
-						// handBackground = new JPanel();
-						// handBackground.setBounds(12,405,550,200);
-						// handBackground.setBackground(Color.DARK_GRAY);
-						// contentPane.add(handBackground,0);
+						handBackground = new JPanel();
+						handBackground.setBounds(12,405,550,160);
+						handBackground.setBackground(Color.DARK_GRAY);
+						contentPane.add(handBackground,0);
 						setHands(player);
 						indexCardClicked = -1;
 						
@@ -660,7 +592,82 @@ public class MainGUI extends JFrame {
 			drawCard2 = new Hand(true, drawCard.get(1));
 			drawCard2.setBounds(491, 606, 103, 145);
 			drawCard3 = new Hand(true, drawCard.get(2));
-			drawCard3.setBounds(609, 606, 103, 145);	
+			drawCard3.setBounds(609, 606, 103, 145);
+			drawCard1.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+					choosenDrawCard = 1;
+					try {
+						Thread.sleep(300);
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+					drawCard1.setVisible(false);
+					drawCard2.setVisible(false);
+					drawCard3.setVisible(false);
+					setDrawCard();
+					player1.drawCard(choosenDrawCard);
+					setHands(player1);
+					drawPos.setBackground(Color.ORANGE);
+					JPanel deck = new DeckShuffle(player1.getSisaDeck());
+					deck.setBounds(1011, 414, 65, 60);
+					contentPane.add(deck,0);
+					contentPane.revalidate();
+					contentPane.repaint();
+					System.out.println("\nSetelah Draw");
+					// player.getDeck().printDeck();
+				}
+			  });
+			drawCard2.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+					choosenDrawCard = 2;
+					try {
+						Thread.sleep(300);
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+					drawCard1.setVisible(false);
+					drawCard2.setVisible(false);
+					drawCard3.setVisible(false);
+					setDrawCard();
+					player1.drawCard(choosenDrawCard);
+					setHands(player1);
+					drawPos.setBackground(Color.ORANGE);
+	
+					JPanel deck = new DeckShuffle(player1.getSisaDeck());
+					deck.setBounds(1011, 414, 65, 60);
+					contentPane.add(deck,0);
+					contentPane.revalidate();
+					contentPane.repaint();
+
+				}
+			  });
+			drawCard3.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+					choosenDrawCard = 3;
+					try {
+						Thread.sleep(300);
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+					drawCard1.setVisible(false);
+					drawCard2.setVisible(false);
+					drawCard3.setVisible(false);
+					setDrawCard();
+					player1.drawCard(choosenDrawCard);
+					setHands(player1);
+					drawPos.setBackground(Color.ORANGE);
+	
+					JPanel deck = new DeckShuffle(player1.getSisaDeck());
+					deck.setBounds(1011, 414, 65, 60);
+					contentPane.add(deck,0);	
+					contentPane.revalidate();
+					contentPane.repaint();
+
+				}
+			  });
 		}
 		else{
 			player2.fillTopThree();
@@ -670,7 +677,83 @@ public class MainGUI extends JFrame {
 			drawCard2 = new Hand(true, drawCard.get(1));
 			drawCard2.setBounds(491, 606, 103, 145);
 			drawCard3 = new Hand(true, drawCard.get(2));
-			drawCard3.setBounds(609, 606, 103, 145);	
+			drawCard3.setBounds(609, 606, 103, 145);
+			drawCard1.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+					choosenDrawCard = 1;
+					try {
+						Thread.sleep(300);
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+					drawCard1.setVisible(false);
+					drawCard2.setVisible(false);
+					drawCard3.setVisible(false);
+					setDrawCard();
+					player2.drawCard(choosenDrawCard);
+					setHands(player2);
+					drawPos.setBackground(Color.ORANGE);
+					JPanel deck = new DeckShuffle(player2.getSisaDeck());
+					deck.setBounds(1011, 414, 65, 60);
+					contentPane.add(deck,0);
+					contentPane.revalidate();
+					contentPane.repaint();
+
+					System.out.println("\nSetelah Draw");
+					// player.getDeck().printDeck();
+				}
+			  });
+			drawCard2.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+					choosenDrawCard = 2;
+					try {
+						Thread.sleep(300);
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+					drawCard1.setVisible(false);
+					drawCard2.setVisible(false);
+					drawCard3.setVisible(false);
+					setDrawCard();
+					player2.drawCard(choosenDrawCard);
+					setHands(player2);
+					drawPos.setBackground(Color.ORANGE);
+	
+					JPanel deck = new DeckShuffle(player2.getSisaDeck());
+					deck.setBounds(1011, 414, 65, 60);
+					contentPane.add(deck,0);
+					contentPane.revalidate();
+					contentPane.repaint();
+
+				}
+			  });
+			drawCard3.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+					choosenDrawCard = 3;
+					try {
+						Thread.sleep(300);
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+					drawCard1.setVisible(false);
+					drawCard2.setVisible(false);
+					drawCard3.setVisible(false);
+					setDrawCard();
+					player2.drawCard(choosenDrawCard);
+					setHands(player2);
+					drawPos.setBackground(Color.ORANGE);
+	
+					JPanel deck = new DeckShuffle(player2.getSisaDeck());
+					deck.setBounds(1011, 414, 65, 60);
+					contentPane.add(deck,0);
+					contentPane.revalidate();
+					contentPane.repaint();
+	
+				}
+			  });
 		}
 		drawCard1.setVisible(false);
 		drawCard2.setVisible(false);
