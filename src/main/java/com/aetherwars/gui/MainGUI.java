@@ -34,6 +34,7 @@ public class MainGUI extends JFrame {
 	private JPanel drawPhase, planPhase, attackPhase, endPhase;
 	private JPanel drawCard1, drawCard2, drawCard3;
 	private List<Card> drawCard;
+	private int indexPlayer;
 	private Player player1, player2;
 	private JPanel handBackground;
 	private JPanel hands1, hands2, hands3, hands4, hands5;
@@ -97,9 +98,12 @@ public class MainGUI extends JFrame {
 		nextRound.add(phase);
 		System.out.println(curr_phase);
 
+
+		indexPlayer = 0;
 		playerTurnSign(0);
 		initialHand(player_1);
 		setInitialBoard();
+		setBoardPlan1(player_1, player_2);
 
         nextRound.addMouseListener(new MouseAdapter() {
             @Override
@@ -131,9 +135,16 @@ public class MainGUI extends JFrame {
 					if (curr_turn == "PlayerA"){
 						initialHand(player_1);
 						playerTurnSign(0);
+						indexPlayer = 0;
+						setBoardPlan1(player_1, player_2);
+						// setBoardPlan2(player_2, 0);
 					} else {
 						initialHand(player_2);
 						playerTurnSign(1);
+						indexPlayer = 1;
+						// setBoardPlan1(player_1, 1,  false);
+						setBoardPlan1(player_1, player_2);
+
 					}
                 }
 				curr_phase = next_phase;
@@ -145,14 +156,6 @@ public class MainGUI extends JFrame {
 		nextRound.setBorder(new LineBorder(new Color(0, 0, 0)));
 		nextRound.setBounds(956, 384, 73, 20);
 		contentPane.add(nextRound);
-
-		setBoardPlan(player_1, 0);
-
-		// JPanel mana = new Mana(player);
-		// mana.setBounds(1011, 479, 65, 60);
-		// contentPane.add(mana,0);
-				
-
 		
 		JPanel healthBarA = new HealthBar(player1.getHealth(), "A");
 		healthBarA.setBounds(10, 10, 480, 20);
@@ -162,11 +165,7 @@ public class MainGUI extends JFrame {
 		healthBarB.setBackground(Color.CYAN);
 		healthBarB.setBounds(596, 10, 480, 20);
 		contentPane.add(healthBarB);
-
-		
-
-		
-		
+			
 		JLabel playerAName = new JLabel(player1.getName(), SwingConstants.LEFT);
 		playerAName.setForeground(Color.CYAN);
 		playerAName.setFont(new Font("OCR A Extended", Font.PLAIN, 14));
@@ -199,162 +198,6 @@ public class MainGUI extends JFrame {
 		}
 		contentPane.add(avatarA,0);
 		contentPane.add(avatarB,0);
-		contentPane.revalidate();
-		contentPane.repaint();
-	}
-
-	public void initialHand(Player player){
-		System.out.println(player.getName());
-
-		
-		JPanel deck = new DeckShuffle(player.getSisaDeck());
-		deck.setBounds(1011, 414, 65, 60);
-		contentPane.add(deck,0);
-
-		cardHand = player.getPlayerHand();
-		player.fillTopThree();
-		drawCard = player.getTopThree();
-		System.out.println(cardHand.get(0).getName());
-
-		handBackground = new JPanel();
-		handBackground.setBounds(12,405,550,200);
-		handBackground.setBackground(Color.DARK_GRAY);
-		contentPane.add(handBackground,0);
-
-		setHands(player);
-
-		shadowPanel = new JPanel();
-		shadowPanel.setBounds(0, 0, 1086, 563);
-		shadowPanel.setBackground(new Color(36, 36, 36, 230));
-		shadowPanel.setVisible(false);
-		contentPane.add(shadowPanel,0);
-
-		drawCard1 = new Hand(true, drawCard.get(0));
-		drawCard1.setBounds(373, 209, 103, 145);
-		drawCard1.setVisible(false);
-		drawCard1.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-				choosenDrawCard = 1;
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				drawCard1.setVisible(false);
-				drawCard2.setVisible(false);
-				drawCard3.setVisible(false);
-				shadowPanel.setVisible(false);
-				player.drawCard(choosenDrawCard);
-				setHands(player);
-
-				JPanel deck = new DeckShuffle(player.getSisaDeck());
-				deck.setBounds(1011, 414, 65, 60);
-				contentPane.add(deck,0);
-
-				System.out.println("\nSetelah Draw");
-				// player.getDeck().printDeck();
-			}
-          });
-		contentPane.add(drawCard1,0);
-
-		drawCard2 = new Hand(true, drawCard.get(1));
-		drawCard2.setBounds(491, 209, 103, 145);
-		drawCard2.setVisible(false);
-		drawCard2.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-				choosenDrawCard = 2;
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				drawCard1.setVisible(false);
-				drawCard2.setVisible(false);
-				drawCard3.setVisible(false);
-				shadowPanel.setVisible(false);
-				player.drawCard(choosenDrawCard);
-				setHands(player);
-
-				JPanel deck = new DeckShuffle(player.getSisaDeck());
-				deck.setBounds(1011, 414, 65, 60);
-				contentPane.add(deck,0);
-			}
-          });
-		contentPane.add(drawCard2,0);
-
-		drawCard3 = new Hand(true, drawCard.get(2));
-		drawCard3.setBounds(609, 209, 103, 145);
-		drawCard3.setVisible(false);
-		drawCard3.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-				choosenDrawCard = 3;
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				drawCard1.setVisible(false);
-				drawCard2.setVisible(false);
-				drawCard3.setVisible(false);
-				shadowPanel.setVisible(false);
-				player.drawCard(choosenDrawCard);
-				setHands(player);
-
-				JPanel deck = new DeckShuffle(player.getSisaDeck());
-				deck.setBounds(1011, 414, 65, 60);
-				contentPane.add(deck,0);
-				
-			}
-          });
-		contentPane.add(drawCard3,0);
-
-		// player.getDeck().printDeck();
-
-		System.out.println(player.getTopThree().get(0).getName());
-		System.out.println(player.getTopThree().get(1).getName());
-		System.out.println(player.getTopThree().get(2).getName());
-
-
-
-		JPanel hands1 = new Hand(false, null);
-		hands1.setBounds(14, 408, 103, 145);
-		contentPane.add(hands1);
-		
-		JPanel hands2 = new Hand(false, null);
-		hands2.setBounds(119, 408, 103, 145);
-		contentPane.add(hands2);
-		
-		JPanel hands3 = new Hand(false, null);
-		hands3.setBounds(224, 408, 103, 145);
-		contentPane.add(hands3);
-		
-		JPanel hands4 = new Hand(false, null);
-		hands4.setBounds(329, 408, 103, 145);
-		contentPane.add(hands4);
-		
-		JPanel hands5 = new Hand(false, null);
-		hands5.setBounds(434, 408, 103, 145);
-		contentPane.add(hands5);
-
-		deck.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-				if (curr_phase == "DRAW"){
-					//show pop up
-					System.out.println("Deck clicked");
-					shadowPanel.setVisible(true);
-					drawCard1.setVisible(true);
-					drawCard2.setVisible(true);
-					drawCard3.setVisible(true);
-				}
-			}
-          });
-
-
-		
 		contentPane.revalidate();
 		contentPane.repaint();
 	}
@@ -420,11 +263,22 @@ public class MainGUI extends JFrame {
 		contentPane.add(boardB5);
 	}
 
-	public void setBoardPlan(Player player, int index){
+	public void setBoardPlan1(Player player1, Player player2){
+		// System.out.println("A" + play1);
+
+		if (indexPlayer == 0){
+			setHands(player1);
+		} else if (indexPlayer == 1){
+			setHands(player2);
+		}
 			boardA1.addMouseListener(new MouseAdapter() {
+				
 				@Override
 				public void mousePressed(MouseEvent e) {
-					if (indexCardClicked != -1 && index == 0 && curr_phase == "PLAN"){
+					// System.out.println("B" + play1);
+					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 0){
+						// System.out.println("C" + play1);
+
 						boardA1 = new Board(cardClicked, true, "A");
 						boardA1.setBounds(139, 81, 103, 125);
 						contentPane.add(boardA1,0);
@@ -434,14 +288,14 @@ public class MainGUI extends JFrame {
 						handBackground.setBounds(12,405,550,200);
 						handBackground.setBackground(Color.DARK_GRAY);
 						contentPane.add(handBackground,0);
-						setHands(player);
+						setHands(player1);
 						indexCardClicked = -1;
 		
 						contentPane.revalidate();
 						contentPane.repaint();
 					} else if (indexCardClicked == -1){
 						setMessage("Tidak ada Kartu yang dipilih");
-					} else if (index == 1){
+					} else if (indexPlayer == 1){
 						setMessage("Tidak bisa meletakkan pada board lawan");
 					} else if (curr_phase != "PLAN"){
 						setMessage("Letakkan kartu saat Plan Phase");
@@ -453,7 +307,7 @@ public class MainGUI extends JFrame {
 			boardA2.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
-					if (indexCardClicked != -1 && index == 0 && curr_phase == "PLAN"){
+					if (indexCardClicked != -1 && curr_phase == "PLAN" && indexPlayer == 0){
 						boardA2 = new Board(cardClicked, true, "A");
 						boardA2.setBounds(252, 81, 103, 125);
 						contentPane.add(boardA2,0);
@@ -463,14 +317,14 @@ public class MainGUI extends JFrame {
 						handBackground.setBounds(12,405,550,200);
 						handBackground.setBackground(Color.DARK_GRAY);
 						contentPane.add(handBackground,0);
-						setHands(player);
+						setHands(player1);
 						indexCardClicked = -1;
 		
 						contentPane.revalidate();
 						contentPane.repaint();
 					} else if (indexCardClicked == -1){
 						setMessage("Tidak ada Kartu yang dipilih");
-					} else if (index == 1){
+					} else if (indexPlayer == 1){
 						setMessage("Tidak bisa meletakkan pada board lawan");
 					} else if (curr_phase != "PLAN"){
 						setMessage("Letakkan kartu saat Plan Phase");
@@ -481,7 +335,7 @@ public class MainGUI extends JFrame {
 			boardA3.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
-					if (indexCardClicked != -1 && index == 0 && curr_phase == "PLAN"){
+					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 0){
 						boardA3 = new Board(cardClicked, true, "A");
 						boardA3.setBounds(139, 216, 103, 125);
 		
@@ -490,7 +344,7 @@ public class MainGUI extends JFrame {
 						handBackground.setBounds(12,405,550,200);
 						handBackground.setBackground(Color.DARK_GRAY);
 						contentPane.add(handBackground,0);
-						setHands(player);
+						setHands(player1);
 						indexCardClicked = -1;
 		
 						contentPane.add(boardA3,0);
@@ -498,7 +352,7 @@ public class MainGUI extends JFrame {
 						contentPane.repaint();
 					} else if (indexCardClicked == -1){
 						setMessage("Tidak ada Kartu yang dipilih");
-					} else if (index == 1){
+					} else if (indexPlayer == 1){
 						setMessage("Tidak bisa meletakkan pada board lawan");
 					} else if (curr_phase != "PLAN"){
 						setMessage("Letakkan kartu saat Plan Phase");
@@ -509,7 +363,7 @@ public class MainGUI extends JFrame {
 			boardA4.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
-					if (indexCardClicked != -1 && index == 0 && curr_phase == "PLAN"){
+					if (indexCardClicked != -1 && curr_phase == "PLAN" && indexPlayer == 0){
 						boardA4 = new Board(cardClicked, true, "A");
 						boardA4.setBounds(252, 216, 103, 125);
 		
@@ -518,7 +372,7 @@ public class MainGUI extends JFrame {
 						handBackground.setBounds(12,405,550,200);
 						handBackground.setBackground(Color.DARK_GRAY);
 						contentPane.add(handBackground,0);
-						setHands(player);
+						setHands(player1);
 						indexCardClicked = -1;
 		
 						contentPane.add(boardA4,0);
@@ -526,7 +380,7 @@ public class MainGUI extends JFrame {
 						contentPane.repaint();
 					} else if (indexCardClicked == -1){
 						setMessage("Tidak ada Kartu yang dipilih");
-					} else if (index == 1){
+					} else if (indexPlayer == 1){
 						setMessage("Tidak bisa meletakkan pada board lawan");
 					} else if (curr_phase != "PLAN"){
 						setMessage("Letakkan kartu saat Plan Phase");
@@ -537,7 +391,7 @@ public class MainGUI extends JFrame {
 			boardA5.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
-					if (indexCardClicked != -1 && index == 0 && curr_phase == "PLAN"){
+					if (indexCardClicked != -1 && curr_phase == "PLAN" && indexPlayer == 0){
 						boardA5 = new Board(cardClicked, true, "A");
 						boardA5.setBounds(365, 150, 103, 125);
 		
@@ -546,7 +400,7 @@ public class MainGUI extends JFrame {
 						handBackground.setBounds(12,405,550,200);
 						handBackground.setBackground(Color.DARK_GRAY);
 						contentPane.add(handBackground,0);
-						setHands(player);
+						setHands(player1);
 						indexCardClicked = -1;
 						
 						contentPane.add(boardA5,0);
@@ -554,14 +408,336 @@ public class MainGUI extends JFrame {
 						contentPane.repaint();
 					} else if (indexCardClicked == -1){
 						setMessage("Tidak ada Kartu yang dipilih");
-					} else if (index == 1){
+					} else if (indexPlayer == 1){
 						setMessage("Tidak bisa meletakkan pada board lawan");
 					} else if (curr_phase != "PLAN"){
 						setMessage("Letakkan kartu saat Plan Phase");
 					}
 				}
 			});
+
+			boardB1.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// System.out.println("D" + play1);
+					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 1){
+						boardB1 = new Board(cardClicked, true, "A");
+						boardB1.setBounds(843, 81, 103, 125);
+						contentPane.add(boardB1,0);
 		
+						cardHand.remove(indexCardClicked);
+						handBackground = new JPanel();
+						handBackground.setBounds(12,405,550,200);
+						handBackground.setBackground(Color.DARK_GRAY);
+						contentPane.add(handBackground,0);
+						setHands(player2);
+						indexCardClicked = -1;
+		
+						contentPane.revalidate();
+						contentPane.repaint();
+					} else if (indexCardClicked == -1){
+						setMessage("Tidak ada Kartu yang dipilih");
+					} else if (indexPlayer == 0){
+						setMessage("Tidak bisa meletakkan pada board lawan");
+					} else if (curr_phase != "PLAN"){
+						setMessage("Letakkan kartu saat Plan Phase");
+					}
+	
+				}
+			});
+	
+			boardB2.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 1){
+						boardB2 = new Board(cardClicked, true, "A");
+						boardB2.setBounds(730, 81, 103, 125);
+						contentPane.add(boardB2,0);
+		
+						cardHand.remove(indexCardClicked);
+						handBackground = new JPanel();
+						handBackground.setBounds(12,405,550,200);
+						handBackground.setBackground(Color.DARK_GRAY);
+						contentPane.add(handBackground,0);
+						setHands(player2);
+						indexCardClicked = -1;
+		
+						contentPane.revalidate();
+						contentPane.repaint();
+					} else if (indexCardClicked == -1){
+						setMessage("Tidak ada Kartu yang dipilih");
+					} else if (indexPlayer == 0){
+						setMessage("Tidak bisa meletakkan pada board lawan");
+					} else if (curr_phase != "PLAN"){
+						setMessage("Letakkan kartu saat Plan Phase");
+					}
+				}
+			});
+	
+			boardB3.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 1){
+						boardB3 = new Board(cardClicked, true, "A");
+						boardB3.setBounds(843, 216, 103, 125);
+		
+						cardHand.remove(indexCardClicked);
+						handBackground = new JPanel();
+						handBackground.setBounds(12,405,550,200);
+						handBackground.setBackground(Color.DARK_GRAY);
+						contentPane.add(handBackground,0);
+						setHands(player2);
+						indexCardClicked = -1;
+		
+						contentPane.add(boardB3,0);
+						contentPane.revalidate();
+						contentPane.repaint();
+					} else if (indexCardClicked == -1){
+						setMessage("Tidak ada Kartu yang dipilih");
+					} else if (indexPlayer == 0){
+						setMessage("Tidak bisa meletakkan pada board lawan");
+					} else if (curr_phase != "PLAN"){
+						setMessage("Letakkan kartu saat Plan Phase");
+					}
+				}
+			});
+	
+			boardB4.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 1){
+						boardB4 = new Board(cardClicked, true, "A");
+						boardB4.setBounds(730, 216, 103, 125);
+		
+						cardHand.remove(indexCardClicked);
+						handBackground = new JPanel();
+						handBackground.setBounds(12,405,550,200);
+						handBackground.setBackground(Color.DARK_GRAY);
+						contentPane.add(handBackground,0);
+						setHands(player2);
+						indexCardClicked = -1;
+		
+						contentPane.add(boardB4,0);
+						contentPane.revalidate();
+						contentPane.repaint();
+					} else if (indexCardClicked == -1){
+						setMessage("Tidak ada Kartu yang dipilih");
+					} else if (indexPlayer == 0){
+						setMessage("Tidak bisa meletakkan pada board lawan");
+					} else if (curr_phase != "PLAN"){
+						setMessage("Letakkan kartu saat Plan Phase");
+					}
+				}
+			});
+	
+			boardB5.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+					if (indexCardClicked != -1 && curr_phase == "PLAN" && indexPlayer == 1){
+						boardB5 = new Board(cardClicked, true, "A");
+						boardB5.setBounds(619, 148, 103, 125);
+		
+						cardHand.remove(indexCardClicked);
+						handBackground = new JPanel();
+						handBackground.setBounds(12,405,550,200);
+						handBackground.setBackground(Color.DARK_GRAY);
+						contentPane.add(handBackground,0);
+						setHands(player2);
+						indexCardClicked = -1;
+						
+						contentPane.add(boardB5,0);
+						contentPane.revalidate();
+						contentPane.repaint();
+					} else if (indexCardClicked == -1){
+						setMessage("Tidak ada Kartu yang dipilih");
+					} else if (indexPlayer == 0){
+						setMessage("Tidak bisa meletakkan pada board lawan");
+					} else if (curr_phase != "PLAN"){
+						setMessage("Letakkan kartu saat Plan Phase");
+					}
+				}
+			});
+	}
+
+	public void setBoardPlan2(Player player, int index){
+		System.out.println("B" + player.getName());
+		System.out.println("index :" + Integer.toString(index));
+		setHands(player);
+		boardA1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				setMessage("Tidak bisa meletakkan pada board lawan");
+			}
+		});
+
+		boardA2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				setMessage("Tidak bisa meletakkan pada board lawan");
+			}
+		});
+
+		boardA3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				setMessage("Tidak bisa meletakkan pada board lawan");
+			}
+		});
+
+		boardA4.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				setMessage("Tidak bisa meletakkan pada board lawan");
+			}
+		});
+
+		boardA5.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				setMessage("Tidak bisa meletakkan pada board lawan");
+			}
+		});
+		boardB1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (indexCardClicked != -1 && index == 1 && curr_phase == "PLAN"){
+					boardB1 = new Board(cardClicked, true, "A");
+					boardB1.setBounds(843, 81, 103, 125);
+					contentPane.add(boardB1,0);
+	
+					cardHand.remove(indexCardClicked);
+					handBackground = new JPanel();
+					handBackground.setBounds(12,405,550,200);
+					handBackground.setBackground(Color.DARK_GRAY);
+					contentPane.add(handBackground,0);
+					setHands(player);
+					indexCardClicked = -1;
+	
+					contentPane.revalidate();
+					contentPane.repaint();
+				} else if (indexCardClicked == -1){
+					setMessage("Tidak ada Kartu yang dipilih");
+				} else if (index == 0){
+					setMessage("Tidak bisa meletakkan pada board lawan");
+				} else if (curr_phase != "PLAN"){
+					setMessage("Letakkan kartu saat Plan Phase");
+				}
+
+			}
+		});
+
+		boardB2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (indexCardClicked != -1 && index == 1 && curr_phase == "PLAN"){
+					boardB2 = new Board(cardClicked, true, "A");
+					boardB2.setBounds(730, 81, 103, 125);
+					contentPane.add(boardB2,0);
+	
+					cardHand.remove(indexCardClicked);
+					handBackground = new JPanel();
+					handBackground.setBounds(12,405,550,200);
+					handBackground.setBackground(Color.DARK_GRAY);
+					contentPane.add(handBackground,0);
+					setHands(player);
+					indexCardClicked = -1;
+	
+					contentPane.revalidate();
+					contentPane.repaint();
+				} else if (indexCardClicked == -1){
+					setMessage("Tidak ada Kartu yang dipilih");
+				} else if (index == 0){
+					setMessage("Tidak bisa meletakkan pada board lawan");
+				} else if (curr_phase != "PLAN"){
+					setMessage("Letakkan kartu saat Plan Phase");
+				}
+			}
+		});
+
+		boardB3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (indexCardClicked != -1 && index == 1 && curr_phase == "PLAN"){
+					boardB3 = new Board(cardClicked, true, "A");
+					boardB3.setBounds(843, 216, 103, 125);
+	
+					cardHand.remove(indexCardClicked);
+					handBackground = new JPanel();
+					handBackground.setBounds(12,405,550,200);
+					handBackground.setBackground(Color.DARK_GRAY);
+					contentPane.add(handBackground,0);
+					setHands(player);
+					indexCardClicked = -1;
+	
+					contentPane.add(boardB3,0);
+					contentPane.revalidate();
+					contentPane.repaint();
+				} else if (indexCardClicked == -1){
+					setMessage("Tidak ada Kartu yang dipilih");
+				} else if (index == 0){
+					setMessage("Tidak bisa meletakkan pada board lawan");
+				} else if (curr_phase != "PLAN"){
+					setMessage("Letakkan kartu saat Plan Phase");
+				}
+			}
+		});
+
+		boardB4.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (indexCardClicked != -1 && index == 1 && curr_phase == "PLAN"){
+					boardB4 = new Board(cardClicked, true, "A");
+					boardB4.setBounds(730, 216, 103, 125);
+	
+					cardHand.remove(indexCardClicked);
+					handBackground = new JPanel();
+					handBackground.setBounds(12,405,550,200);
+					handBackground.setBackground(Color.DARK_GRAY);
+					contentPane.add(handBackground,0);
+					setHands(player);
+					indexCardClicked = -1;
+	
+					contentPane.add(boardB4,0);
+					contentPane.revalidate();
+					contentPane.repaint();
+				} else if (indexCardClicked == -1){
+					setMessage("Tidak ada Kartu yang dipilih");
+				} else if (index == 0){
+					setMessage("Tidak bisa meletakkan pada board lawan");
+				} else if (curr_phase != "PLAN"){
+					setMessage("Letakkan kartu saat Plan Phase");
+				}
+			}
+		});
+
+		boardB5.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (indexCardClicked != -1 && index == 1 && curr_phase == "PLAN"){
+					boardB5 = new Board(cardClicked, true, "A");
+					boardB5.setBounds(619, 148, 103, 125);
+	
+					cardHand.remove(indexCardClicked);
+					handBackground = new JPanel();
+					handBackground.setBounds(12,405,550,200);
+					handBackground.setBackground(Color.DARK_GRAY);
+					contentPane.add(handBackground,0);
+					setHands(player);
+					indexCardClicked = -1;
+					
+					contentPane.add(boardB5,0);
+					contentPane.revalidate();
+					contentPane.repaint();
+				} else if (indexCardClicked == -1){
+					setMessage("Tidak ada Kartu yang dipilih");
+				} else if (index == 0){
+					setMessage("Tidak bisa meletakkan pada board lawan");
+				} else if (curr_phase != "PLAN"){
+					setMessage("Letakkan kartu saat Plan Phase");
+				}
+			}
+		});
+	
 	}
 
 	public void setMessage(String message){
@@ -575,6 +751,131 @@ public class MainGUI extends JFrame {
 		msg.setBounds(365,345,355,30);
 		msg.setFont(new Font("Cascadia Code", 0, 10));
 		contentPane.add(msg,0);
+		contentPane.revalidate();
+		contentPane.repaint();
+	}
+
+	public void drawCardtoHand(Player player){
+		JPanel deck = new DeckShuffle(player.getSisaDeck());
+		deck.setBounds(1011, 414, 65, 60);
+		contentPane.add(deck,0);
+
+		player.fillTopThree();
+		drawCard = player.getTopThree();
+		System.out.println(cardHand.get(0).getName());
+
+		shadowPanel = new JPanel();
+		shadowPanel.setBounds(0, 0, 1086, 563);
+		shadowPanel.setBackground(new Color(36, 36, 36, 230));
+		shadowPanel.setVisible(false);
+		contentPane.add(shadowPanel,0);
+
+		drawCard1 = new Hand(true, drawCard.get(0));
+		drawCard1.setBounds(373, 209, 103, 145);
+		drawCard1.setVisible(false);
+		drawCard1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+				choosenDrawCard = 1;
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				drawCard1.setVisible(false);
+				drawCard2.setVisible(false);
+				drawCard3.setVisible(false);
+				shadowPanel.setVisible(false);
+				player.drawCard(choosenDrawCard);
+				setHands(player);
+
+				JPanel deck = new DeckShuffle(player.getSisaDeck());
+				deck.setBounds(1011, 414, 65, 60);
+				contentPane.add(deck,0);
+
+			}
+          });
+		contentPane.add(drawCard1,0);
+
+		drawCard2 = new Hand(true, drawCard.get(1));
+		drawCard2.setBounds(491, 209, 103, 145);
+		drawCard2.setVisible(false);
+		drawCard2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+				choosenDrawCard = 2;
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				drawCard1.setVisible(false);
+				drawCard2.setVisible(false);
+				drawCard3.setVisible(false);
+				shadowPanel.setVisible(false);
+				player.drawCard(choosenDrawCard);
+				setHands(player);
+
+				JPanel deck = new DeckShuffle(player.getSisaDeck());
+				deck.setBounds(1011, 414, 65, 60);
+				contentPane.add(deck,0);
+			}
+          });
+		contentPane.add(drawCard2,0);
+
+		drawCard3 = new Hand(true, drawCard.get(2));
+		drawCard3.setBounds(609, 209, 103, 145);
+		drawCard3.setVisible(false);
+		drawCard3.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+				choosenDrawCard = 3;
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				drawCard1.setVisible(false);
+				drawCard2.setVisible(false);
+				drawCard3.setVisible(false);
+				shadowPanel.setVisible(false);
+				player.drawCard(choosenDrawCard);
+				setHands(player);
+
+				JPanel deck = new DeckShuffle(player.getSisaDeck());
+				deck.setBounds(1011, 414, 65, 60);
+				contentPane.add(deck,0);
+				
+			}
+          });
+		contentPane.add(drawCard3,0);
+		deck.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+				if (curr_phase == "DRAW"){
+					//show pop up
+					System.out.println("Deck clicked");
+					shadowPanel.setVisible(true);
+					drawCard1.setVisible(true);
+					drawCard2.setVisible(true);
+					drawCard3.setVisible(true);
+					setMessage("Pilih salah satu kartu");
+				}
+			}
+          });
+	}
+
+	public void initialHand(Player player){
+		cardHand = player.getPlayerHand();
+
+		handBackground = new JPanel();
+		handBackground.setBounds(12,405,550,200);
+		handBackground.setBackground(Color.DARK_GRAY);
+		contentPane.add(handBackground,0);
+
+		setHands(player);
+		drawCardtoHand(player);
+		
 		contentPane.revalidate();
 		contentPane.repaint();
 	}
@@ -666,6 +967,7 @@ public class MainGUI extends JFrame {
 	}
 
 	public void setHands(Player player) {
+		// System.out.println(player.getName());
 		cardHand = player.getPlayerHand();
 		if (cardHand.size() == 0) {
 			setCardHand(false, false, false, false, false);

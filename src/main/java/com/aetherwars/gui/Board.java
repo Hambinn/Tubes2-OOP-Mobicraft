@@ -67,6 +67,10 @@ public class Board extends JPanel {
 	             // handle exception...
 	    }
 	}
+
+	public boolean isFilled(){
+		return this.isFilled;
+	}
 	
     @Override
     protected void paintComponent(Graphics g) {
