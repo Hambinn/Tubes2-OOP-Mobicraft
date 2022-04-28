@@ -578,6 +578,7 @@ public class MainGUI extends JFrame {
 	}
 
 	public void showDrawCard(){
+		setDrawCard();
 		drawCard1.setVisible(true);
 		drawCard2.setVisible(true);
 		drawCard3.setVisible(true);
@@ -605,17 +606,13 @@ public class MainGUI extends JFrame {
 					drawCard1.setVisible(false);
 					drawCard2.setVisible(false);
 					drawCard3.setVisible(false);
-					setDrawCard();
 					player1.drawCard(choosenDrawCard);
 					setHands(player1);
 					drawPos.setBackground(Color.ORANGE);
 					JPanel deck = new DeckShuffle(player1.getSisaDeck());
 					deck.setBounds(1011, 414, 65, 60);
 					contentPane.add(deck,0);
-					contentPane.revalidate();
-					contentPane.repaint();
 					System.out.println("\nSetelah Draw");
-					// player.getDeck().printDeck();
 				}
 			  });
 			drawCard2.addMouseListener(new MouseAdapter() {
@@ -630,7 +627,6 @@ public class MainGUI extends JFrame {
 					drawCard1.setVisible(false);
 					drawCard2.setVisible(false);
 					drawCard3.setVisible(false);
-					setDrawCard();
 					player1.drawCard(choosenDrawCard);
 					setHands(player1);
 					drawPos.setBackground(Color.ORANGE);
@@ -638,9 +634,6 @@ public class MainGUI extends JFrame {
 					JPanel deck = new DeckShuffle(player1.getSisaDeck());
 					deck.setBounds(1011, 414, 65, 60);
 					contentPane.add(deck,0);
-					contentPane.revalidate();
-					contentPane.repaint();
-
 				}
 			  });
 			drawCard3.addMouseListener(new MouseAdapter() {
@@ -655,7 +648,6 @@ public class MainGUI extends JFrame {
 					drawCard1.setVisible(false);
 					drawCard2.setVisible(false);
 					drawCard3.setVisible(false);
-					setDrawCard();
 					player1.drawCard(choosenDrawCard);
 					setHands(player1);
 					drawPos.setBackground(Color.ORANGE);
@@ -663,9 +655,6 @@ public class MainGUI extends JFrame {
 					JPanel deck = new DeckShuffle(player1.getSisaDeck());
 					deck.setBounds(1011, 414, 65, 60);
 					contentPane.add(deck,0);	
-					contentPane.revalidate();
-					contentPane.repaint();
-
 				}
 			  });
 		}
@@ -690,18 +679,13 @@ public class MainGUI extends JFrame {
 					drawCard1.setVisible(false);
 					drawCard2.setVisible(false);
 					drawCard3.setVisible(false);
-					setDrawCard();
 					player2.drawCard(choosenDrawCard);
 					setHands(player2);
 					drawPos.setBackground(Color.ORANGE);
 					JPanel deck = new DeckShuffle(player2.getSisaDeck());
 					deck.setBounds(1011, 414, 65, 60);
 					contentPane.add(deck,0);
-					contentPane.revalidate();
-					contentPane.repaint();
-
 					System.out.println("\nSetelah Draw");
-					// player.getDeck().printDeck();
 				}
 			  });
 			drawCard2.addMouseListener(new MouseAdapter() {
@@ -716,7 +700,6 @@ public class MainGUI extends JFrame {
 					drawCard1.setVisible(false);
 					drawCard2.setVisible(false);
 					drawCard3.setVisible(false);
-					setDrawCard();
 					player2.drawCard(choosenDrawCard);
 					setHands(player2);
 					drawPos.setBackground(Color.ORANGE);
@@ -724,9 +707,6 @@ public class MainGUI extends JFrame {
 					JPanel deck = new DeckShuffle(player2.getSisaDeck());
 					deck.setBounds(1011, 414, 65, 60);
 					contentPane.add(deck,0);
-					contentPane.revalidate();
-					contentPane.repaint();
-
 				}
 			  });
 			drawCard3.addMouseListener(new MouseAdapter() {
@@ -741,7 +721,6 @@ public class MainGUI extends JFrame {
 					drawCard1.setVisible(false);
 					drawCard2.setVisible(false);
 					drawCard3.setVisible(false);
-					setDrawCard();
 					player2.drawCard(choosenDrawCard);
 					setHands(player2);
 					drawPos.setBackground(Color.ORANGE);
@@ -749,18 +728,15 @@ public class MainGUI extends JFrame {
 					JPanel deck = new DeckShuffle(player2.getSisaDeck());
 					deck.setBounds(1011, 414, 65, 60);
 					contentPane.add(deck,0);
-					contentPane.revalidate();
-					contentPane.repaint();
-	
 				}
 			  });
 		}
 		drawCard1.setVisible(false);
 		drawCard2.setVisible(false);
 		drawCard3.setVisible(false);
-		contentPane.add(drawCard1);
-		contentPane.add(drawCard2);
-		contentPane.add(drawCard3);
+		contentPane.add(drawCard1, 0);
+		contentPane.add(drawCard2, 0);
+		contentPane.add(drawCard3, 0);
 	}
 
 	public void setHands(Player player) {
