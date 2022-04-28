@@ -24,7 +24,7 @@ public class MainGUI extends JFrame {
 	private int indexCardClicked;
 	private int curr_round;
 	private String cardFileName;
-	private int choosenDrawCard;
+	private int choosenDrawCard, deckClicked;
 	private String curr_turn;
 	private String next_phase;
 	private String curr_phase;
@@ -50,6 +50,7 @@ public class MainGUI extends JFrame {
 		curr_phase = "DRAW";
 		curr_round = 1;
 		curr_turn = "PlayerA";
+		deckClicked = 0;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 50, 1100, 800);
 		contentPane = new JPanel();
@@ -126,6 +127,7 @@ public class MainGUI extends JFrame {
 					attackPhase.setBackground(Color.ORANGE);
 					endPhase.setBackground(Color.GREEN);
                 } else if (curr_phase == "END") {
+					deckClicked = 0;
                     next_phase = "DRAW";
 					endPhase.setBackground(Color.ORANGE);
 					drawPhase.setBackground(Color.GREEN);
@@ -214,9 +216,6 @@ public class MainGUI extends JFrame {
 		contentPane.add(deck,0);
 
 		cardHand = player.getPlayerHand();
-		player.fillTopThree();
-		drawCard = player.getTopThree();
-		System.out.println(cardHand.get(0).getName());
 
 		handBackground = new JPanel();
 		handBackground.setBounds(12,405,550,160);
@@ -259,10 +258,7 @@ public class MainGUI extends JFrame {
 					System.out.println("Deck clicked");
 					drawPos.setBackground(Color.GREEN);
 					showDrawCard();
-					// drawBackground = new JPanel();
-					// drawBackground.setBounds(370, 600, 350, 160);
-					// drawBackground.setBackground(Color.DARK_GRAY);
-					// contentPane.add(drawBackground,0);
+					deckClicked++;
 				}
 			}
           });
@@ -578,7 +574,11 @@ public class MainGUI extends JFrame {
 	}
 
 	public void showDrawCard(){
-		setDrawCard();
+		if (deckClicked == 0){
+			//do nothing
+		} else {
+			setDrawCard();
+		}
 		drawCard1.setVisible(true);
 		drawCard2.setVisible(true);
 		drawCard3.setVisible(true);
