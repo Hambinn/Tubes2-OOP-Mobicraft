@@ -12,12 +12,14 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.UIManager;
 
 import com.aetherwars.player.*;
 import com.aetherwars.board.BoardCard;
 import com.aetherwars.model.*;
 import com.aetherwars.spell.*;
 import com.aetherwars.board.*;
+import com.aetherwars.util.*;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -171,6 +173,17 @@ public class MainGUI extends JFrame {
 						setBoardAttack();
 						playerTurnSign(1);
 					}
+					// Color colour = Color.CYAN;
+					// boardA1.setBackground(colour);
+					// boardA2.setBackground(colour);
+					// boardA3.setBackground(colour);
+					// boardA4.setBackground(colour);
+					// boardA5.setBackground(colour);
+					// boardB1.setBackground(colour);
+					// boardB2.setBackground(colour);
+					// boardB3.setBackground(colour);
+					// boardB4.setBackground(colour);
+					// boardB5.setBackground(colour);
                 }
 				curr_phase = next_phase;
 				setRound();
@@ -326,7 +339,7 @@ public class MainGUI extends JFrame {
 		deck.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-				if (curr_phase == "DRAW"){
+				if (curr_phase == "DRAW" && deckClicked < 1){
 					//show pop up
 					System.out.println("Deck clicked");
 					drawPos.setBackground(Color.GREEN);
@@ -425,14 +438,15 @@ public class MainGUI extends JFrame {
 				board1 = new BoardGUI(bCardClicked_1, false, C1);
 			} else if (bCardClicked_1 != null){
 				board1 = new BoardGUI(bCardClicked_1, true, C1);
+				board1.setBackground(Color.PINK);
 			}
 
 			if (bCardClicked_2 == null){
 				board2 = new BoardGUI(bCardClicked_2, false, C1);
 			} else if (bCardClicked_2 != null){
 				board2 = new BoardGUI(bCardClicked_2, true, C1);
+
 			}
-			
 			board1.setBounds(x1, y1, width1, height1);
 			contentPane.add(board1,0);
 
@@ -465,6 +479,7 @@ public class MainGUI extends JFrame {
 				board1 = new BoardGUI(bCardClicked_1, false, C1);
 			} else if (bCardClicked_1 != null){
 				board1 = new BoardGUI(bCardClicked_1, true, C1);
+				board1.setBackground(Color.PINK);
 			}
 
 			if (bCardClicked_2 == null){
@@ -520,8 +535,24 @@ public class MainGUI extends JFrame {
 			
 							contentPane.revalidate();
 							contentPane.repaint();
-						}
+						} else if (cardClicked instanceof Spell && bCardA1 != null){
+							Spell cardClickedSpell= (Spell) cardClicked;
+							cardClickedSpell.apply(bCardA1);
+							boardA1 = new BoardGUI(bCardA1, true, "A");
+							boardA1.setBounds(139, 81, 103, 125);
+							contentPane.add(boardA1,0);
 
+							cardHand.remove(indexCardClicked);
+							handBackground = new JPanel();
+							handBackground.setBounds(12,405,550,160);
+							handBackground.setBackground(Color.DARK_GRAY);
+							contentPane.add(handBackground,0);
+							setHands(player1);
+							indexCardClicked = -1;
+
+							contentPane.revalidate();
+							contentPane.repaint();
+						}
 					} else if (indexCardClicked == -1){
 						setMessage("Tidak ada Kartu yang dipilih");
 					} else if (indexPlayer == 1){
@@ -537,6 +568,7 @@ public class MainGUI extends JFrame {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					if (indexCardClicked != -1 && curr_phase == "PLAN" && indexPlayer == 0){
+						if (cardClicked.getTypeCard() == "Character"){
 						bCardA2 = new BoardCard(cardClicked);
 						boardA2 = new BoardGUI(bCardA2, true, "A");
 						boardA2.setBounds(252, 81, 103, 125);
@@ -552,6 +584,24 @@ public class MainGUI extends JFrame {
 		
 						contentPane.revalidate();
 						contentPane.repaint();
+						} else if (cardClicked instanceof Spell && bCardA2 != null){
+							Spell cardClickedSpell= (Spell) cardClicked;
+							cardClickedSpell.apply(bCardA2);
+							boardA2 = new BoardGUI(bCardA2, true, "A");
+							boardA2.setBounds(252, 81, 103, 125);
+							contentPane.add(boardA2,0);
+
+							cardHand.remove(indexCardClicked);
+							handBackground = new JPanel();
+							handBackground.setBounds(12,405,550,160);
+							handBackground.setBackground(Color.DARK_GRAY);
+							contentPane.add(handBackground,0);
+							setHands(player1);
+							indexCardClicked = -1;
+
+							contentPane.revalidate();
+							contentPane.repaint();
+						}
 					} else if (indexCardClicked == -1){
 						setMessage("Tidak ada Kartu yang dipilih");
 					} else if (indexPlayer == 1){
@@ -566,22 +616,41 @@ public class MainGUI extends JFrame {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 0){
-						bCardA3 = new BoardCard(cardClicked);
-						boardA3 = new BoardGUI(bCardA3, true, "A");
-						boardA3.setBounds(139, 216, 103, 125);
-						
-						cardHand.remove(indexCardClicked);
-						handBackground = new JPanel();
-						handBackground.setBounds(12,405,550,160);
-						handBackground.setBackground(Color.DARK_GRAY);
-						contentPane.add(handBackground,0);
-						setHands(player1);
-						indexCardClicked = -1;
-		
-						contentPane.add(boardA3,0);
-						contentPane.revalidate();
-						contentPane.repaint();
-					} else if (indexCardClicked == -1){
+						if (cardClicked.getTypeCard() == "Character"){
+							bCardA3 = new BoardCard(cardClicked);
+							boardA3 = new BoardGUI(bCardA3, true, "A");
+							boardA3.setBounds(139, 216, 103, 125);
+							
+							cardHand.remove(indexCardClicked);
+							handBackground = new JPanel();
+							handBackground.setBounds(12,405,550,160);
+							handBackground.setBackground(Color.DARK_GRAY);
+							contentPane.add(handBackground,0);
+							setHands(player1);
+							indexCardClicked = -1;
+			
+							contentPane.add(boardA3,0);
+							contentPane.revalidate();
+							contentPane.repaint();
+						} else if (cardClicked instanceof Spell && bCardA3 != null){
+							Spell cardClickedSpell= (Spell) cardClicked;
+							cardClickedSpell.apply(bCardA3);
+							boardA3 = new BoardGUI(bCardA3, true, "A");
+							boardA3.setBounds(139, 216, 103, 125);
+							contentPane.add(boardA3,0);
+
+							cardHand.remove(indexCardClicked);
+							handBackground = new JPanel();
+							handBackground.setBounds(12,405,550,160);
+							handBackground.setBackground(Color.DARK_GRAY);
+							contentPane.add(handBackground,0);
+							setHands(player1);
+							indexCardClicked = -1;
+
+							contentPane.revalidate();
+							contentPane.repaint();
+						}
+					}  else if (indexCardClicked == -1){
 						setMessage("Tidak ada Kartu yang dipilih");
 					} else if (indexPlayer == 1){
 						setMessage("Tidak bisa meletakkan pada board lawan");
@@ -595,22 +664,43 @@ public class MainGUI extends JFrame {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					if (indexCardClicked != -1 && curr_phase == "PLAN" && indexPlayer == 0){
-						bCardA4 = new BoardCard(cardClicked);
-						boardA4 = new BoardGUI(bCardA4, true, "A");
-						boardA4.setBounds(252, 216, 103, 125);
-		
-						cardHand.remove(indexCardClicked);
-						handBackground = new JPanel();
-						handBackground.setBounds(12,405,550,160);
-						handBackground.setBackground(Color.DARK_GRAY);
-						contentPane.add(handBackground,0);
-						setHands(player1);
-						indexCardClicked = -1;
-		
-						contentPane.add(boardA4,0);
-						contentPane.revalidate();
-						contentPane.repaint();
-					} else if (indexCardClicked == -1){
+						if (cardClicked.getTypeCard() == "Character"){
+							bCardA4 = new BoardCard(cardClicked);
+							boardA4 = new BoardGUI(bCardA4, true, "A");
+							boardA4.setBounds(252, 216, 103, 125);
+			
+							cardHand.remove(indexCardClicked);
+							handBackground = new JPanel();
+							handBackground.setBounds(12,405,550,160);
+							handBackground.setBackground(Color.DARK_GRAY);
+							contentPane.add(handBackground,0);
+							setHands(player1);
+							indexCardClicked = -1;
+			
+							contentPane.add(boardA4,0);
+							contentPane.revalidate();
+							contentPane.repaint();
+						}
+						else if (cardClicked instanceof Spell && bCardA4 != null){
+							Spell cardClickedSpell= (Spell) cardClicked;
+							cardClickedSpell.apply(bCardA4);
+							boardA4 = new BoardGUI(bCardA4, true, "A");
+							boardA4.setBounds(252, 216, 103, 125);
+							contentPane.add(boardA4,0);
+
+							cardHand.remove(indexCardClicked);
+							handBackground = new JPanel();
+							handBackground.setBounds(12,405,550,160);
+							handBackground.setBackground(Color.DARK_GRAY);
+							contentPane.add(handBackground,0);
+							setHands(player1);
+							indexCardClicked = -1;
+
+							contentPane.revalidate();
+							contentPane.repaint();
+						}
+					} 
+					else if (indexCardClicked == -1){
 						setMessage("Tidak ada Kartu yang dipilih");
 					} else if (indexPlayer == 1){
 						setMessage("Tidak bisa meletakkan pada board lawan");
@@ -624,21 +714,40 @@ public class MainGUI extends JFrame {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					if (indexCardClicked != -1 && curr_phase == "PLAN" && indexPlayer == 0){
-						bCardA5 = new BoardCard(cardClicked);
-						boardA5 = new BoardGUI(bCardA5, true, "A");
-						boardA5.setBounds(365, 150, 103, 125);
-		
-						cardHand.remove(indexCardClicked);
-						handBackground = new JPanel();
-						handBackground.setBounds(12,405,550,160);
-						handBackground.setBackground(Color.DARK_GRAY);
-						contentPane.add(handBackground,0);
-						setHands(player1);
-						indexCardClicked = -1;
-						
-						contentPane.add(boardA5,0);
-						contentPane.revalidate();
-						contentPane.repaint();
+						if (cardClicked.getTypeCard() == "Character"){
+							bCardA5 = new BoardCard(cardClicked);
+							boardA5 = new BoardGUI(bCardA5, true, "A");
+							boardA5.setBounds(365, 150, 103, 125);
+			
+							cardHand.remove(indexCardClicked);
+							handBackground = new JPanel();
+							handBackground.setBounds(12,405,550,160);
+							handBackground.setBackground(Color.DARK_GRAY);
+							contentPane.add(handBackground,0);
+							setHands(player1);
+							indexCardClicked = -1;
+							
+							contentPane.add(boardA5,0);
+							contentPane.revalidate();
+							contentPane.repaint();
+						} else if (cardClicked instanceof Spell && bCardA5 != null){
+							Spell cardClickedSpell= (Spell) cardClicked;
+							cardClickedSpell.apply(bCardA5);
+							boardA5 = new BoardGUI(bCardA5, true, "A");
+							boardA5.setBounds(365, 150, 103, 125);
+							contentPane.add(boardA5,0);
+
+							cardHand.remove(indexCardClicked);
+							handBackground = new JPanel();
+							handBackground.setBounds(12,405,550,160);
+							handBackground.setBackground(Color.DARK_GRAY);
+							contentPane.add(handBackground,0);
+							setHands(player1);
+							indexCardClicked = -1;
+
+							contentPane.revalidate();
+							contentPane.repaint();
+						}
 					} else if (indexCardClicked == -1){
 						setMessage("Tidak ada Kartu yang dipilih");
 					} else if (indexPlayer == 1){
@@ -654,21 +763,40 @@ public class MainGUI extends JFrame {
 				public void mousePressed(MouseEvent e) {
 					// System.out.println("D" + play1);
 					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 1){
-						bCardB1 = new BoardCard(cardClicked);
-						boardB1 = new BoardGUI(bCardB1, true, "A");
-						boardB1.setBounds(843, 81, 103, 125);
-						contentPane.add(boardB1,0);
-		
-						cardHand.remove(indexCardClicked);
-						handBackground = new JPanel();
-						handBackground.setBounds(12,405,550,160);
-						handBackground.setBackground(Color.DARK_GRAY);
-						contentPane.add(handBackground,0);
-						setHands(player2);
-						indexCardClicked = -1;
-		
-						contentPane.revalidate();
-						contentPane.repaint();
+						if (cardClicked.getTypeCard() == "Character"){
+							bCardB1 = new BoardCard(cardClicked);
+							boardB1 = new BoardGUI(bCardB1, true, "A");
+							boardB1.setBounds(843, 81, 103, 125);
+							contentPane.add(boardB1,0);
+			
+							cardHand.remove(indexCardClicked);
+							handBackground = new JPanel();
+							handBackground.setBounds(12,405,550,160);
+							handBackground.setBackground(Color.DARK_GRAY);
+							contentPane.add(handBackground,0);
+							setHands(player2);
+							indexCardClicked = -1;
+			
+							contentPane.revalidate();
+							contentPane.repaint();
+						} else if (cardClicked instanceof Spell && bCardB1 != null){
+							Spell cardClickedSpell= (Spell) cardClicked;
+							cardClickedSpell.apply(bCardB1);
+							boardB1 = new BoardGUI(bCardB1, true, "A");
+							boardB1.setBounds(843, 81, 103, 125);
+							contentPane.add(boardB1,0);
+
+							cardHand.remove(indexCardClicked);
+							handBackground = new JPanel();
+							handBackground.setBounds(12,405,550,160);
+							handBackground.setBackground(Color.DARK_GRAY);
+							contentPane.add(handBackground,0);
+							setHands(player2);
+							indexCardClicked = -1;
+
+							contentPane.revalidate();
+							contentPane.repaint();
+						}
 					} else if (indexCardClicked == -1){
 						setMessage("Tidak ada Kartu yang dipilih");
 					} else if (indexPlayer == 0){
@@ -684,22 +812,41 @@ public class MainGUI extends JFrame {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 1){
-						bCardB2 = new BoardCard(cardClicked);
-						boardB2 = new BoardGUI(bCardB2, true, "A");
-						boardB2.setBounds(730, 81, 103, 125);
-						contentPane.add(boardB2,0);
-		
-						cardHand.remove(indexCardClicked);
-						handBackground = new JPanel();
-						handBackground.setBounds(12,405,550,160);
-						handBackground.setBackground(Color.DARK_GRAY);
-						contentPane.add(handBackground,0);
-						setHands(player2);
-						indexCardClicked = -1;
-		
-						contentPane.revalidate();
-						contentPane.repaint();
-					} else if (indexCardClicked == -1){
+						if (cardClicked.getTypeCard() == "Character"){
+							bCardB2 = new BoardCard(cardClicked);
+							boardB2 = new BoardGUI(bCardB2, true, "B");
+							boardB2.setBounds(730, 81, 103, 125);
+							contentPane.add(boardB2,0);
+			
+							cardHand.remove(indexCardClicked);
+							handBackground = new JPanel();
+							handBackground.setBounds(12,405,550,160);
+							handBackground.setBackground(Color.DARK_GRAY);
+							contentPane.add(handBackground,0);
+							setHands(player2);
+							indexCardClicked = -1;
+			
+							contentPane.revalidate();
+							contentPane.repaint();
+						} else if (cardClicked instanceof Spell && bCardB2 != null){
+							Spell cardClickedSpell= (Spell) cardClicked;
+							cardClickedSpell.apply(bCardA5);
+							boardB2 = new BoardGUI(bCardB2, true, "B");
+							boardB2.setBounds(730, 81, 103, 125);
+							contentPane.add(boardB2,0);
+
+							cardHand.remove(indexCardClicked);
+							handBackground = new JPanel();
+							handBackground.setBounds(12,405,550,160);
+							handBackground.setBackground(Color.DARK_GRAY);
+							contentPane.add(handBackground,0);
+							setHands(player2);
+							indexCardClicked = -1;
+
+							contentPane.revalidate();
+							contentPane.repaint();
+						}
+					}  else if (indexCardClicked == -1){
 						setMessage("Tidak ada Kartu yang dipilih");
 					} else if (indexPlayer == 0){
 						setMessage("Tidak bisa meletakkan pada board lawan");
@@ -713,22 +860,41 @@ public class MainGUI extends JFrame {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 1){
-						bCardB3 = new BoardCard(cardClicked);
-						boardB3 = new BoardGUI(bCardB3, true, "A");
-						boardB3.setBounds(843, 216, 103, 125);
-		
-						cardHand.remove(indexCardClicked);
-						handBackground = new JPanel();
-						handBackground.setBounds(12,405,550,160);
-						handBackground.setBackground(Color.DARK_GRAY);
-						contentPane.add(handBackground,0);
-						setHands(player2);
-						indexCardClicked = -1;
-		
-						contentPane.add(boardB3,0);
-						contentPane.revalidate();
-						contentPane.repaint();
-					} else if (indexCardClicked == -1){
+						if (cardClicked.getTypeCard() == "Character"){
+							bCardB3 = new BoardCard(cardClicked);
+							boardB3 = new BoardGUI(bCardB3, true, "C");
+							boardB3.setBounds(843, 216, 103, 125);
+			
+							cardHand.remove(indexCardClicked);
+							handBackground = new JPanel();
+							handBackground.setBounds(12,405,550,160);
+							handBackground.setBackground(Color.DARK_GRAY);
+							contentPane.add(handBackground,0);
+							setHands(player2);
+							indexCardClicked = -1;
+			
+							contentPane.add(boardB3,0);
+							contentPane.revalidate();
+							contentPane.repaint();
+						} else if (cardClicked instanceof Spell && bCardB3 != null){
+							Spell cardClickedSpell= (Spell) cardClicked;
+							cardClickedSpell.apply(bCardB3);
+							boardB3 = new BoardGUI(bCardB3, true, "C");
+							boardB3.setBounds(843, 216, 103, 125);
+							contentPane.add(boardB3,0);
+
+							cardHand.remove(indexCardClicked);
+							handBackground = new JPanel();
+							handBackground.setBounds(12,405,550,160);
+							handBackground.setBackground(Color.DARK_GRAY);
+							contentPane.add(handBackground,0);
+							setHands(player2);
+							indexCardClicked = -1;
+
+							contentPane.revalidate();
+							contentPane.repaint();
+						}
+					}  else if (indexCardClicked == -1){
 						setMessage("Tidak ada Kartu yang dipilih");
 					} else if (indexPlayer == 0){
 						setMessage("Tidak bisa meletakkan pada board lawan");
@@ -742,22 +908,41 @@ public class MainGUI extends JFrame {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 1){
-						bCardB4 = new BoardCard(cardClicked);
-						boardB4 = new BoardGUI(bCardB4, true, "A");
-						boardB4.setBounds(730, 216, 103, 125);
-		
-						cardHand.remove(indexCardClicked);
-						handBackground = new JPanel();
-						handBackground.setBounds(12,405,550,160);
-						handBackground.setBackground(Color.DARK_GRAY);
-						contentPane.add(handBackground,0);
-						setHands(player2);
-						indexCardClicked = -1;
-		
-						contentPane.add(boardB4,0);
-						contentPane.revalidate();
-						contentPane.repaint();
-					} else if (indexCardClicked == -1){
+						if (cardClicked.getTypeCard() == "Character"){
+							bCardB4 = new BoardCard(cardClicked);
+							boardB4 = new BoardGUI(bCardB4, true, "D");
+							boardB4.setBounds(730, 216, 103, 125);
+			
+							cardHand.remove(indexCardClicked);
+							handBackground = new JPanel();
+							handBackground.setBounds(12,405,550,160);
+							handBackground.setBackground(Color.DARK_GRAY);
+							contentPane.add(handBackground,0);
+							setHands(player2);
+							indexCardClicked = -1;
+			
+							contentPane.add(boardB4,0);
+							contentPane.revalidate();
+							contentPane.repaint();
+						} else if (cardClicked instanceof Spell && bCardB4 != null){
+							Spell cardClickedSpell= (Spell) cardClicked;
+							cardClickedSpell.apply(bCardB4);
+							boardB4 = new BoardGUI(bCardB4, true, "D");
+							boardB4.setBounds(730, 216, 103, 125);
+							contentPane.add(boardB4,0);
+
+							cardHand.remove(indexCardClicked);
+							handBackground = new JPanel();
+							handBackground.setBounds(12,405,550,160);
+							handBackground.setBackground(Color.DARK_GRAY);
+							contentPane.add(handBackground,0);
+							setHands(player2);
+							indexCardClicked = -1;
+
+							contentPane.revalidate();
+							contentPane.repaint();
+						}
+					}  else if (indexCardClicked == -1){
 						setMessage("Tidak ada Kartu yang dipilih");
 					} else if (indexPlayer == 0){
 						setMessage("Tidak bisa meletakkan pada board lawan");
@@ -771,22 +956,41 @@ public class MainGUI extends JFrame {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					if (indexCardClicked != -1 && curr_phase == "PLAN" && indexPlayer == 1){
-						bCardB5 = new BoardCard(cardClicked);
-						boardB5 = new BoardGUI(bCardB5, true, "A");
-						boardB5.setBounds(619, 148, 103, 125);
-		
-						cardHand.remove(indexCardClicked);
-						handBackground = new JPanel();
-						handBackground.setBounds(12,405,550,160);
-						handBackground.setBackground(Color.DARK_GRAY);
-						contentPane.add(handBackground,0);
-						setHands(player2);
-						indexCardClicked = -1;
-						
-						contentPane.add(boardB5,0);
-						contentPane.revalidate();
-						contentPane.repaint();
-					} else if (indexCardClicked == -1){
+						if (cardClicked.getTypeCard() == "Character"){
+							bCardB5 = new BoardCard(cardClicked);
+							boardB5 = new BoardGUI(bCardB5, true, "E");
+							boardB5.setBounds(619, 148, 103, 125);
+			
+							cardHand.remove(indexCardClicked);
+							handBackground = new JPanel();
+							handBackground.setBounds(12,405,550,160);
+							handBackground.setBackground(Color.DARK_GRAY);
+							contentPane.add(handBackground,0);
+							setHands(player2);
+							indexCardClicked = -1;
+							
+							contentPane.add(boardB5,0);
+							contentPane.revalidate();
+							contentPane.repaint();
+						} else if (cardClicked instanceof Spell && bCardB5 != null){
+							Spell cardClickedSpell= (Spell) cardClicked;
+							cardClickedSpell.apply(bCardB5);
+							boardB5 = new BoardGUI(bCardB5, true, "E");
+							boardB5.setBounds(619, 148, 103, 125);
+							contentPane.add(boardB5,0);
+
+							cardHand.remove(indexCardClicked);
+							handBackground = new JPanel();
+							handBackground.setBounds(12,405,550,160);
+							handBackground.setBackground(Color.DARK_GRAY);
+							contentPane.add(handBackground,0);
+							setHands(player2);
+							indexCardClicked = -1;
+
+							contentPane.revalidate();
+							contentPane.repaint();
+						}
+					}  else if (indexCardClicked == -1){
 						setMessage("Tidak ada Kartu yang dipilih");
 					} else if (indexPlayer == 0){
 						setMessage("Tidak bisa meletakkan pada board lawan");

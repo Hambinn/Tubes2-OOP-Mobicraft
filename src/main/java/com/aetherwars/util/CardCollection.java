@@ -21,6 +21,7 @@ public class CardCollection {
     private List<Card> swapSpellCollection;
     private List<Card> levelSpellCollection;
     private List<Character> characterCollection2;
+    private List<PotionSpell> ptnSpellCollection2;
     private static final String CHARACTER_CSV_FILE_PATH = "/com/aetherwars/card/data/character.csv";
     private static final String MORPHS_CSV_FILE_PATH = "/com/aetherwars/card/data/spell_morph.csv";
     private static final String PTN_CSV_FILE_PATH = "/com/aetherwars/card/data/spell_ptn.csv";
@@ -41,6 +42,7 @@ public class CardCollection {
         this.swapSpellCollection = new ArrayList<Card>();
         this.levelSpellCollection = new ArrayList<Card>();
         this.characterCollection2 = new ArrayList<Character>();
+        this.ptnSpellCollection2 = new ArrayList<PotionSpell>();
 
         File characterCSVFile = new File(getClass().getResource(CHARACTER_CSV_FILE_PATH).toURI());
         CSVReader characterReader = new CSVReader(characterCSVFile, "\t");
@@ -73,6 +75,7 @@ public class CardCollection {
             //PotionSpell(int id, String name, String description, String imagePath, int updateAttackValue, int updateHpValue, int mana, int duration)
             PotionSpell p = new PotionSpell(Integer.parseInt(row[0]), row[1], row[2], row[3], Integer.parseInt(row[4]), Integer.parseInt(row[5]), Integer.parseInt(row[6]), Integer.parseInt(row[7]));
             this.ptnSpellCollection.add(p);
+            this.ptnSpellCollection2.add(p);
         }
 
         File swapCSVFile = new File(getClass().getResource(SWAP_CSV_FILE_PATH).toURI());
@@ -128,6 +131,15 @@ public class CardCollection {
         for (Character c:this.characterCollection2){
             if (c.getID() == id){
                 return c;
+            }
+        }
+        return null;
+    }
+
+    public PotionSpell getPtnSpellbyId(int id){
+        for (PotionSpell p:this.ptnSpellCollection2){
+            if (p.getID() == id){
+                return p;
             }
         }
         return null;
