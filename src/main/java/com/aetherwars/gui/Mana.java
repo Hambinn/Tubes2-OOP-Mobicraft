@@ -21,7 +21,7 @@ public class Mana extends JPanel {
 		mana1.setBounds(2,5,65,30);
 		mana1.setFont(new Font("Cascadia Code", 1, 14));
 		manaMax = player.getMana();
-		String totalMana = Integer.toString(player.getMana())+ "/" + Integer.toString(manaMax);
+		String totalMana = Integer.toString(player.getMana())+ "/" + Integer.toString(player.getRound());
 		JLabel isiMana = new JLabel(totalMana, SwingConstants.CENTER);
 	    isiMana.setBounds(2, 25, 65, 30);
 		isiMana.setFont(new Font("Cascadia Code", 1, 14));

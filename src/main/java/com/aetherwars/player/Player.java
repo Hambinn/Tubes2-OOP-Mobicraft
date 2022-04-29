@@ -64,6 +64,14 @@ public class Player {
         return this.board;
     }
 
+    public int getRound(){
+        if(this.round < 10){
+            return this.round;
+        }else{
+            return 10;
+        }
+    }
+
     public void fillTopThree(){
         for(int i = 0; i < 3; i++) {
             this.topThree.add(this.deck.getCard());
@@ -113,6 +121,9 @@ public class Player {
 
     public void damaged(int damage){
         this.health -= damage;
+        if (this.health < 0) {
+            this.health = 0;
+        }
     }
 
     public Deck getDeck(){

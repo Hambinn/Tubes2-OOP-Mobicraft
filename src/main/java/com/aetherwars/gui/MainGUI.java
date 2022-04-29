@@ -46,13 +46,15 @@ public class MainGUI extends JFrame {
 	private List<Card> drawCard;
 	private int indexPlayer;
 	private Player player1, player2;
-	private JPanel handBackground, drawBackground;
+	private JPanel handBackground, winnerPlayerA, winnerPlayerB;
 	private JPanel hands1, hands2, hands3, hands4, hands5;
 	private JPanel boardA1, boardA2, boardA3, boardA4, boardA5;
 	private JPanel boardB1, boardB2, boardB3, boardB4, boardB5;
 	private JPanel board1, board2;
 	private Card cardClicked;
 	private List<Card> cardHand;
+	private List<Boolean> playerAttacked;
+	private boolean isGameOver;
 
 	/**
 	 * Create the frame.
@@ -64,6 +66,8 @@ public class MainGUI extends JFrame {
 		curr_round = 1;
 		curr_turn = "PlayerA";
 		deckClicked = 0;
+		isGameOver = false;
+		playerAttacked = new ArrayList<>(5);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 50, 1100, 800);
 		contentPane = new JPanel();
@@ -127,79 +131,93 @@ public class MainGUI extends JFrame {
 		setBoardPlan1(player_1, player_2);
 		setBoardAttack();
 		playerTurnSign(0);
-
-
-
         nextRound.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if (curr_phase == "DRAW") {
-                    next_phase = "PLAN";
-					drawPhase.setBackground(Color.ORANGE);
-					planPhase.setBackground(Color.GREEN);
-				} else if (curr_phase == "PLAN") {
-                    next_phase = "ATTACK";
-					planPhase.setBackground(Color.ORANGE);
-					attackPhase.setBackground(Color.GREEN);
-                } else if (curr_phase == "ATTACK") {
-                    next_phase = "END";
-					attackPhase.setBackground(Color.ORANGE);
-					endPhase.setBackground(Color.GREEN);
-                } else if (curr_phase == "END") {
-					deckClicked = 0;
-                    next_phase = "DRAW";
-					endPhase.setBackground(Color.ORANGE);
-					drawPhase.setBackground(Color.GREEN);
-					if (curr_turn == "PlayerA") {
-						curr_turn = "PlayerB";
-					} else {
-						curr_turn = "PlayerA";
-						curr_round++;
-						player1.nextRound();
-						player2.nextRound();
+				if (!isGameOver){
+					if (curr_phase == "DRAW") {
+						next_phase = "PLAN";
+						drawPhase.setBackground(Color.ORANGE);
+						planPhase.setBackground(Color.GREEN);
+					} else if (curr_phase == "PLAN") {
+						next_phase = "ATTACK";
+						playerAttacked = new ArrayList<>(5);
+						for (int i = 0; i < 5; i++) {
+							playerAttacked.add(false);
+						}
+						planPhase.setBackground(Color.ORANGE);
+						attackPhase.setBackground(Color.GREEN);
+					} else if (curr_phase == "ATTACK") {
+						next_phase = "END";
+						attackPhase.setBackground(Color.ORANGE);
+						endPhase.setBackground(Color.GREEN);
+					} else if (curr_phase == "END") {
+						if (player1.getHealth() == 0 || (player1.getSisaDeck() == 0 && player1.getPlayerHand().size() == 0)) {
+							//player2 win
+							isGameOver = true;
+							JLabel congratsA = new JLabel("The Winner is Player A", SwingConstants.CENTER);
+							congratsA.setForeground(Color.ORANGE);
+							congratsA.setVerticalAlignment(SwingConstants.CENTER);
+							congratsA.setFont(new Font("OCR A Extended", Font.PLAIN, 28));
+							congratsA.setBounds(2, 100, 390, 100);
+					
+							winnerPlayerA = new JPanel();
+							winnerPlayerA.setBounds(343, 171, 400, 220);
+							winnerPlayerA.setBackground(Color.GRAY);
+							winnerPlayerA.add(congratsA);
+							contentPane.add(winnerPlayerA, 0);
+						}
+						if (player2.getHealth() == 0 || (player2.getSisaDeck() == 0 && player2.getPlayerHand().size() == 0)) {
+							//player1 win
+							isGameOver = true;
+							JLabel congratsB = new JLabel("The Winner is Player A", SwingConstants.CENTER);
+							congratsB.setForeground(Color.ORANGE);
+							congratsB.setVerticalAlignment(SwingConstants.CENTER);
+							congratsB.setFont(new Font("OCR A Extended", Font.PLAIN, 28));
+							congratsB.setBounds(2, 100, 390, 215);
+					
+							winnerPlayerB = new JPanel();
+							winnerPlayerB.setBounds(343, 171, 400, 220);
+							winnerPlayerB.setBackground(Color.GRAY);
+							winnerPlayerB.add(congratsB);
+							contentPane.add(winnerPlayerB, 0);
+						}
+						deckClicked = 0;
+						next_phase = "DRAW";
+						endPhase.setBackground(Color.ORANGE);
+						drawPhase.setBackground(Color.GREEN);
+						if (curr_turn == "PlayerA") {
+							curr_turn = "PlayerB";
+						} else {
+							curr_turn = "PlayerA";
+							curr_round++;
+							player1.nextRound();
+							player2.nextRound();
+						}
+						if (curr_turn == "PlayerA"){
+							initialHand(player1);
+							indexPlayer = 0;
+							setBoardPlan1(player_1, player_2);
+							setBoardAttack();
+							playerTurnSign(0);
+						} else {
+							initialHand(player2);
+							indexPlayer = 1;
+							setBoardPlan1(player_1, player_2);
+							setBoardAttack();
+							playerTurnSign(1);
+						}
 					}
-					if (curr_turn == "PlayerA"){
-						initialHand(player1);
-						indexPlayer = 0;
-						setBoardPlan1(player_1, player_2);
-						setBoardAttack();
-						playerTurnSign(0);
-						// setBoardPlan2(player_2, 0);
-					} else {
-						initialHand(player2);
-						indexPlayer = 1;
-						// setBoardPlan1(player_1, 1,  false);
-						setBoardPlan1(player_1, player_2);
-						setBoardAttack();
-						playerTurnSign(1);
-					}
-					// Color colour = Color.CYAN;
-					// boardA1.setBackground(colour);
-					// boardA2.setBackground(colour);
-					// boardA3.setBackground(colour);
-					// boardA4.setBackground(colour);
-					// boardA5.setBackground(colour);
-					// boardB1.setBackground(colour);
-					// boardB2.setBackground(colour);
-					// boardB3.setBackground(colour);
-					// boardB4.setBackground(colour);
-					// boardB5.setBackground(colour);
-                }
-				curr_phase = next_phase;
-				setRound();
-				contentPane.revalidate();
-				contentPane.repaint();
+					curr_phase = next_phase;
+					setRound();
+					contentPane.revalidate();
+					contentPane.repaint();		
+				}
 			}
           });
 		nextRound.setBorder(new LineBorder(new Color(0, 0, 0)));
 		nextRound.setBounds(956, 384, 73, 20);
 		contentPane.add(nextRound);
-
-		// setBoardPlan2(player1, 0);
-
-		// JPanel mana = new Mana(player);
-		// mana.setBounds(1011, 479, 65, 60);
-		// contentPane.add(mana,0);
 		
 		healthBarA = new HealthBar(player1.getHealth(), "A");
 		healthBarA.setBounds(10, 10, 480, 20);
@@ -309,33 +327,6 @@ public class MainGUI extends JFrame {
 		contentPane.add(handBackground,0);
 		setHands(player);
 		setDrawCard();
-
-		// player.getDeck().printDeck();
-
-		System.out.println(player.getTopThree().get(0).getName());
-		System.out.println(player.getTopThree().get(1).getName());
-		System.out.println(player.getTopThree().get(2).getName());
-
-		// JPanel hands1 = new Hand(false, null);
-		// hands1.setBounds(14, 408, 103, 145);
-		// contentPane.add(hands1);
-		
-		// JPanel hands2 = new Hand(false, null);
-		// hands2.setBounds(119, 408, 103, 145);
-		// contentPane.add(hands2);
-		
-		// JPanel hands3 = new Hand(false, null);
-		// hands3.setBounds(224, 408, 103, 145);
-		// contentPane.add(hands3);
-		
-		// JPanel hands4 = new Hand(false, null);
-		// hands4.setBounds(329, 408, 103, 145);
-		// contentPane.add(hands4);
-		
-		// JPanel hands5 = new Hand(false, null);
-		// hands5.setBounds(434, 408, 103, 145);
-		// contentPane.add(hands5);
-
 		deck.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -517,14 +508,20 @@ public class MainGUI extends JFrame {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					// System.out.println("B" + play1);
-					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 0){
+					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 0 && cardClicked.getMana()<=player1.getMana()){
 						// System.out.println("C" + play1);
 						if (cardClicked.getTypeCard() == "Character"){
 							bCardA1 = new BoardCard(cardClicked);
 							boardA1 = new BoardGUI(bCardA1, true, "A");
 							boardA1.setBounds(139, 81, 103, 125);
 							contentPane.add(boardA1,0);
-			
+						
+							player1.setMana(-(cardClicked.getMana()));
+
+							JPanel mana = new Mana(player1);
+							mana.setBounds(1011, 479, 65, 60);
+							contentPane.add(mana,0);
+
 							cardHand.remove(indexCardClicked);
 							handBackground = new JPanel();
 							handBackground.setBounds(12,405,550,160);
@@ -567,12 +564,18 @@ public class MainGUI extends JFrame {
 			boardA2.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
-					if (indexCardClicked != -1 && curr_phase == "PLAN" && indexPlayer == 0){
+					if (indexCardClicked != -1 && curr_phase == "PLAN" && indexPlayer == 0 && cardClicked.getMana()<=player1.getMana()){
 						if (cardClicked.getTypeCard() == "Character"){
 						bCardA2 = new BoardCard(cardClicked);
 						boardA2 = new BoardGUI(bCardA2, true, "A");
 						boardA2.setBounds(252, 81, 103, 125);
 						contentPane.add(boardA2,0);
+
+						player1.setMana(-(cardClicked.getMana()));
+
+						JPanel mana = new Mana(player1);
+						mana.setBounds(1011, 479, 65, 60);
+						contentPane.add(mana,0);
 		
 						cardHand.remove(indexCardClicked);
 						handBackground = new JPanel();
@@ -615,11 +618,17 @@ public class MainGUI extends JFrame {
 			boardA3.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
-					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 0){
+					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 0 && cardClicked.getMana()<=player1.getMana()){
 						if (cardClicked.getTypeCard() == "Character"){
 							bCardA3 = new BoardCard(cardClicked);
 							boardA3 = new BoardGUI(bCardA3, true, "A");
 							boardA3.setBounds(139, 216, 103, 125);
+
+							player1.setMana(-(cardClicked.getMana()));
+
+							JPanel mana = new Mana(player1);
+							mana.setBounds(1011, 479, 65, 60);
+							contentPane.add(mana,0);
 							
 							cardHand.remove(indexCardClicked);
 							handBackground = new JPanel();
@@ -663,11 +672,17 @@ public class MainGUI extends JFrame {
 			boardA4.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
-					if (indexCardClicked != -1 && curr_phase == "PLAN" && indexPlayer == 0){
+					if (indexCardClicked != -1 && curr_phase == "PLAN" && indexPlayer == 0 && cardClicked.getMana()<=player1.getMana()){
 						if (cardClicked.getTypeCard() == "Character"){
 							bCardA4 = new BoardCard(cardClicked);
 							boardA4 = new BoardGUI(bCardA4, true, "A");
 							boardA4.setBounds(252, 216, 103, 125);
+
+							player1.setMana(-(cardClicked.getMana()));
+
+							JPanel mana = new Mana(player1);
+							mana.setBounds(1011, 479, 65, 60);
+							contentPane.add(mana,0);
 			
 							cardHand.remove(indexCardClicked);
 							handBackground = new JPanel();
@@ -713,12 +728,18 @@ public class MainGUI extends JFrame {
 			boardA5.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
-					if (indexCardClicked != -1 && curr_phase == "PLAN" && indexPlayer == 0){
+					if (indexCardClicked != -1 && curr_phase == "PLAN" && indexPlayer == 0 && cardClicked.getMana()<=player1.getMana()){
 						if (cardClicked.getTypeCard() == "Character"){
 							bCardA5 = new BoardCard(cardClicked);
 							boardA5 = new BoardGUI(bCardA5, true, "A");
 							boardA5.setBounds(365, 150, 103, 125);
 			
+							player1.setMana(-(cardClicked.getMana()));
+
+							JPanel mana = new Mana(player1);
+							mana.setBounds(1011, 479, 65, 60);
+							contentPane.add(mana,0);
+
 							cardHand.remove(indexCardClicked);
 							handBackground = new JPanel();
 							handBackground.setBounds(12,405,550,160);
@@ -762,13 +783,19 @@ public class MainGUI extends JFrame {
 				@Override
 				public void mousePressed(MouseEvent e) {
 					// System.out.println("D" + play1);
-					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 1){
+					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 1 && cardClicked.getMana()<=player2.getMana()){
 						if (cardClicked.getTypeCard() == "Character"){
 							bCardB1 = new BoardCard(cardClicked);
 							boardB1 = new BoardGUI(bCardB1, true, "A");
 							boardB1.setBounds(843, 81, 103, 125);
 							contentPane.add(boardB1,0);
-			
+
+							player2.setMana(-(cardClicked.getMana()));
+
+							JPanel mana = new Mana(player2);
+							mana.setBounds(1011, 479, 65, 60);
+							contentPane.add(mana,0);
+
 							cardHand.remove(indexCardClicked);
 							handBackground = new JPanel();
 							handBackground.setBounds(12,405,550,160);
@@ -811,13 +838,19 @@ public class MainGUI extends JFrame {
 			boardB2.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
-					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 1){
+					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 1 && cardClicked.getMana()<=player2.getMana()){
 						if (cardClicked.getTypeCard() == "Character"){
 							bCardB2 = new BoardCard(cardClicked);
 							boardB2 = new BoardGUI(bCardB2, true, "B");
 							boardB2.setBounds(730, 81, 103, 125);
 							contentPane.add(boardB2,0);
-			
+
+							player2.setMana(-(cardClicked.getMana()));
+
+							JPanel mana = new Mana(player2);
+							mana.setBounds(1011, 479, 65, 60);
+							contentPane.add(mana,0);
+
 							cardHand.remove(indexCardClicked);
 							handBackground = new JPanel();
 							handBackground.setBounds(12,405,550,160);
@@ -859,12 +892,18 @@ public class MainGUI extends JFrame {
 			boardB3.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
-					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 1){
+					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 1 && cardClicked.getMana()<=player2.getMana()){
 						if (cardClicked.getTypeCard() == "Character"){
 							bCardB3 = new BoardCard(cardClicked);
 							boardB3 = new BoardGUI(bCardB3, true, "C");
 							boardB3.setBounds(843, 216, 103, 125);
-			
+
+							player2.setMana(-(cardClicked.getMana()));
+
+							JPanel mana = new Mana(player2);
+							mana.setBounds(1011, 479, 65, 60);
+							contentPane.add(mana,0);
+
 							cardHand.remove(indexCardClicked);
 							handBackground = new JPanel();
 							handBackground.setBounds(12,405,550,160);
@@ -907,12 +946,18 @@ public class MainGUI extends JFrame {
 			boardB4.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
-					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 1){
+					if (indexCardClicked != -1  && curr_phase == "PLAN" && indexPlayer == 1 && cardClicked.getMana()<=player2.getMana()){
 						if (cardClicked.getTypeCard() == "Character"){
 							bCardB4 = new BoardCard(cardClicked);
 							boardB4 = new BoardGUI(bCardB4, true, "D");
 							boardB4.setBounds(730, 216, 103, 125);
-			
+
+							player2.setMana(-(cardClicked.getMana()));
+
+							JPanel mana = new Mana(player2);
+							mana.setBounds(1011, 479, 65, 60);
+							contentPane.add(mana,0);
+
 							cardHand.remove(indexCardClicked);
 							handBackground = new JPanel();
 							handBackground.setBounds(12,405,550,160);
@@ -955,12 +1000,18 @@ public class MainGUI extends JFrame {
 			boardB5.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
-					if (indexCardClicked != -1 && curr_phase == "PLAN" && indexPlayer == 1){
+					if (indexCardClicked != -1 && curr_phase == "PLAN" && indexPlayer == 1 && cardClicked.getMana()<=player2.getMana()){
 						if (cardClicked.getTypeCard() == "Character"){
 							bCardB5 = new BoardCard(cardClicked);
 							boardB5 = new BoardGUI(bCardB5, true, "E");
 							boardB5.setBounds(619, 148, 103, 125);
-			
+
+							player2.setMana(-(cardClicked.getMana()));
+
+							JPanel mana = new Mana(player2);
+							mana.setBounds(1011, 479, 65, 60);
+							contentPane.add(mana,0);
+
 							cardHand.remove(indexCardClicked);
 							handBackground = new JPanel();
 							handBackground.setBounds(12,405,550,160);
@@ -1011,7 +1062,6 @@ public class MainGUI extends JFrame {
 				// System.out.println("B" + play1);
 				System.out.println("serang1");
 				if (curr_phase == "ATTACK" && indexPlayer == 0){
-					// System.out.println("C" + play1);
 					bCardClicked1 = bCardA1;
 
 				}  else if (curr_phase == "ATTACK" && indexPlayer == 1){
@@ -1042,7 +1092,6 @@ public class MainGUI extends JFrame {
 				// System.out.println("B" + play1);
 				System.out.println("serang1");
 				if (curr_phase == "ATTACK" && indexPlayer == 0){
-					// System.out.println("C" + play1);
 					bCardClicked1 = bCardA2;
 
 				}  else if (curr_phase == "ATTACK" && indexPlayer == 1){
@@ -1072,7 +1121,6 @@ public class MainGUI extends JFrame {
 				// System.out.println("B" + play1);
 				System.out.println("serang1");
 				if (curr_phase == "ATTACK" && indexPlayer == 0){
-					// System.out.println("C" + play1);
 					bCardClicked1 = bCardA3;
 
 				}  else if (curr_phase == "ATTACK" && indexPlayer == 1){
@@ -1103,6 +1151,11 @@ public class MainGUI extends JFrame {
 				System.out.println("serang1");
 				if (curr_phase == "ATTACK" && indexPlayer == 0){
 					// System.out.println("C" + play1);
+					// if (playerAttacked.get(3) && bCardA4 != null) {
+					// 	setMessage("Karakter hanya bisa melakukan attack 1 kali");
+					// 	return;
+					// }
+					// playerAttacked.set(3, true);
 					bCardClicked1 = bCardA4;
 
 				}  else if (curr_phase == "ATTACK" && indexPlayer == 1){
@@ -1133,6 +1186,11 @@ public class MainGUI extends JFrame {
 				System.out.println("serang1");
 				if (curr_phase == "ATTACK" && indexPlayer == 0){
 					// System.out.println("C" + play1);
+					// if (playerAttacked.get(4) && bCardA5 != null) {
+					// 	setMessage("Karakter hanya bisa melakukan attack 1 kali");
+					// 	return;
+					// }
+					// playerAttacked.set(4, true);
 					bCardClicked1 = bCardA5;
 
 				}  else if (curr_phase == "ATTACK" && indexPlayer == 1){
@@ -1177,6 +1235,11 @@ public class MainGUI extends JFrame {
 					}
 					
 				}  else if (curr_phase == "ATTACK" && indexPlayer == 1){
+					// if (playerAttacked.get(0) && bCardB1 != null) {
+					// 	setMessage("Karakter hanya bisa melakukan attack 1 kali");
+					// 	return;
+					// }
+					// playerAttacked.set(0, true);
 					bCardClicked1 = bCardB1;
 				} else if (curr_phase != "ATTACK"){
 					setMessage("Letakkan kartu saat Plan Phase");
@@ -1207,6 +1270,11 @@ public class MainGUI extends JFrame {
 					}
 					
 				}  else if (curr_phase == "ATTACK" && indexPlayer == 1){
+					// if (playerAttacked.get(1) && bCardB2 != null) {
+					// 	setMessage("Karakter hanya bisa melakukan attack 1 kali");
+					// 	return;
+					// }
+					// playerAttacked.set(1, true);
 					bCardClicked1 = bCardB2;
 				} else if (curr_phase != "ATTACK"){
 					setMessage("Letakkan kartu saat Plan Phase");
@@ -1237,6 +1305,11 @@ public class MainGUI extends JFrame {
 					}
 					
 				}  else if (curr_phase == "ATTACK" && indexPlayer == 1){
+					// if (playerAttacked.get(2) && bCardB3 != null) {
+					// 	setMessage("Karakter hanya bisa melakukan attack 1 kali");
+					// 	return;
+					// }
+					// playerAttacked.set(2, true);
 					bCardClicked1 = bCardB3;
 				} else if (curr_phase != "ATTACK"){
 					setMessage("Letakkan kartu saat Plan Phase");
@@ -1267,6 +1340,11 @@ public class MainGUI extends JFrame {
 					}
 					
 				}  else if (curr_phase == "ATTACK" && indexPlayer == 1){
+					// if (playerAttacked.get(3) && bCardB4 != null) {
+					// 	setMessage("Karakter hanya bisa melakukan attack 1 kali");
+					// 	return;
+					// }
+					// playerAttacked.set(3, true);
 					bCardClicked1 = bCardB4;
 				} else if (curr_phase != "ATTACK"){
 					setMessage("Letakkan kartu saat Plan Phase");
@@ -1297,6 +1375,11 @@ public class MainGUI extends JFrame {
 					}
 					
 				}  else if ( curr_phase == "ATTACK" && indexPlayer == 1){
+					// if (playerAttacked.get(4) && bCardB5 != null) {
+					// 	setMessage("Karakter hanya bisa melakukan attack 1 kali");
+					// 	return;
+					// }
+					// playerAttacked.set(4, true);
 					bCardClicked1 = bCardB5;
 				} else if (curr_phase != "ATTACK"){
 					setMessage("Letakkan kartu saat Plan Phase");
@@ -1776,26 +1859,6 @@ public class MainGUI extends JFrame {
 		contentPane.add(mana,0);
 
 		System.out.println(player.getMana());
-				
-		// JPanel boardB1 = new Board(null, false, "A");
-		// boardB1.setBounds(843, 81, 103, 125);
-		// contentPane.add(boardB1);
-		
-		// JPanel boardB2 = new Board(null, false, "B");
-		// boardB2.setBounds(730, 81, 103, 125);
-		// contentPane.add(boardB2);
-		
-		// JPanel boardB4 = new Board(null, false, "D");
-		// boardB4.setBounds(730, 216, 103, 125);
-		// contentPane.add(boardB4);
-		
-		// JPanel boardB3 = new Board(null, false, "C");
-		// boardB3.setBounds(843, 216, 103, 125);
-		// contentPane.add(boardB3);
-		
-		// JPanel boardB5 = new Board(null, false, "E");
-		// boardB5.setBounds(619, 148, 103, 125);
-		// contentPane.add(boardB5);
 		
 		healthBarA = new HealthBar(player1.getHealth(), "A");
 		healthBarA.setBounds(10, 10, 480, 20);
@@ -1808,17 +1871,6 @@ public class MainGUI extends JFrame {
 
 		setRound();
 		
-		// JLabel playerAName = new JLabel(player1.getName(), SwingConstants.LEFT);
-		// playerAName.setForeground(Color.CYAN);
-		// playerAName.setFont(new Font("OCR A Extended", Font.PLAIN, 14));
-		// playerAName.setBounds(20, 33, 73, 37);
-		// contentPane.add(playerAName);
-		
-		// JLabel playerBName = new JLabel(player2.getName(), SwingConstants.RIGHT);
-		// playerBName.setForeground(Color.CYAN);
-		// playerBName.setFont(new Font("OCR A Extended", Font.PLAIN, 14));
-		// playerBName.setBounds(992, 33, 73, 37);
-		// contentPane.add(playerBName);
 		contentPane.revalidate();
 		contentPane.repaint();
 	}
