@@ -39,6 +39,8 @@ public class MainGUI extends JFrame {
 
 	private JPanel drawPhase, planPhase, attackPhase, endPhase, drawPos;
 	private JPanel drawCard1, drawCard2, drawCard3;
+	private JPanel healthBarA, healthBarB, avatarA, avatarB;
+	private JLabel playerAName, playerBName;
 	private List<Card> drawCard;
 	private int indexPlayer;
 	private Player player1, player2;
@@ -118,10 +120,13 @@ public class MainGUI extends JFrame {
 
 
 		indexPlayer = 0;
-		playerTurnSign(0);
-		initialHand(player1);
 		setInitialBoard();
+		initialHand(player1);
 		setBoardPlan1(player_1, player_2);
+		setBoardAttack();
+		playerTurnSign(0);
+
+
 
         nextRound.addMouseListener(new MouseAdapter() {
             @Override
@@ -153,19 +158,18 @@ public class MainGUI extends JFrame {
 					}
 					if (curr_turn == "PlayerA"){
 						initialHand(player1);
-						playerTurnSign(0);
 						indexPlayer = 0;
 						setBoardPlan1(player_1, player_2);
 						setBoardAttack();
+						playerTurnSign(0);
 						// setBoardPlan2(player_2, 0);
 					} else {
 						initialHand(player2);
-						playerTurnSign(1);
 						indexPlayer = 1;
 						// setBoardPlan1(player_1, 1,  false);
 						setBoardPlan1(player_1, player_2);
 						setBoardAttack();
-
+						playerTurnSign(1);
 					}
                 }
 				curr_phase = next_phase;
@@ -184,37 +188,85 @@ public class MainGUI extends JFrame {
 		// mana.setBounds(1011, 479, 65, 60);
 		// contentPane.add(mana,0);
 		
-		JPanel healthBarA = new HealthBar(player1.getHealth(), "A");
+		healthBarA = new HealthBar(player1.getHealth(), "A");
 		healthBarA.setBounds(10, 10, 480, 20);
 		contentPane.add(healthBarA);
 		
-		JPanel healthBarB = new HealthBar(player2.getHealth(), "B");
+		healthBarB = new HealthBar(player2.getHealth(), "B");
 		healthBarB.setBackground(Color.CYAN);
 		healthBarB.setBounds(596, 10, 480, 20);
 		contentPane.add(healthBarB);
 		
-		JLabel playerAName = new JLabel(player1.getName(), SwingConstants.LEFT);
+		playerAName = new JLabel(player1.getName() + " (" + player1.getHealth()+"/80)", SwingConstants.LEFT);
 		playerAName.setForeground(Color.CYAN);
 		playerAName.setFont(new Font("OCR A Extended", Font.PLAIN, 14));
-		playerAName.setBounds(20, 33, 73, 37);
-		contentPane.add(playerAName);
+		playerAName.setBounds(20, 33, 200, 37);
+		contentPane.add(playerAName, 0);
 		
-		JLabel playerBName = new JLabel(player2.getName(), SwingConstants.RIGHT);
+		playerBName = new JLabel("(" + player2.getHealth() + "/80) " + player2.getName(), SwingConstants.RIGHT);
 		playerBName.setForeground(Color.CYAN);
 		playerBName.setFont(new Font("OCR A Extended", Font.PLAIN, 14));
-		playerBName.setBounds(992, 33, 73, 37);
-		contentPane.add(playerBName);
+		playerBName.setBounds(870, 33, 200, 37);
+		contentPane.add(playerBName, 0);
 		contentPane.repaint();
 	}
 
 	public void playerTurnSign(int index){
-		JPanel avatarA = new CharIcon("src/main/java/com/aetherwars/gui/charicon1.png");
+		avatarA = new CharIcon("src/main/java/com/aetherwars/gui/charicon1.png");
 		avatarA.setBackground(Color.WHITE);
 		avatarA.setBounds(9, 155, 120, 120);
-		
-		JPanel avatarB = new CharIcon("src/main/java/com/aetherwars/gui/charicon2.png");
+		avatarA.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (curr_phase == "ATTACK" && indexPlayer == 1){
+					int att = bCardClicked1.getAttackValue();
+					player1.damaged(att);
+					healthBarA = new HealthBar(player1.getHealth(), "A");
+					healthBarA.setBounds(10, 10, 480, 20);
+					contentPane.add(healthBarA,0);
+					playerAName = new JLabel(player1.getName() + " (" + player1.getHealth()+"/80)", SwingConstants.LEFT);
+					playerAName.setForeground(Color.CYAN);
+					playerAName.setFont(new Font("OCR A Extended", Font.PLAIN, 14));
+					playerAName.setBounds(20, 33, 200, 37);
+					JPanel panel = new JPanel();
+					panel.setBackground(Color.DARK_GRAY);
+					panel.setBounds(15, 30, 220, 30);
+					contentPane.add(panel,0);
+					contentPane.add(playerAName, 0);
+					contentPane.revalidate();
+					contentPane.repaint();	
+				}
+			}
+		});
+
+		avatarB = new CharIcon("src/main/java/com/aetherwars/gui/charicon2.png");
 		avatarB.setBackground(Color.WHITE);
 		avatarB.setBounds(956, 155, 120, 120);
+		avatarB.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (curr_phase == "ATTACK" && indexPlayer == 0){
+					System.out.println("Serang Avatar B");
+					int att = bCardClicked1.getAttackValue();
+					player2.damaged(att);
+					healthBarB = new HealthBar(player2.getHealth(), "B");
+					healthBarB.setBackground(Color.CYAN);
+					healthBarB.setBounds(596, 10, 480, 20);
+					contentPane.add(healthBarB,0);
+					playerBName = new JLabel("(" + player2.getHealth()+ "/80) " + player2.getName(), SwingConstants.RIGHT);
+					playerBName.setForeground(Color.CYAN);
+					playerBName.setFont(new Font("OCR A Extended", Font.PLAIN, 14));
+					playerBName.setBounds(870, 33, 200, 37);
+					JPanel panel = new JPanel();
+					panel.setBackground(Color.DARK_GRAY);
+					panel.setBounds(869, 32, 223, 30);
+					contentPane.add(panel, 0);
+					contentPane.add(playerBName, 0);
+					contentPane.revalidate();
+					contentPane.repaint();
+				}
+			}
+		});
 		
 		if (index == 0){
 			avatarA.setBorder(new LineBorder(Color.GREEN));
@@ -763,13 +815,13 @@ public class MainGUI extends JFrame {
 					if (bCardClicked1 == bCardB1){
 						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 843, 81, 103, 125, 139, 81, 103, 125);
 					} else if (bCardClicked1 == bCardB2){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 730, 81, 103, 125, 139, 81, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "A", "B", 730, 81, 103, 125, 139, 81, 103, 125);
 					} else if (bCardClicked1 == bCardB3){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 843, 216, 103, 125, 139, 81, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "A", "C", 843, 216, 103, 125, 139, 81, 103, 125);
 					} else if (bCardClicked1 == bCardB4){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 730, 216, 103, 125, 139, 81, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "A", "D", 730, 216, 103, 125, 139, 81, 103, 125);
 					} else if (bCardClicked1 == bCardB5){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 619, 148, 103, 125, 139, 81, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "A", "E", 619, 148, 103, 125, 139, 81, 103, 125);
 					}
 				} else if (curr_phase != "ATTACK"){
 					setMessage("Letakkan kartu saat Plan Phase");
@@ -780,7 +832,7 @@ public class MainGUI extends JFrame {
 
 		
 		boardA2.addMouseListener(new MouseAdapter() {
-				
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// System.out.println("B" + play1);
@@ -792,15 +844,15 @@ public class MainGUI extends JFrame {
 				}  else if (curr_phase == "ATTACK" && indexPlayer == 1){
 					bCardClicked2 = bCardA2;
 					if (bCardClicked1 == bCardB1){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 843, 81, 103, 125, 252, 81, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "B", "A", 843, 81, 103, 125, 252, 81, 103, 125);
 					} else if (bCardClicked1 == bCardB2){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 730, 81, 103, 125, 252, 81, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "B", "B", 730, 81, 103, 125, 252, 81, 103, 125);
 					} else if (bCardClicked1 == bCardB3){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 843, 216, 103, 125, 252, 81, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "B", "C", 843, 216, 103, 125, 252, 81, 103, 125);
 					} else if (bCardClicked1 == bCardB4){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 730, 216, 103, 125, 252, 81, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "B", "D", 730, 216, 103, 125, 252, 81, 103, 125);
 					} else if (bCardClicked1 == bCardB5){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 619, 148, 103, 125, 252, 81, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "B", "E", 619, 148, 103, 125, 252, 81, 103, 125);
 					}
 				} else if (curr_phase != "ATTACK"){
 					setMessage("Letakkan kartu saat Plan Phase");
@@ -822,15 +874,15 @@ public class MainGUI extends JFrame {
 				}  else if (curr_phase == "ATTACK" && indexPlayer == 1){
 					bCardClicked2 = bCardA3;
 					if (bCardClicked1 == bCardB1){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 843, 81, 103, 125, 12,405,550,160);
+						setAttackCard(bCardClicked1, bCardClicked2, "C", "A", 843, 81, 103, 125, 12,405,550,160);
 					} else if (bCardClicked1 == bCardB2){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 730, 81, 103, 125, 12,405,550,160);
+						setAttackCard(bCardClicked1, bCardClicked2, "C", "B", 730, 81, 103, 125, 12,405,550,160);
 					} else if (bCardClicked1 == bCardB3){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 843, 216, 103, 125, 12,405,550,160);
+						setAttackCard(bCardClicked1, bCardClicked2, "C", "C", 843, 216, 103, 125, 12,405,550,160);
 					} else if (bCardClicked1 == bCardB4){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 730, 216, 103, 125, 12,405,550,160);
+						setAttackCard(bCardClicked1, bCardClicked2, "C", "D", 730, 216, 103, 125, 12,405,550,160);
 					} else if (bCardClicked1 == bCardB5){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 619, 148, 103, 125, 12,405,550,160);
+						setAttackCard(bCardClicked1, bCardClicked2, "C", "E", 619, 148, 103, 125, 12,405,550,160);
 					}
 				} else if (curr_phase != "ATTACK"){
 					setMessage("Letakkan kartu saat Plan Phase");
@@ -852,15 +904,15 @@ public class MainGUI extends JFrame {
 				}  else if (curr_phase == "ATTACK" && indexPlayer == 1){
 					bCardClicked2 = bCardA4;
 					if (bCardClicked1 == bCardB1){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 843, 81, 103, 125, 252, 216, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "D", "A", 843, 81, 103, 125, 252, 216, 103, 125);
 					} else if (bCardClicked1 == bCardB2){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 730, 81, 103, 125, 252, 216, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "D", "B", 730, 81, 103, 125, 252, 216, 103, 125);
 					} else if (bCardClicked1 == bCardB3){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 843, 216, 103, 125, 252, 216, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "D", "C", 843, 216, 103, 125, 252, 216, 103, 125);
 					} else if (bCardClicked1 == bCardB4){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 730, 216, 103, 125, 252, 216, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "D", "D", 730, 216, 103, 125, 252, 216, 103, 125);
 					} else if (bCardClicked1 == bCardB5){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 619, 148, 103, 125, 252, 216, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "D", "E", 619, 148, 103, 125, 252, 216, 103, 125);
 					}
 				} else if (curr_phase != "ATTACK"){
 					setMessage("Letakkan kartu saat Plan Phase");
@@ -882,15 +934,15 @@ public class MainGUI extends JFrame {
 				}  else if (curr_phase == "ATTACK" && indexPlayer == 1){
 					bCardClicked2 = bCardA5;
 					if (bCardClicked1 == bCardB1){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 843, 81, 103, 125, 365, 150, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "E", "A", 843, 81, 103, 125, 365, 150, 103, 125);
 					} else if (bCardClicked1 == bCardB2){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 730, 81, 103, 125, 365, 150, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "E", "B", 730, 81, 103, 125, 365, 150, 103, 125);
 					} else if (bCardClicked1 == bCardB3){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 843, 216, 103, 125, 365, 150, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "E", "C", 843, 216, 103, 125, 365, 150, 103, 125);
 					} else if (bCardClicked1 == bCardB4){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 730, 216, 103, 125, 365, 150, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "E", "D", 730, 216, 103, 125, 365, 150, 103, 125);
 					} else if (bCardClicked1 == bCardB5){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 619, 148, 103, 125, 365, 150, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "E", "E", 619, 148, 103, 125, 365, 150, 103, 125);
 					}
 				} else if (curr_phase != "ATTACK"){
 					setMessage("Letakkan kartu saat Plan Phase");
@@ -911,13 +963,13 @@ public class MainGUI extends JFrame {
 					if (bCardClicked1 == bCardA1){
 						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 139, 81, 103, 125, 843, 81, 103, 125);
 					} else if (bCardClicked1 == bCardA2){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 252, 81, 103, 125, 843, 81, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "B", "A", 252, 81, 103, 125, 843, 81, 103, 125);
 					} else if (bCardClicked1 == bCardA3){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 139, 216, 103, 125, 843, 81, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "C", "A", 139, 216, 103, 125, 843, 81, 103, 125);
 					} else if (bCardClicked1 == bCardA4){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 252, 216, 103, 125, 843, 81, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "D", "A", 252, 216, 103, 125, 843, 81, 103, 125);
 					} else if (bCardClicked1 == bCardA5){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 365, 150, 103, 125, 843, 81, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "E", "A", 365, 150, 103, 125, 843, 81, 103, 125);
 					}
 					
 				}  else if (curr_phase == "ATTACK" && indexPlayer == 1){
@@ -939,15 +991,15 @@ public class MainGUI extends JFrame {
 					System.out.println("serang2");
 					bCardClicked2 = bCardB2;
 					if (bCardClicked1 == bCardA1){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 139, 81, 103, 125, 730, 81, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "A", "B", 139, 81, 103, 125, 730, 81, 103, 125);
 					} else if (bCardClicked1 == bCardA2){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 252, 81, 103, 125, 730, 81, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "B", "B", 252, 81, 103, 125, 730, 81, 103, 125);
 					} else if (bCardClicked1 == bCardA3){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 139, 216, 103, 125, 730, 81, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "C", "B", 139, 216, 103, 125, 730, 81, 103, 125);
 					} else if (bCardClicked1 == bCardA4){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 252, 216, 103, 125, 730, 81, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "D", "B", 252, 216, 103, 125, 730, 81, 103, 125);
 					} else if (bCardClicked1 == bCardA5){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 365, 150, 103, 125, 730, 81, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "E", "B", 365, 150, 103, 125, 730, 81, 103, 125);
 					}
 					
 				}  else if (curr_phase == "ATTACK" && indexPlayer == 1){
@@ -969,15 +1021,15 @@ public class MainGUI extends JFrame {
 					System.out.println("serang2");
 					bCardClicked2 = bCardB3;
 					if (bCardClicked1 == bCardA1){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 139, 81, 103, 125, 843, 216, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "A", "C", 139, 81, 103, 125, 843, 216, 103, 125);
 					} else if (bCardClicked1 == bCardA2){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 252, 81, 103, 125, 843, 216, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "B", "C", 252, 81, 103, 125, 843, 216, 103, 125);
 					} else if (bCardClicked1 == bCardA3){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 139, 216, 103, 125, 843, 216, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "C", "C", 139, 216, 103, 125, 843, 216, 103, 125);
 					} else if (bCardClicked1 == bCardA4){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 252, 216, 103, 125, 843, 216, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "D", "C", 252, 216, 103, 125, 843, 216, 103, 125);
 					} else if (bCardClicked1 == bCardA5){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 365, 150, 103, 125, 843, 216, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "E", "C", 365, 150, 103, 125, 843, 216, 103, 125);
 					}
 					
 				}  else if (curr_phase == "ATTACK" && indexPlayer == 1){
@@ -999,15 +1051,15 @@ public class MainGUI extends JFrame {
 					System.out.println("serang2");
 					bCardClicked2 = bCardB4;
 					if (bCardClicked1 == bCardA1){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 139, 81, 103, 125, 730, 216, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "A", "D", 139, 81, 103, 125, 730, 216, 103, 125);
 					} else if (bCardClicked1 == bCardA2){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 252, 81, 103, 125, 730, 216, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "B", "D", 252, 81, 103, 125, 730, 216, 103, 125);
 					} else if (bCardClicked1 == bCardA3){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 139, 216, 103, 125,730, 216, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "C", "D", 139, 216, 103, 125,730, 216, 103, 125);
 					} else if (bCardClicked1 == bCardA4){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 252, 216, 103, 125, 730, 216, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "D", "D", 252, 216, 103, 125, 730, 216, 103, 125);
 					} else if (bCardClicked1 == bCardA5){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 365, 150, 103, 125,730, 216, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "E", "D", 365, 150, 103, 125,730, 216, 103, 125);
 					}
 					
 				}  else if (curr_phase == "ATTACK" && indexPlayer == 1){
@@ -1029,15 +1081,15 @@ public class MainGUI extends JFrame {
 					System.out.println("serang2");
 					bCardClicked2 = bCardB5;
 					if (bCardClicked1 == bCardA1){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 139, 81, 103, 125, 619, 148, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "A", "E", 139, 81, 103, 125, 619, 148, 103, 125);
 					} else if (bCardClicked1 == bCardA2){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 252, 81, 103, 125, 619, 148, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "B", "E", 252, 81, 103, 125, 619, 148, 103, 125);
 					} else if (bCardClicked1 == bCardA3){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 139, 216, 103, 125,619, 148, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "C", "E", 139, 216, 103, 125,619, 148, 103, 125);
 					} else if (bCardClicked1 == bCardA4){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 252, 216, 103, 125, 619, 148, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "D", "E", 252, 216, 103, 125, 619, 148, 103, 125);
 					} else if (bCardClicked1 == bCardA5){
-						setAttackCard(bCardClicked1, bCardClicked2, "A", "A", 365, 150, 103, 125, 619, 148, 103, 125);
+						setAttackCard(bCardClicked1, bCardClicked2, "E", "E", 365, 150, 103, 125, 619, 148, 103, 125);
 					}
 					
 				}  else if ( curr_phase == "ATTACK" && indexPlayer == 1){
@@ -1048,188 +1100,12 @@ public class MainGUI extends JFrame {
 
 			}
 		});
+
+		contentPane.revalidate();
+		contentPane.repaint();
 	}
 
-	// public void setBoardPlan2(Player player, int index){
-	// 	System.out.println("B" + player.getName());
-	// 	System.out.println("index :" + Integer.toString(index));
-	// 	setHands(player);
-	// 	boardA1.addMouseListener(new MouseAdapter() {
-	// 		@Override
-	// 		public void mousePressed(MouseEvent e) {
-	// 			setMessage("Tidak bisa meletakkan pada board lawan");
-	// 		}
-	// 	});
-
-	// 	boardA2.addMouseListener(new MouseAdapter() {
-	// 		@Override
-	// 		public void mousePressed(MouseEvent e) {
-	// 			setMessage("Tidak bisa meletakkan pada board lawan");
-	// 		}
-	// 	});
-
-	// 	boardA3.addMouseListener(new MouseAdapter() {
-	// 		@Override
-	// 		public void mousePressed(MouseEvent e) {
-	// 			setMessage("Tidak bisa meletakkan pada board lawan");
-	// 		}
-	// 	});
-
-	// 	boardA4.addMouseListener(new MouseAdapter() {
-	// 		@Override
-	// 		public void mousePressed(MouseEvent e) {
-	// 			setMessage("Tidak bisa meletakkan pada board lawan");
-	// 		}
-	// 	});
-
-	// 	boardA5.addMouseListener(new MouseAdapter() {
-	// 		@Override
-	// 		public void mousePressed(MouseEvent e) {
-	// 			setMessage("Tidak bisa meletakkan pada board lawan");
-	// 		}
-	// 	});
-	// 	boardB1.addMouseListener(new MouseAdapter() {
-	// 		@Override
-	// 		public void mousePressed(MouseEvent e) {
-	// 			if (indexCardClicked != -1 && index == 1 && curr_phase == "PLAN"){
-	// 				boardB1 = new BoardGUI(cardClicked, true, "A");
-	// 				boardB1.setBounds(843, 81, 103, 125);
-	// 				contentPane.add(boardB1,0);
 	
-	// 				cardHand.remove(indexCardClicked);
-	// 				handBackground = new JPanel();
-	// 				handBackground.setBounds(12,405,550,200);
-	// 				handBackground.setBackground(Color.DARK_GRAY);
-	// 				contentPane.add(handBackground,0);
-	// 				setHands(player);
-	// 				indexCardClicked = -1;
-	
-	// 				contentPane.revalidate();
-	// 				contentPane.repaint();
-	// 			} else if (indexCardClicked == -1){
-	// 				setMessage("Tidak ada Kartu yang dipilih");
-	// 			} else if (index == 0){
-	// 				setMessage("Tidak bisa meletakkan pada board lawan");
-	// 			} else if (curr_phase != "PLAN"){
-	// 				setMessage("Letakkan kartu saat Plan Phase");
-	// 			}
-
-	// 		}
-	// 	});
-
-	// 	boardB2.addMouseListener(new MouseAdapter() {
-	// 		@Override
-	// 		public void mousePressed(MouseEvent e) {
-	// 			if (indexCardClicked != -1 && index == 1 && curr_phase == "PLAN"){
-	// 				boardB2 = new BoardGUI(cardClicked, true, "A");
-	// 				boardB2.setBounds(730, 81, 103, 125);
-	// 				contentPane.add(boardB2,0);
-	
-	// 				cardHand.remove(indexCardClicked);
-	// 				handBackground = new JPanel();
-	// 				handBackground.setBounds(12,405,550,200);
-	// 				handBackground.setBackground(Color.DARK_GRAY);
-	// 				contentPane.add(handBackground,0);
-	// 				setHands(player);
-	// 				indexCardClicked = -1;
-	
-	// 				contentPane.revalidate();
-	// 				contentPane.repaint();
-	// 			} else if (indexCardClicked == -1){
-	// 				setMessage("Tidak ada Kartu yang dipilih");
-	// 			} else if (index == 0){
-	// 				setMessage("Tidak bisa meletakkan pada board lawan");
-	// 			} else if (curr_phase != "PLAN"){
-	// 				setMessage("Letakkan kartu saat Plan Phase");
-	// 			}
-	// 		}
-	// 	});
-
-	// 	boardB3.addMouseListener(new MouseAdapter() {
-	// 		@Override
-	// 		public void mousePressed(MouseEvent e) {
-	// 			if (indexCardClicked != -1 && index == 1 && curr_phase == "PLAN"){
-	// 				boardB3 = new BoardGUI(cardClicked, true, "A");
-	// 				boardB3.setBounds(843, 216, 103, 125);
-	
-	// 				cardHand.remove(indexCardClicked);
-	// 				handBackground = new JPanel();
-	// 				handBackground.setBounds(12,405,550,200);
-	// 				handBackground.setBackground(Color.DARK_GRAY);
-	// 				contentPane.add(handBackground,0);
-	// 				setHands(player);
-	// 				indexCardClicked = -1;
-	
-	// 				contentPane.add(boardB3,0);
-	// 				contentPane.revalidate();
-	// 				contentPane.repaint();
-	// 			} else if (indexCardClicked == -1){
-	// 				setMessage("Tidak ada Kartu yang dipilih");
-	// 			} else if (index == 0){
-	// 				setMessage("Tidak bisa meletakkan pada board lawan");
-	// 			} else if (curr_phase != "PLAN"){
-	// 				setMessage("Letakkan kartu saat Plan Phase");
-	// 			}
-	// 		}
-	// 	});
-
-	// 	boardB4.addMouseListener(new MouseAdapter() {
-	// 		@Override
-	// 		public void mousePressed(MouseEvent e) {
-	// 			if (indexCardClicked != -1 && index == 1 && curr_phase == "PLAN"){
-	// 				boardB4 = new BoardGUI(cardClicked, true, "A");
-	// 				boardB4.setBounds(730, 216, 103, 125);
-	
-	// 				cardHand.remove(indexCardClicked);
-	// 				handBackground = new JPanel();
-	// 				handBackground.setBounds(12,405,550,200);
-	// 				handBackground.setBackground(Color.DARK_GRAY);
-	// 				contentPane.add(handBackground,0);
-	// 				setHands(player);
-	// 				indexCardClicked = -1;
-	
-	// 				contentPane.add(boardB4,0);
-	// 				contentPane.revalidate();
-	// 				contentPane.repaint();
-	// 			} else if (indexCardClicked == -1){
-	// 				setMessage("Tidak ada Kartu yang dipilih");
-	// 			} else if (index == 0){
-	// 				setMessage("Tidak bisa meletakkan pada board lawan");
-	// 			} else if (curr_phase != "PLAN"){
-	// 				setMessage("Letakkan kartu saat Plan Phase");
-	// 			}
-	// 		}
-	// 	});
-
-	// 	boardB5.addMouseListener(new MouseAdapter() {
-	// 		@Override
-	// 		public void mousePressed(MouseEvent e) {
-	// 			if (indexCardClicked != -1 && index == 1 && curr_phase == "PLAN"){
-	// 				boardB5 = new BoardGUI(cardClicked, true, "A");
-	// 				boardB5.setBounds(619, 148, 103, 125);
-	
-	// 				cardHand.remove(indexCardClicked);
-	// 				handBackground = new JPanel();
-	// 				handBackground.setBounds(12,405,550,200);
-	// 				handBackground.setBackground(Color.DARK_GRAY);
-	// 				contentPane.add(handBackground,0);
-	// 				setHands(player);
-	// 				indexCardClicked = -1;
-					
-	// 				contentPane.add(boardB5,0);
-	// 				contentPane.revalidate();
-	// 				contentPane.repaint();
-	// 			} else if (indexCardClicked == -1){
-	// 				setMessage("Tidak ada Kartu yang dipilih");
-	// 			} else if (index == 0){
-	// 				setMessage("Tidak bisa meletakkan pada board lawan");
-	// 			} else if (curr_phase != "PLAN"){
-	// 				setMessage("Letakkan kartu saat Plan Phase");
-	// 			}
-	// 		}
-	// 	});
-	
-	// }
 
 	public void setMessage(String message){
 		JPanel msgLabel = new JPanel();
@@ -1717,28 +1593,28 @@ public class MainGUI extends JFrame {
 		// boardB5.setBounds(619, 148, 103, 125);
 		// contentPane.add(boardB5);
 		
-		JPanel healthBarA = new HealthBar(player1.getHealth(), "A");
+		healthBarA = new HealthBar(player1.getHealth(), "A");
 		healthBarA.setBounds(10, 10, 480, 20);
 		contentPane.add(healthBarA);
 		
-		JPanel healthBarB = new HealthBar(player2.getHealth(), "B");
+		healthBarB = new HealthBar(player2.getHealth(), "B");
 		healthBarB.setBackground(Color.CYAN);
 		healthBarB.setBounds(596, 10, 480, 20);
 		contentPane.add(healthBarB);
 
 		setRound();
 		
-		JLabel playerAName = new JLabel(player1.getName(), SwingConstants.LEFT);
-		playerAName.setForeground(Color.CYAN);
-		playerAName.setFont(new Font("OCR A Extended", Font.PLAIN, 14));
-		playerAName.setBounds(20, 33, 73, 37);
-		contentPane.add(playerAName);
+		// JLabel playerAName = new JLabel(player1.getName(), SwingConstants.LEFT);
+		// playerAName.setForeground(Color.CYAN);
+		// playerAName.setFont(new Font("OCR A Extended", Font.PLAIN, 14));
+		// playerAName.setBounds(20, 33, 73, 37);
+		// contentPane.add(playerAName);
 		
-		JLabel playerBName = new JLabel(player2.getName(), SwingConstants.RIGHT);
-		playerBName.setForeground(Color.CYAN);
-		playerBName.setFont(new Font("OCR A Extended", Font.PLAIN, 14));
-		playerBName.setBounds(992, 33, 73, 37);
-		contentPane.add(playerBName);
+		// JLabel playerBName = new JLabel(player2.getName(), SwingConstants.RIGHT);
+		// playerBName.setForeground(Color.CYAN);
+		// playerBName.setFont(new Font("OCR A Extended", Font.PLAIN, 14));
+		// playerBName.setBounds(992, 33, 73, 37);
+		// contentPane.add(playerBName);
 		contentPane.revalidate();
 		contentPane.repaint();
 	}
