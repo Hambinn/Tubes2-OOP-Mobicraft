@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.aetherwars.deck.*;
 import com.aetherwars.model.*;
+import com.aetherwars.model.Character;
 import com.aetherwars.board.*;
 import com.aetherwars.util.*;
 
@@ -74,21 +75,27 @@ public class Player {
     }
 
     public void drawCard(int choice){
-        this.playerHand.addCard(this.topThree.get(choice-1));
-        this.topThree.remove(choice-1);
-        for(int i =0; i<2;i++){
-            this.deck.addCard(this.topThree.get(i));
+        if(this.playerHand.handSize() < 5){
+            this.playerHand.addCard(this.topThree.get(choice-1));
+            this.topThree.remove(choice-1);
+            for(int i =0; i<2;i++){
+                this.deck.addCard(this.topThree.get(i));
+            }
+            this.topThree.clear();
+        }else{
+            removeCard();
+            this.playerHand.addCard(this.topThree.get(choice-1));
+            this.topThree.remove(choice-1);
+            for(int i =0; i<2;i++){
+                this.deck.addCard(this.topThree.get(i));
+            }
+            this.topThree.clear();
         }
-        this.topThree.clear();
         this.deck.shuffleDeck();
     }
-    
-    
-    
 
     public void removeCard(){
-        int choice = 1; // ini harusnya input user buat kartu yg mau dibuang, cuman gatau cara dapet inputnya gmn?
-        this.playerHand.discardCard(choice-1);
+        Card remove = this.playerHand.discardCard(0);
     }
 
     public void nextRound(){
@@ -100,9 +107,9 @@ public class Player {
         }
     }
 
-    public void discardCard(int choice){
-        this.playerHand.discardCard(choice-1);
-    }
+    // public void discardCard(int choice){
+    //     this.playerHand.discardCard(choice-1);
+    // }
 
     public void damaged(int damage){
         this.health -= damage;
