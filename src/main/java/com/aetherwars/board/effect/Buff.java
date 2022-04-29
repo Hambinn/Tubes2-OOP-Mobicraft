@@ -5,7 +5,7 @@ import com.aetherwars.spell.PotionSpell;
 import org.jetbrains.annotations.NotNull;
 
 public class Buff extends Effect {
-    private final int atk;
+    private int atk;
     private int hp;
 
     public Buff(@NotNull PotionSpell spell) {
@@ -23,6 +23,10 @@ public class Buff extends Effect {
         return atk;
     }
 
+    public int getShield() {
+        return hp;
+    }
+
     public int receiveAttack(int damage) {
         int damaged;
 
@@ -34,5 +38,11 @@ public class Buff extends Effect {
 
         hp -= damaged;
         return damage - damaged;
+    }
+
+    public void swapBuff() {
+        int tmp = hp;
+        hp = atk;
+        atk = tmp;
     }
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import com.aetherwars.util.*;
 import com.aetherwars.gui.*;
 import com.aetherwars.model.*;
+import com.aetherwars.model.Character;
 import com.aetherwars.player.Player;
 import com.aetherwars.board.*;
 import com.aetherwars.spell.*;

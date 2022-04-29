@@ -1,6 +1,9 @@
 package com.aetherwars.board;
 
+import com.aetherwars.model.Card;
 import com.aetherwars.model.Character;
+import com.aetherwars.util.CardCollection;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -21,15 +24,16 @@ public class BoardCard implements ActiveCharacter {
         maxExp = Collections.unmodifiableMap(map);
     }
 
-    private @NotNull Character character;
     private final @NotNull Effects effects;
+    private @NotNull Character character;
     private int hp;
     private int atk;
     private int level;
     private int exp;
 
-    public BoardCard(@NotNull Character character) {
-        this.character = character;
+    public BoardCard(@NotNull Card card) {
+        CardCollection cardColl = CardCollection.getInstance();
+        this.character = cardColl.getCharacterbyId(card.getID());
         this.effects = new Effects(this);
         reset();
     }
@@ -61,7 +65,7 @@ public class BoardCard implements ActiveCharacter {
     }
 
     public int getHealth() {
-        return hp;
+        return Math.max(hp + effects.calcShield(), 0);
     }
 
     @Override
@@ -75,7 +79,7 @@ public class BoardCard implements ActiveCharacter {
     }
 
     @Override
-    public @NotNull int getLevel() {
+    public int getLevel() {
         return level;
     }
 
@@ -87,6 +91,10 @@ public class BoardCard implements ActiveCharacter {
     @Override
     public void levelDown() {
         changeLevel(level - 1);
+    }
+
+    public int getExp(){
+        return this.exp;
     }
 
     private boolean changeLevel(int newLevel) {
@@ -126,6 +134,11 @@ public class BoardCard implements ActiveCharacter {
         int tmp = hp;
         setHp(atk);
         setAtk(tmp);
+        effects.swapBuffs();
+    }
+
+    public int getMaxExp(int level){
+        return maxExp.get(level);
     }
 
     @Override

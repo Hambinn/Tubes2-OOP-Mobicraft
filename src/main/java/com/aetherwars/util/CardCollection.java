@@ -14,11 +14,14 @@ import com.aetherwars.spell.SwapSpell;
 import com.aetherwars.spell.LevelSpell;
 
 public class CardCollection {
+    private static CardCollection instance;
     private List<Card> characterCollection;
     private List<Card> morphSpellCollection;
     private List<Card> ptnSpellCollection;
     private List<Card> swapSpellCollection;
     private List<Card> levelSpellCollection;
+    private List<Character> characterCollection2;
+    private List<PotionSpell> ptnSpellCollection2;
     private static final String CHARACTER_CSV_FILE_PATH = "/com/aetherwars/card/data/character.csv";
     private static final String MORPHS_CSV_FILE_PATH = "/com/aetherwars/card/data/spell_morph.csv";
     private static final String PTN_CSV_FILE_PATH = "/com/aetherwars/card/data/spell_ptn.csv";
@@ -38,6 +41,8 @@ public class CardCollection {
         this.ptnSpellCollection = new ArrayList<Card>();
         this.swapSpellCollection = new ArrayList<Card>();
         this.levelSpellCollection = new ArrayList<Card>();
+        this.characterCollection2 = new ArrayList<Character>();
+        this.ptnSpellCollection2 = new ArrayList<PotionSpell>();
 
         File characterCSVFile = new File(getClass().getResource(CHARACTER_CSV_FILE_PATH).toURI());
         CSVReader characterReader = new CSVReader(characterCSVFile, "\t");
@@ -47,7 +52,10 @@ public class CardCollection {
             //Character(int id, String name, String description,String imagePath, int mana, Type element, int attack, int health, int attackUp, int healthUp)
             Character c = new Character(Integer.parseInt(row[0]), row[1], row[3], row[4], Integer.parseInt(row[7]), Type.valueOf(row[2]), Integer.parseInt(row[5]), Integer.parseInt(row[6]), Integer.parseInt(row[8]), Integer.parseInt(row[9]));
             this.characterCollection.add(c);
+            this.characterCollection2.add(c);
         }
+
+
 
         File morphsCSVFile = new File(getClass().getResource(MORPHS_CSV_FILE_PATH).toURI());
         CSVReader morphsReader = new CSVReader(morphsCSVFile, "\t");
@@ -67,6 +75,7 @@ public class CardCollection {
             //PotionSpell(int id, String name, String description, String imagePath, int updateAttackValue, int updateHpValue, int mana, int duration)
             PotionSpell p = new PotionSpell(Integer.parseInt(row[0]), row[1], row[2], row[3], Integer.parseInt(row[4]), Integer.parseInt(row[5]), Integer.parseInt(row[6]), Integer.parseInt(row[7]));
             this.ptnSpellCollection.add(p);
+            this.ptnSpellCollection2.add(p);
         }
 
         File swapCSVFile = new File(getClass().getResource(SWAP_CSV_FILE_PATH).toURI());
@@ -80,12 +89,12 @@ public class CardCollection {
         }
 
         int i;
-        for (i=0; i < 2; i++) {
+        for (i=400; i < 402; i++) {
             LevelSpell l = new LevelSpell(i+1, "Level ", "Level Up Desc", "card/image/spell/level/Level Up.png", "LevelUp");
             this.levelSpellCollection.add(l);
         }
 
-        for (i=2; i < 4; i++) {
+        for (i=402; i < 404; i++) {
             LevelSpell l = new LevelSpell(i+1, "Level ", "Level Down Desc", "card/image/spell/level/Level Down.png", "LevelDown");
             this.levelSpellCollection.add(l);
         }
@@ -109,5 +118,30 @@ public class CardCollection {
 
     public List<Card> getLevelSpellCollection() {
         return this.levelSpellCollection;
+    }
+
+    public static CardCollection getInstance(){
+        if (instance == null) {
+            instance = new CardCollection();
+        }
+        return instance;
+    }
+
+    public Character getCharacterbyId(int id){
+        for (Character c:this.characterCollection2){
+            if (c.getID() == id){
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public PotionSpell getPtnSpellbyId(int id){
+        for (PotionSpell p:this.ptnSpellCollection2){
+            if (p.getID() == id){
+                return p;
+            }
+        }
+        return null;
     }
 }

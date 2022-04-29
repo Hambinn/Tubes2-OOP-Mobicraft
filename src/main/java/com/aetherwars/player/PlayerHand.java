@@ -15,7 +15,7 @@ public class PlayerHand {
     }
 
     public Card discardCard(int choice) {
-        Card c = this.hand.remove(choice-1);
+        Card c = this.hand.remove(choice);
         return c;
     }
 
