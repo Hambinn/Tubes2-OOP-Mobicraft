@@ -46,6 +46,10 @@ public class Effects implements Subscriber<EffectWornOutEvent> {
         return buffs.stream().mapToInt(Buff::getAttackBuff).reduce(0, Integer::sum);
     }
 
+    int calcShield() {
+        return buffs.stream().mapToInt(Buff::getShield).reduce(0, Integer::sum);
+    }
+
     int receiveAttack(int damage) {
         int remainder = damage;
         for (Buff buff : buffs) {

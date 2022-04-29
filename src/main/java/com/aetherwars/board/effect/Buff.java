@@ -23,6 +23,10 @@ public class Buff extends Effect {
         return atk;
     }
 
+    public int getShield() {
+        return hp;
+    }
+
     public int receiveAttack(int damage) {
         int damaged;
 

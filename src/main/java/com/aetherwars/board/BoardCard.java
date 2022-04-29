@@ -61,7 +61,7 @@ public class BoardCard implements ActiveCharacter {
     }
 
     public int getHealth() {
-        return hp;
+        return Math.max(hp + effects.calcShield(), 0);
     }
 
     @Override
