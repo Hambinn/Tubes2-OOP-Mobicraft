@@ -1,6 +1,9 @@
 package com.aetherwars.board;
 
+import com.aetherwars.model.Card;
 import com.aetherwars.model.Character;
+import com.aetherwars.util.CardCollection;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -28,8 +31,9 @@ public class BoardCard implements ActiveCharacter {
     private int level;
     private int exp;
 
-    public BoardCard(@NotNull Character character) {
-        this.character = character;
+    public BoardCard(@NotNull Card card) {
+        CardCollection cardColl = CardCollection.getInstance();
+        this.character = cardColl.getCharacterbyId(card.getID());
         this.effects = new Effects(this);
         reset();
     }
@@ -89,6 +93,10 @@ public class BoardCard implements ActiveCharacter {
         changeLevel(level - 1);
     }
 
+    public int getExp(){
+        return this.exp;
+    }
+
     private boolean changeLevel(int newLevel) {
         if (newLevel < minLevel || newLevel > maxLevel) {
             return false;
@@ -127,6 +135,10 @@ public class BoardCard implements ActiveCharacter {
         setHp(atk);
         setAtk(tmp);
         effects.swapBuffs();
+    }
+
+    public int getMaxExp(int level){
+        return maxExp.get(level);
     }
 
     @Override
